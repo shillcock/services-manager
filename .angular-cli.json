@@ -19,7 +19,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "sm",
       "styles": [
-        "styles-app-loading.scss",
         "styles.scss"
       ],
       "stylePreprocessorOptions": {
