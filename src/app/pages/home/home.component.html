@@ -1,0 +1,18 @@
+<mat-card *ngFor="let service of (auth.authState$ | async)?.services">
+  <mat-card-title>
+    {{service.name}}
+  </mat-card-title>
+  <mat-card-content>
+    <p>
+      {{service.description}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-button
+      [routerLink]="[service.path, service.id, action.type]"
+      *ngFor="let action of service.actions">
+      {{action.label}}
+    </button>
+  </mat-card-actions>
+</mat-card>

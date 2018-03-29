@@ -1,0 +1,17 @@
+mat-sidenav {
+  width: 200px;
+}
+
+mat-sidenav-container {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.app-menu-button {
+  padding: 0;
+  min-width: 50px;
+}
+
+.app-sidebar-button {
+  width: inherit;
+}

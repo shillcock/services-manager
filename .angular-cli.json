@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "sm",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "theme.scss"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [

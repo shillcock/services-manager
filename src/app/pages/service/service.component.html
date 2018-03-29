@@ -1,0 +1,26 @@
+<mat-card *ngIf="service; else noService">
+  <mat-card-content>
+    <h2>{{service.name}}</h2>
+    <nav mat-tab-nav-bar>
+      <a
+        *ngFor="let action of service.actions"
+        mat-tab-link
+        [routerLink]="[action.type]"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [active]="rla.isActive">
+        {{action.label}}
+      </a>
+    </nav>
+
+    <router-outlet></router-outlet>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #noService>
+  <mat-card>
+    <mat-card-content>
+      <h2>Error: Service ({{serviceId}}) not found</h2>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
