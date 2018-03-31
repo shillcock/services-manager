@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import { ServicesManager } from '@app/core';
-import { Action, Service } from '@app/core/models';
+import { ServicesManager } from './core';
+import { Service, ServiceAction } from './core/models';
 
 @Component({
   selector: 'sm-root',
@@ -14,8 +14,8 @@ import { Action, Service } from '@app/core/models';
 })
 export class AppComponent implements OnDestroy {
   private destroy$ = new Subject<boolean>();
+
   services$: Observable<Service[]>;
-  services: Service[];
 
   constructor(private router: Router, private sm: ServicesManager) {
     this.services$ = sm.services$;
@@ -27,10 +27,23 @@ export class AppComponent implements OnDestroy {
   }
 
   goToService(service: Service) {
-    const defaultAction: Action = service.actions.find(
+    const defaultAction = this.getDefaultAction(service);
+
+    if (defaultAction) {
+      return this.router.navigate([
+        service.path,
+        service.id,
+        defaultAction.type
+      ]);
+    } else {
+      console.error('Service does not have a default action configured.');
+    }
+  }
+
+  private getDefaultAction(service: Service) {
+    const defaultAction: ServiceAction = service.actions.find(
       action => action.default
     );
-    console.log('default action:', defaultAction);
-    return this.router.navigate([service.path, service.id, defaultAction.type]);
+    return defaultAction ? defaultAction : service.actions[0];
   }
 }

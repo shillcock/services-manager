@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import { Service } from '@app/core/models';
-import { ServicesManager } from '@app/core/services-manager';
+import { Service } from './models';
+import { ServicesManager } from './services-manager';
 
 @Injectable()
 export class ServiceResolver implements Resolve<Service> {

@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
+import { ServicesManager } from './services-manager';
 import { AUTH_INTERCEPTOR_PROVIDER } from './auth-interceptor';
 import { MODEL_PROVIDER } from './model.service';
-import { ServicesManager } from './services-manager';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
     AuthService,
+    ServicesManager,
     AUTH_INTERCEPTOR_PROVIDER,
-    MODEL_PROVIDER,
-    ServicesManager
+    MODEL_PROVIDER
   ]
 })
 export class CoreModule {

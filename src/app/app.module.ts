@@ -4,31 +4,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AuthService, CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
-
+import { ServicesModule } from '@app/services/services.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ServiceComponent } from './pages/service/service.component';
-import { ServiceActionComponent } from './pages/service-action/service-action.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 function init_app(authService: AuthService) {
   return () => authService.initializeApp();
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    ServiceComponent,
-    ServiceActionComponent
-  ],
+  declarations: [AppComponent, LandingPageComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    ServicesModule
   ],
   providers: [
     {

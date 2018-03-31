@@ -1,26 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ServiceResolver } from './core/service-resolver';
-
-import { HomeComponent } from './pages/home/home.component';
-import { ServiceComponent } from './pages/service/service.component';
-import { ServiceActionComponent } from './pages/service-action/service-action.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { ServiceComponent } from './services/service/service.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: '', component: LandingPageComponent, pathMatch: 'full' },
   {
-    path: 'service/:serviceId',
-    component: ServiceComponent,
-    resolve: { service: ServiceResolver },
-    children: [{ path: ':actionType', component: ServiceActionComponent }]
+    path: 'service/:serviceId/:actionType',
+    component: ServiceComponent
   },
   { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: [ServiceResolver]
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

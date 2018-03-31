@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   // called on app initialization to grab required application data
-  initializeApp(): Promise<bool> {
+  initializeApp(): Promise<boolean> {
     return this.http
       .get<AuthState>(`${API}/auth`)
       .toPromise()

@@ -1,0 +1,23 @@
+<ng-container *ngIf="(services$ | async) as services; else noServices">
+  <mat-card *ngFor="let service of services">
+    <mat-card-title>
+      {{service.name}}
+    </mat-card-title>
+    <mat-card-content>
+      <p>{{service.description}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button *ngFor="let action of service.actions" mat-button [routerLink]="[service.path, service.id, action.type]">
+        {{action.label}}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>
+
+<ng-template #noServices>
+  <mat-card>
+    <mat-card-content>
+      <h2>No services configured</h2>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

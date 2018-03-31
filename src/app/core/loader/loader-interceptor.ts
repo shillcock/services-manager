@@ -8,9 +8,9 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
+import { tap } from 'rxjs/operators';
 
-import { LoaderService } from '@app/core/loader/loader.service';
+import { LoaderService } from './loader.service';
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
@@ -21,20 +21,19 @@ export class LoaderInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // start our loader here
-    this._loadingBar.start();
+    this._loadingBar.show();
 
-    return next.handle(req).do(
-      (event: HttpEvent<any>) => {
-        // if the event is for http response
-        if (event instanceof HttpResponse) {
-          // stop our loader here
-          this._loadingBar.complete();
+    return next.handle(req).pipe(
+      tap(
+        (event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            this._loadingBar.hide();
+          }
+        },
+        (err: any) => {
+          this._loadingBar.hide();
         }
-      },
-      (err: any) => {
-        // if any error (not for just HttpResponse) we stop our loader bar
-        this._loadingBar.complete();
-      }
+      )
     );
   }
 }

@@ -1,35 +1,12 @@
 <mat-toolbar color="primary">
-  <button mat-button routerLink="/">Services Manager</button>
-
-  <button *ngFor="let service of (services$ | async)"
-    mat-button
-    (click)="goToService(service)">
-    {{service.name}}
-  </button>
+  <a mat-button routerLink="/">Services Manager</a>
+  <ng-container *ngIf="(services$ | async) as services">
+    <a *ngFor="let service of services" mat-button (click)="goToService(service)">
+      {{service.name}}
+    </a>
+  </ng-container>
 </mat-toolbar>
 
-<!--<mat-sidenav-container>-->
-
-  <!--
-  <mat-sidenav #sidenav mode="push">
-    <mat-nav-list>
-      <a mat-list-item routerLink="/" (click)="sidenav.toggle()">Home</a>
-      <a *ngFor="let service of services"
-        mat-list-item
-        [routerLink]="[service.path, service.id]"
-        (click)="sidenav.toggle()">
-        {{service.name}}
-      </a>
-    </mat-nav-list>
-  </mat-sidenav>
-  -->
-
-  <!--<mat-sidenav-content>-->
-
-    <div class="app-content">
-      <router-outlet></router-outlet>
-    </div>
-
-  <!--</mat-sidenav-content>-->
-<!--</mat-sidenav-container>-->
-
+<div class="app-content">
+  <router-outlet></router-outlet>
+</div>
