@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,8 +10,6 @@ import { Service, ServiceAction } from '@app/core/models';
   styleUrls: ['./service.component.scss']
 })
 export class ServiceComponent {
-  service$: Observable<Service>;
-
   service: Service;
   serviceAction: ServiceAction;
   actionData: any;

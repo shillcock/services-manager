@@ -1,5 +1,5 @@
-import { Type } from '@angular/core';
-
-export class Action {
-  constructor(public component: Type<any>, public data: any) {}
+export interface Action {
+  type: string;
+  processor: string;
+  data: any;
 }

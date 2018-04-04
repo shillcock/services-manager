@@ -1,0 +1,9 @@
+<div class="dynamic-field form-input" [formGroup]="group">
+  <mat-form-field>
+    <input
+      matInput
+      [placeholder]="config.label"
+      [value]="config.value"
+      [formControlName]="config.name">
+  </mat-form-field>
+</div>

@@ -1,12 +1,21 @@
-<mat-toolbar color="primary">
-  <a mat-button routerLink="/">Services Manager</a>
-  <ng-container *ngIf="(services$ | async) as services">
-    <a *ngFor="let service of services" mat-button (click)="goToService(service)">
-      {{service.name}}
-    </a>
-  </ng-container>
-</mat-toolbar>
+<div class="app-wrapper">
+  <mat-toolbar class="app-nav" color="primary">
+    <mat-toolbar-row>
+      <a mat-button routerLink="/">Services Manager</a>
 
-<div class="app-content">
-  <router-outlet></router-outlet>
+      <ng-container *ngIf="(services$ | async) as services">
+        <a *ngFor="let service of services" mat-button (click)="goToService(service)">
+          {{service.name}}
+        </a>
+      </ng-container>
+
+      <span class="spacer"></span>
+
+      <button mat-button routerLink="/logout">Logout</button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="app-content">
+    <router-outlet></router-outlet>
+  </div>
 </div>

@@ -2,20 +2,19 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AuthService, CoreModule } from '@app/core';
-import { SharedModule } from '@app/shared';
-import { ServicesModule } from '@app/services/services.module';
 import { AppRoutingModule } from './app-routing.module';
+import { AuthService, CoreModule } from './core';
+import { ServicesModule } from './services/services.module';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { SharedModule } from '@app/shared';
 
 function init_app(authService: AuthService) {
   return () => authService.initializeApp();
 }
 
 @NgModule({
-  declarations: [AppComponent, LandingPageComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -32,6 +31,7 @@ function init_app(authService: AuthService) {
       multi: true
     }
   ],
+  declarations: [AppComponent, LandingPageComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

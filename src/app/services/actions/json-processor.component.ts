@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Processor } from '@app/core/models';
 
@@ -9,14 +9,10 @@ import { Processor } from '@app/core/models';
     </div>
   `
 })
-export class JsonProcessorComponent implements Processor, OnChanges {
-  @Input() data: any;
+export class JsonProcessorComponent implements Processor {
+  data: any;
 
   constructor() {
     console.log(this);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes:', changes);
   }
 }

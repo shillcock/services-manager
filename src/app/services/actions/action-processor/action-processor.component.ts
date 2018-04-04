@@ -28,7 +28,7 @@ export class ActionProcessorComponent implements OnInit, OnChanges {
   @ViewChild('processorTarget', { read: ViewContainerRef })
   processorTarget: ViewContainerRef;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(private resolver: ComponentFactoryResolver) {}
 
   ngOnInit() {}
 
@@ -39,7 +39,7 @@ export class ActionProcessorComponent implements OnInit, OnChanges {
   }
 
   private loadProcessor(data: any) {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+    const componentFactory = this.resolver.resolveComponentFactory(
       data.processor ? PROCESSORS[data.processor] : PROCESSORS[0]
     );
 

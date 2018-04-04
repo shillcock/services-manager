@@ -1,16 +1,19 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Processor } from '@app/core/models';
 
 @Component({
   template: `
     <div class="rpc-processor" *ngIf="data">
-      <mat-list>
-        <mat-list-item *ngFor="let item of data">{{item.label}}</mat-list-item>
-      </mat-list>
+        <sm-rpc-list [items]="data" (selected)="currentItem = $event"></sm-rpc-list>
     </div>
   `
 })
 export class RpcProcessorComponent implements Processor {
-  @Input() data: any;
+  data: any;
+  currentItem;
+
+  constructor() {
+    console.log(this);
+  }
 }
