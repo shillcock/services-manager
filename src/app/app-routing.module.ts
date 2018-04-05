@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { ServiceComponent } from '@app/services/service/service.component';
+import { ClientComponent } from '@app/clients/client/client.component';
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent, pathMatch: 'full' },
   {
-    path: 'service/:serviceId/:actionType',
-    component: ServiceComponent
+    path: 'client/:clientId/:serviceId',
+    component: ClientComponent
   },
   // {
-  //   path: 'service',
-  //   loadChildren: 'app/services/services.module#ServicesModule'
+  //   path: 'clients',
+  //   loadChildren: 'app/clients/clients.module#ClientsModule'
   // },
   { path: '**', redirectTo: '/' }
 ];

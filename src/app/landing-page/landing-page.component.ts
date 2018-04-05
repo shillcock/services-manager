@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 
 import { ServicesManager } from '@app/core';
-import { Service } from '@app/core/models';
+import { Client } from '@app/core/models';
 
 @Component({
   selector: 'sm-landing-page',
@@ -10,9 +10,9 @@ import { Service } from '@app/core/models';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent {
-  services$: Observable<Service[]>;
+  clients$: Observable<Client[]>;
 
   constructor(private sm: ServicesManager) {
-    this.services$ = sm.services$;
+    this.clients$ = sm.clients$;
   }
 }

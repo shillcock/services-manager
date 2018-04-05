@@ -4,11 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService, CoreModule } from './core';
-import { ServicesModule } from './services/services.module';
+import { SharedModule } from './shared';
+import { ClientsModule } from './clients/clients.module';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { SharedModule } from '@app/shared';
 
 function init_app(authService: AuthService) {
   return () => authService.initializeApp();
@@ -21,7 +21,7 @@ function init_app(authService: AuthService) {
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    ServicesModule
+    ClientsModule
   ],
   providers: [
     {

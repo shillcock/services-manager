@@ -1,25 +1,25 @@
 <div class="service-content">
-  <mat-card *ngIf="service; else noService">
+  <mat-card *ngIf="client; else noService">
     <mat-card-content>
-      <h2>{{service.name}}</h2>
+      <h2>{{client.name}}</h2>
       <nav mat-tab-nav-bar>
-        <a *ngFor="let action of service.actions"
+        <a *ngFor="let service of client.services"
            mat-tab-link
-           [routerLink]="['../', action.type]"
+           [routerLink]="['../', service.id]"
            routerLinkActive
            #rla="routerLinkActive"
            [active]="rla.isActive">
-          {{action.label}}
+          {{service.name}}
         </a>
       </nav>
-      <sm-action-processor [data]="actionData"></sm-action-processor>
+      <sm-command-processor [data]="serviceData"></sm-command-processor>
     </mat-card-content>
   </mat-card>
 
   <ng-template #noService>
     <mat-card>
       <mat-card-content>
-        <h2>Service not found</h2>
+        <h2>Client not found</h2>
         <button mat-raised-button color="warn" routerLink="/">
           Go Home
         </button>

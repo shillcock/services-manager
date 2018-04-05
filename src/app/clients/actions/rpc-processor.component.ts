@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Processor } from '@app/core/models';
+import { CommandHandler } from '@app/core/models';
 
 @Component({
   template: `
@@ -9,7 +9,7 @@ import { Processor } from '@app/core/models';
     </div>
   `
 })
-export class RpcProcessorComponent implements Processor {
+export class RpcProcessorComponent implements CommandHandler {
   data: any;
   currentItem;
 

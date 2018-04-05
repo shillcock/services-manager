@@ -1,17 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ServicesManagerService } from './services-manager';
+import { ServicesManager } from './services-manager';
 
 describe('ServicesManagerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ServicesManagerService]
+      providers: [ServicesManager]
     });
   });
 
   it(
     'should be created',
-    inject([ServicesManagerService], (service: ServicesManagerService) => {
+    inject([ServicesManager], (service: ServicesManager) => {
       expect(service).toBeTruthy();
     })
   );

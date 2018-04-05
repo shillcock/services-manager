@@ -1,23 +1,23 @@
-<ng-container *ngIf="(services$ | async) as services; else noServices">
-  <mat-card *ngFor="let service of services">
+<ng-container *ngIf="(clients$ | async) as clients; else noClients">
+  <mat-card *ngFor="let client of clients">
     <mat-card-title>
-      {{service.name}}
+      {{client.name}}
     </mat-card-title>
     <mat-card-content>
-      <p>{{service.description}}</p>
+      <p>{{client.description}}</p>
     </mat-card-content>
     <mat-card-actions>
-      <button *ngFor="let action of service.actions" mat-button [routerLink]="[service.path, service.id, action.type]">
-        {{action.label}}
+      <button *ngFor="let service of client.services" mat-button [routerLink]="[client.path, client.id, service.id]">
+        {{service.name}}
       </button>
     </mat-card-actions>
   </mat-card>
 </ng-container>
 
-<ng-template #noServices>
+<ng-template #noClients>
   <mat-card>
     <mat-card-content>
-      <h2>No services configured</h2>
+      <h2>No clients configured</h2>
     </mat-card-content>
   </mat-card>
 </ng-template>

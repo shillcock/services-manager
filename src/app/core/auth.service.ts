@@ -4,21 +4,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { ModelFactory, Model } from './model.service';
-import { Service, User } from './models';
+import { Client, User } from './models';
 
-import { API_ENDPOINT as API } from '@app/shared/consts';
+import { API } from '@app/shared/consts';
 
 export interface AuthState {
   authenticated: boolean;
   user: User;
-  services: Service[];
+  clients: Client[];
   errorMessage?: string;
 }
 
 const initialState = <AuthState>{
   authenticated: false,
   user: {},
-  services: []
+  clients: []
 };
 
 @Injectable()
@@ -38,7 +38,7 @@ export class AuthService {
   // called on app initialization to grab required application data
   initializeApp(): Promise<boolean> {
     return this.http
-      .get<AuthState>(`${API}/auth`)
+      .get<AuthState>(API.AUTH)
       .toPromise()
       .then(
         (state: AuthState) => {

@@ -1,0 +1,99 @@
+{
+  "meta": {},
+  "data": {
+    "commands": [
+      {
+        "id": "status",
+        "label": "Status of the service.",
+        "endpoint": "some/command/endpoint/for/statusOfThis",
+        "method": "GET"
+      },
+      {
+        "id": "start",
+        "label": "Starts the service.",
+        "endpoint": "some/command/endpoint/for/startItUp",
+        "method": "POST",
+        "parameters": [
+          {
+            "id": "secondsFromNow",
+            "label": "Seconds from now",
+            "description": "The number of seconds from the call that the service will start.",
+            "default": "0",
+            "tooltip": "600 seconds is 10 minutes",
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "stop",
+        "label": "Stop (but not shutdown) the service.",
+        "endpoint": "some/command/endpoint/for/stop",
+        "method": "POST",
+        "parameters": [
+          {
+            "id": "secondsFromNow",
+            "label": "Seconds from now",
+            "description": "The number of seconds from the call that the service will stop.",
+            "default": "0",
+            "tooltip": "600 seconds is 10 minutes",
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "restart",
+        "label": "Stops and restarts (but not shutdown) the service.",
+        "endpoint": "some/command/endpoint/for/restart",
+        "method": "POST",
+        "parameters": [
+          {
+            "id": "secondsFromNow",
+            "label": "Seconds from now",
+            "description": "The number of seconds from the call that the service will be restarted.",
+            "default": "0",
+            "tooltip": "600 seconds is 10 minutes",
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "reconfigure",
+        "label": "Reconfigure the service.",
+        "endpoint": "some/command/endpoint/for/load-configuration",
+        "method": "GET"
+      },
+      {
+        "id": "reconfigureAndRestart",
+        "label": "Reconfigures, stops, and then restarts (but not shutdown) the service.",
+        "endpoint": "some/command/endpoint/for/recong-and-restart",
+        "method": "POST",
+        "parameters": [
+          {
+            "id": "secondsFromNow",
+            "label": "Seconds from now",
+            "description": "The number of seconds from the call that the service will be reconfigured and restarted.",
+            "default": "0",
+            "tooltip": "600 seconds is 10 minutes",
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "shutdown",
+        "label": "Shutdown the service.",
+        "endpoint": "some/command/endpoint/for/shutItDown",
+        "method": "POST",
+        "parameters": [
+          {
+            "id": "secondsFromNow",
+            "label": "Seconds from now",
+            "description": "The number of seconds from the call that the service will shutdown.",
+            "default": "0",
+            "tooltip": "600 seconds is 10 minutes",
+            "required": false
+          }
+        ]
+      }
+    ]
+  }
+}
