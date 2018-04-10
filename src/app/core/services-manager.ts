@@ -2,20 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { map, pluck, take } from 'rxjs/operators';
+import { map, pluck, take, tap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
-import { Client, ClientServiceResponse } from './models';
-
-const logHandler = (data: any, prefix: string = 'Data'): any => {
-  console.log(prefix, data);
-  return data;
-};
-
-const HANDLERS = {
-  log: logHandler,
-  default: data => data
-};
+import { Client, Service, ServiceResponse } from './models';
 
 @Injectable()
 export class ServicesManager {
@@ -28,27 +18,24 @@ export class ServicesManager {
   getClient(clientId: string): Observable<Client> {
     return this.clients$.pipe(
       take(1),
-      map((clients: Client[]) => {
-        return clients.find(client => client.id === clientId);
-      })
+      map(clients => clients.find(client => client.id === clientId))
     );
   }
 
-  getClientService(
-    client: Client,
-    serviceId: string
-  ): Observable<ClientServiceResponse> {
+  getService(client: Client, service: Service): Observable<ServiceResponse> {
+    const meta = {
+      clientId: client.id,
+      serviceId: service.id,
+      renderer: service.renderer
+    };
     return this.http
-      .get<ClientServiceResponse>(`${client.baseUrl}/${serviceId}`)
-      .pipe(take(1));
-  }
-
-  processData(handlers: string[], data: any): any {
-    let res = data;
-    handlers.forEach(h => {
-      const processor = HANDLERS[h] || HANDLERS.default;
-      res = processor({ ...res });
-    });
-    return res;
+      .get<ServiceResponse>(`${client.baseUrl}/${service.id}`)
+      .pipe(
+        take(1),
+        map(response => ({
+          meta: { ...response.meta, ...meta },
+          body: { ...response.body }
+        }))
+      );
   }
 }

@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RpcListComponent } from './rpc-list.component';
+import { CommandListComponent } from './command-list.component';
 
-describe('RpcListComponent', () => {
-  let component: RpcListComponent;
-  let fixture: ComponentFixture<RpcListComponent>;
+describe('CommandListComponent', () => {
+  let component: CommandListComponent;
+  let fixture: ComponentFixture<CommandListComponent>;
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        declarations: [RpcListComponent]
+        declarations: [CommandListComponent]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RpcListComponent);
+    fixture = TestBed.createComponent(CommandListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

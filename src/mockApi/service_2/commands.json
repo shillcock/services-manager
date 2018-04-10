@@ -1,16 +1,18 @@
 {
   "meta": {},
-  "data": {
+  "body": {
     "commands": [
       {
         "id": "status",
-        "label": "Status of the service.",
+        "label": "Status",
+        "description": "Get current status of service.",
         "endpoint": "some/command/endpoint/for/statusOfThis",
         "method": "GET"
       },
       {
         "id": "start",
-        "label": "Starts the service.",
+        "label": "Start Service",
+        "description": "Starts the service.",
         "endpoint": "some/command/endpoint/for/startItUp",
         "method": "POST",
         "parameters": [
@@ -26,7 +28,8 @@
       },
       {
         "id": "stop",
-        "label": "Stop (but not shutdown) the service.",
+        "label": "Stop Service.",
+        "description": "Stop the service but does not shutdown.",
         "endpoint": "some/command/endpoint/for/stop",
         "method": "POST",
         "parameters": [
@@ -42,7 +45,8 @@
       },
       {
         "id": "restart",
-        "label": "Stops and restarts (but not shutdown) the service.",
+        "label": "Restart Service.",
+        "description": "Stops and restarts the service but does not shutdown.",
         "endpoint": "some/command/endpoint/for/restart",
         "method": "POST",
         "parameters": [
@@ -58,13 +62,15 @@
       },
       {
         "id": "reconfigure",
-        "label": "Reconfigure the service.",
+        "label": "Reconfigure Service.",
+        "description": "Reconfigure the service.",
         "endpoint": "some/command/endpoint/for/load-configuration",
         "method": "GET"
       },
       {
         "id": "reconfigureAndRestart",
-        "label": "Reconfigures, stops, and then restarts (but not shutdown) the service.",
+        "label": "Reconfigure & Restart Service",
+        "description": "Reconfigures, stops, and then restarts (but not shutdown) the service.",
         "endpoint": "some/command/endpoint/for/recong-and-restart",
         "method": "POST",
         "parameters": [
@@ -80,7 +86,8 @@
       },
       {
         "id": "shutdown",
-        "label": "Shutdown the service.",
+        "label": "Shutdown Service.",
+        "description": "Shutdown the service.",
         "endpoint": "some/command/endpoint/for/shutItDown",
         "method": "POST",
         "parameters": [

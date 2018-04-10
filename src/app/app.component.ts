@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { ServicesManager } from './core';
-import { Client, ClientService } from './core/models';
+import { Client, Service } from './core/models';
 
 @Component({
   selector: 'sm-root',
@@ -29,9 +29,7 @@ export class AppComponent {
   }
 
   private getDefaultService(client: Client) {
-    const defaultClient: ClientService = client.services.find(
-      action => action.default
-    );
-    return defaultClient ? defaultClient : client.services[0];
+    const defaultService = client.services.find(action => action.default);
+    return defaultService || client.services[0];
   }
 }

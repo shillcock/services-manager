@@ -1,17 +1,14 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 
-import {
-  DynamicFormComponent,
-  FieldConfig
-} from '../dynamic-form/dynamic-form.component';
+import { DynamicFormComponent, FieldConfig } from '../dynamic-form';
 
 @Component({
-  selector: 'sm-rpc-detail',
-  templateUrl: './rpc-detail.component.html',
-  styleUrls: ['./rpc-detail.component.scss']
+  selector: 'sm-command-form',
+  templateUrl: './command-form.component.html',
+  styleUrls: ['./command-form.component.scss']
 })
-export class RpcDetailComponent implements AfterViewInit {
-  @Input() item;
+export class CommandFormComponent implements AfterViewInit {
+  @Input() command;
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 

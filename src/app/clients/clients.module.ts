@@ -3,19 +3,28 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared';
 import { ClientsRoutingModule } from './clients-routing.module';
 
-import { ClientComponent } from './client/client.component';
-import { CommandProcessorComponent } from './command-processor/command-processor.component';
-import { JsonProcessorComponent } from './actions/json-processor.component';
-import { RpcProcessorComponent } from './actions/rpc-processor.component';
+import { ClientComponent } from './client';
+import { ServiceComponent } from './service';
+
+import {
+  DefaultRendererComponent,
+  JsonRendererComponent,
+  CommandsRendererComponent
+} from './renderers';
 
 @NgModule({
   imports: [SharedModule, ClientsRoutingModule],
   declarations: [
     ClientComponent,
-    CommandProcessorComponent,
-    JsonProcessorComponent,
-    RpcProcessorComponent
+    ServiceComponent,
+    DefaultRendererComponent,
+    JsonRendererComponent,
+    CommandsRendererComponent
   ],
-  entryComponents: [JsonProcessorComponent, RpcProcessorComponent]
+  entryComponents: [
+    DefaultRendererComponent,
+    JsonRendererComponent,
+    CommandsRendererComponent
+  ]
 })
 export class ClientsModule {}

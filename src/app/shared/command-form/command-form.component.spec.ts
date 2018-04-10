@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RpcDetailComponent } from './rpc-detail.component';
+import { CommandFormComponent } from './command-form.component';
 
-describe('RpcDetailComponent', () => {
-  let component: RpcDetailComponent;
-  let fixture: ComponentFixture<RpcDetailComponent>;
+describe('CommandFormComponent', () => {
+  let component: CommandFormComponent;
+  let fixture: ComponentFixture<CommandFormComponent>;
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        declarations: [RpcDetailComponent]
+        declarations: [CommandFormComponent]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RpcDetailComponent);
+    fixture = TestBed.createComponent(CommandFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,14 +1,17 @@
 {
-  "meta": {},
-  "data": {
+  "meta": {
+  },
+  "body": {
     "state": {
       "a": "x",
       "b": "y",
-      "c": "z"
+      "c": "z",
+      "d": null
     },
     "metrics": {
       "foo": 100,
-      "bar": 200
+      "bar": 200,
+      "isFirst": false
     }
   }
 }

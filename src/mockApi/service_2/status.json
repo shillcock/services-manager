@@ -1,6 +1,6 @@
 {
-  "meta": {},
-  "data": {
+  "meta": { "__id": "SERVICE2_STATUS" },
+  "body": {
     "state": {
       "x": "a",
       "y": "b",

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ServicesManager } from '@app/core';
-import { Client, ClientService } from '@app/core/models';
-import { map } from 'rxjs/operators';
+import { Client, Service, ServiceResponse } from '@app/core/models';
+import { Observable } from 'rxjs/Observable';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'sm-client',
@@ -12,37 +13,34 @@ import { map } from 'rxjs/operators';
 })
 export class ClientComponent {
   client: Client;
-  clientService: ClientService;
-  serviceData: any;
+  service: Service;
+  serviceData$: Observable<ServiceResponse>;
 
   constructor(route: ActivatedRoute, private sm: ServicesManager) {
     route.params.subscribe(params => {
       const { clientId, serviceId } = params;
+      if (this.client && this.client.id !== clientId) {
+        this.client = null;
+      }
+      if (this.service && this.service.id !== serviceId) {
+        this.service = null;
+      }
       this.paramsUpdated(clientId, serviceId);
     });
   }
 
   private paramsUpdated(clientId: string, serviceId: string) {
     this.sm.getClient(clientId).subscribe(client => {
-      this.getService(client, serviceId);
+      this.serviceData$ = this.callService(client, serviceId);
     });
   }
 
-  private getService(client: Client, serviceId: string) {
+  private callService(
+    client: Client,
+    serviceId: string
+  ): Observable<ServiceResponse> {
     this.client = client;
-    this.clientService = client.services.find(
-      service => service.id === serviceId
-    );
-
-    const handlers = this.clientService.handlers;
-    const processData = (data: any) => this.sm.processData(handlers, data);
-
-    this.sm
-      .getClientService(client, serviceId)
-      .pipe(map(response => response.data), map(processData))
-      .subscribe(data => {
-        this.serviceData = data;
-        this.serviceData.processor = 'json';
-      });
+    this.service = client.services.find(service => service.id === serviceId);
+    return this.sm.getService(this.client, this.service);
   }
 }

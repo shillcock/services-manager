@@ -12,7 +12,10 @@
           {{service.name}}
         </a>
       </nav>
-      <sm-command-processor [data]="serviceData"></sm-command-processor>
+      <ng-container *ngIf="(serviceData$ | async) as context; else loading">
+        <sm-service [context]="context"></sm-service>
+      </ng-container>
+      <ng-template #loading>Loading...</ng-template>
     </mat-card-content>
   </mat-card>
 
