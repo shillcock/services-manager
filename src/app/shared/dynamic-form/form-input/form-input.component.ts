@@ -15,4 +15,8 @@ export class FormInputComponent implements Field {
   constructor() {
     console.log(this);
   }
+
+  get value() {
+    return this.config.value || '';
+  }
 }

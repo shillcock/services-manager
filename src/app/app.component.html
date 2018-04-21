@@ -1,4 +1,4 @@
-<div class="app-wrapper">
+<div class="app-wrapper" *ngIf="user?.authenticated; else notAuthenticated">
   <mat-toolbar class="app-nav" color="primary">
     <mat-toolbar-row>
       <a mat-button routerLink="/">Services Manager</a>
@@ -16,3 +16,14 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<ng-template #notAuthenticated>
+  <mat-card>
+    <mat-card-content>
+      <h2>You are not authorized to view this page.</h2>
+      <button mat-raised-button color="warn" routerLink="/">
+        Click here to login
+      </button>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

@@ -1,6 +1,9 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 
-import { DynamicFormComponent, FieldConfig } from '../dynamic-form';
+import { get } from 'lodash';
+
+import { ICommand } from '@app/core/models';
+import { DynamicFormComponent } from '../dynamic-form';
 
 @Component({
   selector: 'sm-command-form',
@@ -8,27 +11,13 @@ import { DynamicFormComponent, FieldConfig } from '../dynamic-form';
   styleUrls: ['./command-form.component.scss']
 })
 export class CommandFormComponent implements AfterViewInit {
-  @Input() command;
+  @Input() command: ICommand;
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
-  config: FieldConfig[] = [
-    {
-      type: 'input',
-      name: 'name',
-      label: 'Full name'
-    },
-    {
-      type: 'input',
-      name: 'age',
-      label: 'Age'
-    },
-    {
-      type: 'button',
-      name: 'submit',
-      label: 'Submit'
-    }
-  ];
+  get config() {
+    return get(this.command, 'parameters');
+  }
 
   constructor() {
     console.log(this);
@@ -42,8 +31,5 @@ export class CommandFormComponent implements AfterViewInit {
         this.form.setDisabled('submit', !previousValid);
       }
     });
-
-    // this.form.setDisabled('submit', true);
-    // this.form.setValue('name', 'Scott');
   }
 }

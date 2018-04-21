@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ServicesManager } from '@app/core';
-import { Client, Service, ServiceResponse } from '@app/core/models';
+import { IClient, IService } from '@app/core/models';
 import { Observable } from 'rxjs/Observable';
-import { delay } from 'rxjs/operators';
+
+import { find } from 'lodash';
 
 @Component({
   selector: 'sm-client',
@@ -12,18 +13,18 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./client.component.scss']
 })
 export class ClientComponent {
-  client: Client;
-  service: Service;
-  serviceData$: Observable<ServiceResponse>;
+  client?: IClient;
+  service?: IService;
+  serviceContext$: Observable<any>;
 
   constructor(route: ActivatedRoute, private sm: ServicesManager) {
     route.params.subscribe(params => {
       const { clientId, serviceId } = params;
       if (this.client && this.client.id !== clientId) {
-        this.client = null;
+        this.client = undefined;
       }
       if (this.service && this.service.id !== serviceId) {
-        this.service = null;
+        this.service = undefined;
       }
       this.paramsUpdated(clientId, serviceId);
     });
@@ -31,16 +32,18 @@ export class ClientComponent {
 
   private paramsUpdated(clientId: string, serviceId: string) {
     this.sm.getClient(clientId).subscribe(client => {
-      this.serviceData$ = this.callService(client, serviceId);
+      if (client) {
+        const service = find(client.services, { id: serviceId });
+        if (service) {
+          this.serviceContext$ = this.callService(client, service);
+        }
+      }
     });
   }
 
-  private callService(
-    client: Client,
-    serviceId: string
-  ): Observable<ServiceResponse> {
+  private callService(client: IClient, service: IService) {
     this.client = client;
-    this.service = client.services.find(service => service.id === serviceId);
+    this.service = service;
     return this.sm.getService(this.client, this.service);
   }
 }

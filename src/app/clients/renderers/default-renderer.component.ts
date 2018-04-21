@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
 
-import { ServiceRenderer, ServiceResponse } from '@app/core/models';
-
 @Component({
   template: `
     <div class="default-renderer">
       <pre>{{context | json}}</pre>
     </div>
+  `,
+  styles: [
+    `
+    .default-renderer {
+      background-color: #eee;
+    }
   `
+  ]
 })
-export class DefaultRendererComponent implements ServiceRenderer {
-  context: ServiceResponse;
+export class DefaultRendererComponent {
+  context: any;
 }

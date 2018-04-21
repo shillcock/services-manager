@@ -1,6 +1,8 @@
 {
-  "meta": { "__id": "SERVICE2_STATUS" },
-  "body": {
+  "status": "ok",
+  "meta": {
+  },
+  "data": {
     "state": {
       "x": "a",
       "y": "b",

@@ -1,24 +1,22 @@
-<mat-accordion class="command-list">
-  <mat-expansion-panel *ngFor="let command of commands">
-    <mat-expansion-panel-header>
-      <mat-panel-title class="command-title">
-        {{command.label}}
-      </mat-panel-title>
-      <mat-panel-description class="command-description">
-        {{command.description}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<div class="command-list">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let command of commands">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="command-title">
+          {{command.label}}
+        </mat-panel-title>
+        <mat-panel-description class="command-description" *ngIf="command.description">
+          {{command.description}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <ng-template matExpansionPanelContent>
-      <div class="command-content">
-        <pre>{{command | json}}</pre>
+      <div matExpansionPanelContent>
+        <!-- <div class="command-content"> -->
+        <!-- <pre>{{command | json}}</pre> -->
+        <!-- </div> -->
+
+        <sm-command-form [command]="command"></sm-command-form>
       </div>
-
-      <!--<sm-command-form [command]="command">-->
-        <mat-action-row>
-          <button color="accent" mat-raised-button>Submit Command</button>
-        </mat-action-row>
-      <!--</sm-command-form>-->
-    </ng-template>
-  </mat-expansion-panel>
-</mat-accordion>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

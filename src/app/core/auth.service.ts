@@ -4,32 +4,34 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { ModelFactory, Model } from './model.service';
-import { Client, User } from './models';
+import { IClient, IUser } from '@app/core/models';
 
 import { API } from '@app/shared/consts';
 
-export interface AuthState {
-  authenticated: boolean;
-  user: User;
-  clients: Client[];
+export interface IAuthState {
+  user: IUser;
+  clients?: IClient[];
   errorMessage?: string;
 }
 
-const initialState = <AuthState>{
-  authenticated: false,
-  user: {},
-  clients: []
+const initialState = {
+  user: {
+    edi: '0000000000',
+    name: 'Anonymous',
+    roles: void 0,
+    authenticated: false
+  }
 };
 
 @Injectable()
 export class AuthService {
-  authState$: Observable<AuthState>;
+  authState$: Observable<IAuthState>;
 
-  private model: Model<AuthState>;
+  private model: Model<IAuthState>;
 
   constructor(
     private http: HttpClient,
-    private modelFactory: ModelFactory<AuthState>
+    private modelFactory: ModelFactory<IAuthState>
   ) {
     this.model = this.modelFactory.create(initialState);
     this.authState$ = this.model.data$;
@@ -38,23 +40,31 @@ export class AuthService {
   // called on app initialization to grab required application data
   initializeApp(): Promise<boolean> {
     return this.http
-      .get<AuthState>(API.AUTH)
+      .get<any>(API.AUTH)
       .toPromise()
-      .then(
-        (state: AuthState) => {
-          console.log('AUTH:', state);
-          this.model.set(state);
-          return true;
-        },
-        err => {
-          console.error('AUTH Error:', err);
-          const state = <AuthState>{
-            ...initialState,
-            errorMessage: err.message
-          };
-          this.model.set(state);
-          return false;
-        }
-      );
+      .then(response => {
+        return response['status'] === 'ok'
+          ? this.handleOk(response['data'])
+          : this.handleError(response['message']);
+      })
+      .catch(error => {
+        console.log('Auth Error: ', error);
+        return this.handleError(error.message);
+      });
+  }
+
+  private handleOk(state: IAuthState): boolean {
+    console.log('AUTH:', state);
+    this.model.set(state);
+    return true;
+  }
+
+  private handleError(
+    errorMessage: string = 'Error initializing application.'
+  ): boolean {
+    const state = Object.assign({}, initialState, { errorMessage });
+    console.log('AUTH:', state);
+    this.model.set(state);
+    return false;
   }
 }

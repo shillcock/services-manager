@@ -1,6 +1,7 @@
 {
+  "status": "ok",
   "meta": {},
-  "body": {
+  "data": {
     "commands": [
       {
         "id": "status",
@@ -18,9 +19,19 @@
         "parameters": [
           {
             "id": "secondsFromNow",
+            "type": "input",
             "label": "Seconds from now",
             "description": "The number of seconds from the call that the service will start.",
             "default": "0",
+            "tooltip": "600 seconds is 10 minutes",
+            "required": false
+          },
+          {
+            "id": "moreSecondsFromNow",
+            "type": "input",
+            "label": "Seconds from now",
+            "description": "The number of seconds from the call that the service will start.",
+            "default": "10",
             "tooltip": "600 seconds is 10 minutes",
             "required": false
           }
@@ -35,6 +46,7 @@
         "parameters": [
           {
             "id": "secondsFromNow",
+            "type": "input",
             "label": "Seconds from now",
             "description": "The number of seconds from the call that the service will stop.",
             "default": "0",
@@ -52,6 +64,7 @@
         "parameters": [
           {
             "id": "secondsFromNow",
+            "type": "input",
             "label": "Seconds from now",
             "description": "The number of seconds from the call that the service will be restarted.",
             "default": "0",
@@ -76,6 +89,7 @@
         "parameters": [
           {
             "id": "secondsFromNow",
+            "type": "input",
             "label": "Seconds from now",
             "description": "The number of seconds from the call that the service will be reconfigured and restarted.",
             "default": "0",
@@ -93,6 +107,7 @@
         "parameters": [
           {
             "id": "secondsFromNow",
+            "type": "input",
             "label": "Seconds from now",
             "description": "The number of seconds from the call that the service will shutdown.",
             "default": "0",

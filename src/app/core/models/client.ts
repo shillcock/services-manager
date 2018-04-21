@@ -1,10 +1,10 @@
-import { Service } from './service';
+import { IService } from './service';
 
-export interface Client {
+export interface IClient {
   id: string;
   name: string;
   description?: string;
   path: string;
   baseUrl: string;
-  services: Service[];
+  services?: IService[];
 }

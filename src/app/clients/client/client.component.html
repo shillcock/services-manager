@@ -1,5 +1,5 @@
-<div class="service-content">
-  <mat-card *ngIf="client; else noService">
+<div class="sm-client">
+  <mat-card *ngIf="client; else clientNotFound">
     <mat-card-content>
       <h2>{{client.name}}</h2>
       <nav mat-tab-nav-bar>
@@ -12,14 +12,18 @@
           {{service.name}}
         </a>
       </nav>
-      <ng-container *ngIf="(serviceData$ | async) as context; else loading">
-        <sm-service [context]="context"></sm-service>
-      </ng-container>
-      <ng-template #loading>Loading...</ng-template>
+      <div class="service-content">
+        <ng-container *ngIf="(serviceContext$ | async) as context; else loading">
+          <sm-service [context]="context"></sm-service>
+        </ng-container>
+        <ng-template #loading>
+          <sm-loading text="Loading"></sm-loading>
+        </ng-template>
+      </div>
     </mat-card-content>
   </mat-card>
 
-  <ng-template #noService>
+  <ng-template #clientNotFound>
     <mat-card>
       <mat-card-content>
         <h2>Client not found</h2>

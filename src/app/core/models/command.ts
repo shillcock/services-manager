@@ -1,4 +1,4 @@
-export interface CommandArgument {
+export interface ICommandParameter {
   id: string;
   name: string;
   description?: string;
@@ -7,15 +7,12 @@ export interface CommandArgument {
   required?: boolean;
 }
 
-export interface Command {
+export interface ICommand {
   id: string;
   label: string;
+  description?: string;
   endpoint: string;
   method: 'GET' | 'POST';
-  arguments: CommandArgument[];
-  data: any;
-}
-
-export interface CommandHandler {
+  parameters: ICommandParameter[];
   data: any;
 }

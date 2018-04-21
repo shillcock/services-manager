@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 
-import { ServiceRenderer } from '@app/core/models';
+import { get } from 'lodash';
 
 @Component({
   template: `
-    <div class="commands-renderer" *ngIf="context; else loading">
-        <sm-command-list [commands]="commands"></sm-command-list>
+    <div class="commands-renderer">
+      <sm-command-list [commands]="commands"></sm-command-list>
     </div>
-    <ng-template #loading><p>Loading...</p></ng-template>
   `
 })
-export class CommandsRendererComponent implements ServiceRenderer {
+export class CommandsRendererComponent {
   context: any;
 
   get commands() {
-    return this.context.body.commands;
+    return get(this.context, 'data.commands');
   }
 }

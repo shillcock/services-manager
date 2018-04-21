@@ -1,23 +1,7 @@
-import { Client } from './client';
-
-export interface Service {
+export interface IService {
   id: string;
   name: string;
-  processors: string[];
-  renderer: string;
+  processors?: string[];
+  renderer?: string;
   default?: boolean;
-}
-
-export interface ServiceResponse {
-  meta: {
-    clientId: string;
-    serviceId: string;
-    renderer?: string;
-    [key: string]: any;
-  };
-  body: Object;
-}
-
-export interface ServiceRenderer {
-  context: ServiceResponse;
 }

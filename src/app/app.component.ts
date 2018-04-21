@@ -2,9 +2,15 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
+import { pluck } from 'rxjs/operators';
+
+import { find, first, get } from 'lodash';
+
+import { AuthService } from '@app/core';
 
 import { ServicesManager } from './core';
-import { Client, Service } from './core/models';
+import { IClient, IService, IUser } from './core/models';
+import { isUser } from '@app/core/models';
 
 @Component({
   selector: 'sm-root',
@@ -12,24 +18,39 @@ import { Client, Service } from './core/models';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  clients$: Observable<Client[]>;
+  user: IUser;
 
-  constructor(private router: Router, private sm: ServicesManager) {
-    this.clients$ = sm.clients$;
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private sm: ServicesManager
+  ) {
+    this.auth.authState$.pipe(pluck('user')).subscribe(user => {
+      if (isUser(user)) {
+        this.user = user;
+      }
+
+      if (!get(this.user, 'authenticated')) {
+        // TODO: Handle case where user is not authenticated
+        // window.location.href = '/gfmui/logon';
+      }
+    });
   }
 
-  goToClient(client: Client) {
-    const defaultService = this.getDefaultService(client);
+  get clients$(): Observable<IClient[]> {
+    return this.sm.clients$;
+  }
 
+  goToClient(client: IClient) {
+    const defaultService = this.getDefaultService(client);
     if (defaultService) {
-      return this.router.navigate([client.path, client.id, defaultService.id]);
-    } else {
-      console.error('Client does not have a default service configured.');
+      this.router.navigate([client.path, client.id, defaultService.id]);
     }
   }
 
-  private getDefaultService(client: Client) {
-    const defaultService = client.services.find(action => action.default);
-    return defaultService || client.services[0];
+  private getDefaultService(client: IClient): IService | undefined {
+    const { services } = client;
+    const defaultService = find(services, 'default');
+    return defaultService || first(services);
   }
 }

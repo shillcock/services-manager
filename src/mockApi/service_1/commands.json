@@ -1,7 +1,8 @@
 {
+  "status": "ok",
   "meta": {
   },
-  "body": {
+  "data": {
     "commands": [
       {
         "id": "status",

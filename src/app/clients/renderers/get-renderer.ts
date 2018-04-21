@@ -2,7 +2,7 @@ import { DefaultRendererComponent } from './default-renderer.component';
 import { JsonRendererComponent } from './json-renderer.component';
 import { CommandsRendererComponent } from './commands-renderer.component';
 
-const RENDERERS = {
+const RENDERERS: any = {
   json: JsonRendererComponent,
   commands: CommandsRendererComponent,
   default: DefaultRendererComponent

@@ -9,9 +9,9 @@ import {
 import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
 export interface FieldConfig {
+  id: string;
   disabled?: boolean;
   label?: string;
-  name: string;
   options?: string[];
   type: string;
   validation?: ValidatorFn[];
@@ -31,12 +31,14 @@ export interface Field {
 export class DynamicFormComponent implements OnInit, OnChanges {
   @Input() config: FieldConfig[] = [];
 
-  @Output() submit: EventEmitter<any> = new EventEmitter<any>();
+  @Output() submit = new EventEmitter();
 
   form: FormGroup;
 
   get controls() {
-    return this.config.filter(({ type }) => type !== 'button');
+    return this.config
+      ? this.config.filter(({ type }) => type !== 'button')
+      : [];
   }
 
   get changes() {
@@ -51,7 +53,9 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     return this.form.value;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({});
+  }
 
   ngOnInit() {
     this.form = this.createGroup();
@@ -61,7 +65,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     if (this.form) {
       const controls = Object.keys(this.form.controls);
       console.log('controls:', this.controls);
-      const configControls = this.controls.map(item => item.name);
+      const configControls = this.controls.map(item => item.id);
 
       controls
         .filter(control => !configControls.includes(control))
@@ -69,9 +73,11 @@ export class DynamicFormComponent implements OnInit, OnChanges {
 
       configControls
         .filter(control => !controls.includes(control))
-        .forEach(name => {
-          const config = this.config.find(control => control.name === name);
-          this.form.addControl(name, this.createControl(config));
+        .forEach(id => {
+          const config = this.config.find(control => control.id === id);
+          if (config) {
+            this.form.addControl(id, this.createControl(config));
+          }
         });
     }
   }
@@ -79,7 +85,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   createGroup() {
     const group = this.fb.group({});
     this.controls.forEach(control =>
-      group.addControl(control.name, this.createControl(control))
+      group.addControl(control.id, this.createControl(control))
     );
     return group;
   }
@@ -92,27 +98,28 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   handleSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
+    console.log('SUBMIT:', this.value);
     this.submit.emit(this.value);
   }
 
-  setDisabled(name: string, disable: boolean) {
-    if (this.form.controls[name]) {
+  setDisabled(id: string, disable: boolean) {
+    if (this.form.controls[id]) {
       const method = disable ? 'disable' : 'enable';
-      this.form.controls[name][method]();
+      this.form.controls[id][method]();
       return;
     }
 
     this.config = this.config.map(item => {
-      if (item.name === name) {
+      if (item.id === id) {
         item.disabled = disable;
       }
       return item;
     });
   }
 
-  setValue(name: string, value: any) {
-    if (this.form.controls[name]) {
-      this.form.controls[name].setValue(value, { emitEvent: true });
+  setValue(id: string, value: any) {
+    if (this.form.controls[id]) {
+      this.form.controls[id].setValue(value, { emitEvent: true });
     }
   }
 }

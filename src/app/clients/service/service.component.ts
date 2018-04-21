@@ -1,17 +1,16 @@
 import {
   Component,
   ComponentFactoryResolver,
-  ComponentRef,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
 
-import { ServiceRenderer, ServiceResponse } from '@app/core/models';
+import { get } from 'lodash';
+
 import { getRenderer } from '../renderers';
 
 @Component({
@@ -19,21 +18,20 @@ import { getRenderer } from '../renderers';
   templateUrl: './service.component.html',
   styleUrls: ['./service.component.scss']
 })
-export class ServiceComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() context: ServiceResponse;
+export class ServiceComponent implements OnChanges, OnDestroy {
+  @Input() context: any;
 
   @ViewChild('container', { read: ViewContainerRef })
   container: ViewContainerRef;
 
   constructor(private resolver: ComponentFactoryResolver) {}
 
-  ngOnInit() {}
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.context && changes.context.currentValue) {
       this.context = changes.context.currentValue;
-      this.loadProcessor();
     }
+
+    this.loadRenderer();
   }
 
   ngOnDestroy(): void {
@@ -42,20 +40,22 @@ export class ServiceComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private loadProcessor() {
+  private loadRenderer() {
     if (!this.context) {
-      // || !this.container) {
       return;
     }
 
-    const { meta } = this.context;
-
     const componentFactory = this.resolver.resolveComponentFactory(
-      getRenderer(meta.renderer)
+      this.getRenderer(this.context)
     );
 
     this.container.clear();
     const componentRef = this.container.createComponent(componentFactory);
-    (componentRef.instance as ServiceRenderer).context = this.context;
+    (componentRef.instance as any).context = this.context;
+  }
+
+  private getRenderer({ status, meta }: { status: string; meta?: any }) {
+    const renderer = status === 'ok' ? get(meta, 'renderer') : 'error';
+    return getRenderer(renderer);
   }
 }
