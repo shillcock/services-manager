@@ -50,12 +50,12 @@ export class ServiceComponent implements OnChanges, OnDestroy {
     );
 
     this.container.clear();
-    const componentRef = this.container.createComponent(componentFactory);
-    (componentRef.instance as any).context = this.context;
+    const componentRef = this.container.createComponent<any>(componentFactory);
+    componentRef.instance.context = this.context;
   }
 
-  private getRenderer({ status, meta }: { status: string; meta?: any }) {
-    const renderer = status === 'ok' ? get(meta, 'renderer') : 'error';
-    return getRenderer(renderer);
+  private getRenderer({ meta }: { meta: any }) {
+    const renderer = get(meta, 'renderer');
+    return getRenderer(get(renderer, 'id', renderer));
   }
 }

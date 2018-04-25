@@ -48,6 +48,11 @@ export class AppComponent {
     }
   }
 
+  logout() {
+    // TODO: Figure out the propper way to handle logout
+    // window.location.href = '/gfmui/logout';
+  }
+
   private getDefaultService(client: IClient): IService | undefined {
     const { services } = client;
     const defaultService = find(services, 'default');

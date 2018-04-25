@@ -10,13 +10,13 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div matExpansionPanelContent>
-        <!-- <div class="command-content"> -->
-        <!-- <pre>{{command | json}}</pre> -->
-        <!-- </div> -->
-
-        <sm-command-form [command]="command"></sm-command-form>
-      </div>
+      <ng-template matExpansionPanelContent>
+        <sm-dynamic-form [config]="command.parameters" (submit)="onSubmit(command, $event)">
+          <mat-action-row>
+            <button type="submit" color="accent" mat-raised-button>Submit Command</button>
+          </mat-action-row>
+        </sm-dynamic-form>
+      </ng-template>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

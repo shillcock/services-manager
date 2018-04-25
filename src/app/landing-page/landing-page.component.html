@@ -1,5 +1,6 @@
+<div class="landing-page">
 <ng-container *ngIf="(clients$ | async) as clients; else noClients">
-  <mat-card *ngFor="let client of clients">
+  <mat-card class="client" *ngFor="let client of clients">
     <mat-card-title>
       {{client.name}}
     </mat-card-title>
@@ -21,3 +22,4 @@
     </mat-card-content>
   </mat-card>
 </ng-template>
+</div>

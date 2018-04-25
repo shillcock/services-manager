@@ -1,0 +1,24 @@
+<div class="submit-command-dialog">
+  <h1 mat-dialog-title>{{data.command.label}}</h1>
+  <mat-dialog-content>
+    <mat-divider></mat-divider>
+    <div *ngIf="working; else showResults">
+      <h4 class="with-icon">
+        <mat-icon>cloud_upload</mat-icon>
+        <span>Processing</span>
+      </h4>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <ng-template #showResults>
+      <h4 class="with-icon">
+        <mat-icon>{{statusIcon}}</mat-icon>
+        <span>Done</span>
+      </h4>
+      <pre>{{result | json}}</pre>
+    </ng-template>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <span class="spacer"></span>
+    <button mat-button [disabled]="working" [mat-dialog-close]="result">Done</button>
+  </mat-dialog-actions>
+</div>

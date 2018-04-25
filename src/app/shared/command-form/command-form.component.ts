@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 
 import { get } from 'lodash';
 
@@ -13,9 +20,11 @@ import { DynamicFormComponent } from '../dynamic-form';
 export class CommandFormComponent implements AfterViewInit {
   @Input() command: ICommand;
 
+  @Output() submit = new EventEmitter();
+
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
-  get config() {
+  get parameters() {
     return get(this.command, 'parameters');
   }
 
@@ -24,6 +33,7 @@ export class CommandFormComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    /*
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
       if (this.form.valid !== previousValid) {
@@ -31,5 +41,6 @@ export class CommandFormComponent implements AfterViewInit {
         this.form.setDisabled('submit', !previousValid);
       }
     });
+    */
   }
 }

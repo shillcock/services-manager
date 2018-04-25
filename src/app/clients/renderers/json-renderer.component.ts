@@ -31,7 +31,10 @@ const syntaxHighlight = (json: any) => {
     <div class="json-renderer">
       <mat-card>
         <mat-card-content>
-          <pre [innerHtml]="prettyPrint(context)"></pre>
+          <pre *ngIf="prettyPrint; else rawJson" [innerHtml]="prettyPrint(context)"></pre>
+          <ng-template #rawJson>
+            <pre>{{context | json}}</pre>
+          </ng-template>
         </mat-card-content>
       </mat-card>
     </div>    `,

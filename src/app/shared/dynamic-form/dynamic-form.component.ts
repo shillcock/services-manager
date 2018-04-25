@@ -10,12 +10,12 @@ import { FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 
 export interface FieldConfig {
   id: string;
-  disabled?: boolean;
   label?: string;
-  options?: string[];
+  disabled?: boolean;
+  description?: string;
   type: string;
-  validation?: ValidatorFn[];
   value?: any;
+  validation?: ValidatorFn[];
 }
 
 export interface Field {
@@ -29,7 +29,7 @@ export interface Field {
   styleUrls: ['./dynamic-form.component.scss']
 })
 export class DynamicFormComponent implements OnInit, OnChanges {
-  @Input() config: FieldConfig[] = [];
+  @Input() config: FieldConfig[];
 
   @Output() submit = new EventEmitter();
 
@@ -54,18 +54,21 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   constructor(private fb: FormBuilder) {
+    console.log(this);
     this.form = this.fb.group({});
   }
 
   ngOnInit() {
-    this.form = this.createGroup();
+    // console.log('ngOnInit');
   }
 
   ngOnChanges() {
+    console.log('ngOnChanges');
     if (this.form) {
       const controls = Object.keys(this.form.controls);
-      console.log('controls:', this.controls);
+      console.log('controls:', controls);
       const configControls = this.controls.map(item => item.id);
+      console.log('configControls:', configControls);
 
       controls
         .filter(control => !configControls.includes(control))
@@ -76,6 +79,7 @@ export class DynamicFormComponent implements OnInit, OnChanges {
         .forEach(id => {
           const config = this.config.find(control => control.id === id);
           if (config) {
+            console.log('add:', id);
             this.form.addControl(id, this.createControl(config));
           }
         });
@@ -95,10 +99,9 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     return this.fb.control({ disabled, value }, validation);
   }
 
-  handleSubmit(event: Event) {
+  onSubmit(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    console.log('SUBMIT:', this.value);
     this.submit.emit(this.value);
   }
 

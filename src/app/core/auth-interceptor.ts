@@ -7,15 +7,16 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import 'rxjs/add/observable/throw';
 
+import { AlertService } from './alert.service';
+
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private alertService: AlertService) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -24,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(err => {
         if (err instanceof HttpErrorResponse) {
-          this.snackBar.open(err.message, 'Close');
+          this.alertService.notify(err.message);
 
           if (err.status === 401) {
             // redirect the user to the login page
