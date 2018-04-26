@@ -41,6 +41,10 @@ export class AppComponent {
     return this.sm.clients$;
   }
 
+  clientPath(client: IClient) {
+    return `${client.path}/${client.id}`;
+  }
+
   goToClient(client: IClient) {
     const defaultService = this.getDefaultService(client);
     if (defaultService) {

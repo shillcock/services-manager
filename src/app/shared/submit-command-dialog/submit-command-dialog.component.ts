@@ -1,9 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { Observable } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
-import 'rxjs/add/observable/of';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CommandService } from '@app/core';
 
@@ -12,18 +8,25 @@ import { CommandService } from '@app/core';
   templateUrl: './submit-command-dialog.component.html',
   styleUrls: ['./submit-command-dialog.component.scss']
 })
-export class SubmitCommandDialogComponent implements OnInit {
+export class SubmitCommandDialogComponent {
   working = true;
   result: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private rpc: CommandService) {
     const { command, payload } = data;
-    this.rpc
-      .sendCommand(command, payload)
-      .subscribe(result => {
-        this.result = result;
-        this.working = false;
-      });
+    if (command) {
+      this.rpc.sendCommand(command, payload)
+        .subscribe(result => {
+          this.result = result;
+          this.working = false;
+        });
+    } else {
+      this.result = {
+        status: 'error',
+        message: 'Failed sending command. Command can not be empty'
+      };
+      this.working = false;
+    }
   }
 
   get statusOk() {
@@ -33,8 +36,5 @@ export class SubmitCommandDialogComponent implements OnInit {
 
   get statusIcon() {
     return this.statusOk ? 'check_circle' : 'error';
-  }
-
-  ngOnInit() {
   }
 }

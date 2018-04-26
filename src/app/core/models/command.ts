@@ -13,6 +13,14 @@ export interface ICommand {
   description?: string;
   endpoint: string;
   method: 'GET' | 'POST';
-  parameters: ICommandParameter[];
+  parameters: [
+    {
+      id: string,
+      label: string,
+      description?: string,
+      defaultValue?: string | number,
+      required?: boolean
+    }
+  ]; // ICommandParameter[];
   data: any;
 }

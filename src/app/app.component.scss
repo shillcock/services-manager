@@ -1,7 +1,7 @@
-/*
 mat-sidenav {
-  width: 200px;
+  width: 250px;
 }
+/*
 
 mat-sidenav-container {
   flex: 1 1 auto;
@@ -32,4 +32,9 @@ mat-sidenav-container {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+mat-toolbar span {
+  margin-left: 10px;
+  margin-right: 10px;
 }
