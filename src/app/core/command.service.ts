@@ -16,7 +16,7 @@ export class CommandService {
     const method = command.method || 'POST';
 
     return this.get(method, endpoint, payload).pipe(
-      delay(500),
+      delay(1000),
       catchError(err => this.handleError(err))
     );
   }

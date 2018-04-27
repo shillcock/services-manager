@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -30,7 +30,11 @@ export class AuthService {
   private model: Model<IAuthState>;
 
   constructor(
-    private http: HttpClient,
+    // Provider parse errors:
+    // Cannot instantiate cyclic dependency! ApplicationRef ("[ERROR ->]"): 
+    //   in NgModule AppModule in ./AppModule@-1:-1
+    // private http: HttpClient,
+    private injector: Injector,
     private modelFactory: ModelFactory<IAuthState>
   ) {
     this.model = this.modelFactory.create(initialState);
@@ -39,7 +43,8 @@ export class AuthService {
 
   // called on app initialization to grab required application data
   initializeApp(): Promise<boolean> {
-    return this.http
+    const http = this.injector.get(HttpClient);
+    return http
       .get<any>(API.AUTH)
       .toPromise()
       .then(response => {

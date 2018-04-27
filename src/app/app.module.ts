@@ -41,11 +41,6 @@ export class AppErrorHandler implements ErrorHandler {
   }
 }
 
-export function provideErrorHandler() {
-  // return environment.production ? new AppErrorHandler() : new ErrorHandler();
-  return new AppErrorHandler();
-}
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -56,8 +51,7 @@ export function provideErrorHandler() {
     ClientsModule
   ],
   providers: [
-    // { provide: ErrorHandler, useClass: AppErrorHandler },
-    { provide: ErrorHandler, useFactory: provideErrorHandler },
+    { provide: ErrorHandler, useClass: AppErrorHandler },
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
