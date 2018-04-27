@@ -35,6 +35,6 @@ export class SubmitCommandDialogComponent {
   }
 
   get statusIcon() {
-    return this.statusOk ? 'check_circle' : 'error';
+    return this.statusOk ? 'checkmark-outline' : 'exclamation-solid';
   }
 }

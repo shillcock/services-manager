@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -31,10 +33,12 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatIconRegistry
 } from '@angular/material';
 
 @NgModule({
+  imports: [HttpClientModule, MatIconModule],
   exports: [
     MatAutocompleteModule,
     MatButtonModule,
@@ -70,4 +74,24 @@ import {
     MatTooltipModule
   ]
 })
-export class MaterialModule {}
+export class MaterialModule {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    const icons = [
+      'checkmark-outline',
+      'cloud-upload',
+      'exclamation-solid',
+      'user-solid-circle'
+    ];
+
+    icons.forEach(iconName => {
+      this.matIconRegistry.addSvgIcon(
+        iconName,
+        this.trustResource(`/gfmui/assets/icons/${iconName}.svg`)
+      );
+    });
+  }
+
+  private trustResource(url: string) {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+}

@@ -4,14 +4,14 @@
     <mat-divider></mat-divider>
     <div *ngIf="working; else showResults">
       <h4 class="with-icon">
-        <mat-icon>cloud_upload</mat-icon>
+        <mat-icon svgIcon="cloud-upload"></mat-icon>
         <span>Processing</span>
       </h4>
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <ng-template #showResults>
       <h4 class="with-icon">
-        <mat-icon>{{statusIcon}}</mat-icon>
+        <mat-icon [svgIcon]="statusIcon"></mat-icon>
         <span>Done</span>
       </h4>
       <pre>{{result | json}}</pre>
