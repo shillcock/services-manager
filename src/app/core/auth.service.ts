@@ -8,12 +8,14 @@ import { IClient, IUser } from '@app/core/models';
 
 import { API } from '@app/shared/consts';
 
+
 export interface IAuthState {
   user: IUser;
   clients?: IClient[];
   errorMessage?: string;
 }
 
+/*
 const initialState = {
   user: {
     edi: '0000000000',
@@ -22,6 +24,7 @@ const initialState = {
     authenticated: false
   }
 };
+*/
 
 @Injectable()
 export class AuthService {
@@ -31,14 +34,20 @@ export class AuthService {
 
   constructor(
     // Provider parse errors:
-    // Cannot instantiate cyclic dependency! ApplicationRef ("[ERROR ->]"): 
+    // Cannot instantiate cyclic dependency! ApplicationRef ("[ERROR ->]"):
     //   in NgModule AppModule in ./AppModule@-1:-1
     // private http: HttpClient,
     private injector: Injector,
     private modelFactory: ModelFactory<IAuthState>
   ) {
-    this.model = this.modelFactory.create(initialState);
+    // HACK: Used for testing until backend is ready
+    const appAuthState = window.APP_AUTH_STATE
+      ? window.APP_AUTH_STATE
+      : require('../../mockApi/auth.json').data;
+
+    this.model = this.modelFactory.create(appAuthState);
     this.authState$ = this.model.data$;
+    delete window.APP_AUTH_STATE;
   }
 
   // called on app initialization to grab required application data

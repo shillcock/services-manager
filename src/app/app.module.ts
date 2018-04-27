@@ -1,5 +1,5 @@
 import {
-  APP_INITIALIZER,
+  // APP_INITIALIZER,
   ErrorHandler,
   NgModule,
   Injectable
@@ -10,16 +10,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '@env/environment';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AuthService, CoreModule } from './core';
+import { /*AuthService,*/ CoreModule } from './core';
 import { SharedModule } from './shared';
 import { ClientsModule } from './clients/clients.module';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 
-function initApp(authService: AuthService) {
+/* function initApp(authService: AuthService) {
   return () => authService.initializeApp();
-}
+} */
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
@@ -51,13 +51,15 @@ export class AppErrorHandler implements ErrorHandler {
     ClientsModule
   ],
   providers: [
-    { provide: ErrorHandler, useClass: AppErrorHandler },
+    { provide: ErrorHandler, useClass: AppErrorHandler }
+    /*
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
       deps: [AuthService],
       multi: true
     }
+    */
   ],
   declarations: [AppComponent, LandingPageComponent],
   bootstrap: [AppComponent]

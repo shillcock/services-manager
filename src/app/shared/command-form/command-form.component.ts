@@ -7,8 +7,6 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { get } from 'lodash';
-
 import { ICommand } from '@app/core/models';
 import { DynamicFormComponent } from '../dynamic-form';
 
@@ -25,7 +23,8 @@ export class CommandFormComponent implements AfterViewInit {
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
 
   get parameters() {
-    return get(this.command, 'parameters');
+    const { parameters } = this.command;
+    return parameters;
   }
 
   constructor() {

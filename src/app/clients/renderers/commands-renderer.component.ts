@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { get } from 'lodash';
-
 @Component({
   template: `
     <div class="commands-renderer">
@@ -13,6 +11,9 @@ export class CommandsRendererComponent {
   context: any;
 
   get commands() {
-    return get(this.context, 'data.commands');
+    const {
+      data: { commands }
+    } = this.context;
+    return commands;
   }
 }

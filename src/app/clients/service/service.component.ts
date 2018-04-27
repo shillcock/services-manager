@@ -9,8 +9,6 @@ import {
   ViewContainerRef
 } from '@angular/core';
 
-import { get } from 'lodash';
-
 import { getRenderer } from '../renderers';
 
 @Component({
@@ -54,8 +52,11 @@ export class ServiceComponent implements OnChanges, OnDestroy {
     componentRef.instance.context = this.context;
   }
 
-  private getRenderer({ meta }: { meta: any }) {
-    const renderer = get(meta, 'renderer');
-    return getRenderer(get(renderer, 'id', renderer));
+  private getRenderer(context: any) {
+    const { meta } = context;
+    if (meta && meta.renderer) {
+      const { renderer } = meta;
+      return getRenderer((renderer && renderer.id) ? renderer.id : renderer);
+    }
   }
 }

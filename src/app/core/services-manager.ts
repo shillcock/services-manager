@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map, pluck, take } from 'rxjs/operators';
 
-import { find } from 'lodash';
-
 import { AuthService } from './auth.service';
 import { IClient, IService } from './models';
 
@@ -20,7 +18,7 @@ export class ServicesManager {
   getClient(clientId: string): Observable<IClient | undefined> {
     return this.clients$.pipe(
       take(1),
-      map(clients => find(clients, ['id', clientId]))
+      map(clients => clients.find(c => c.id === clientId))
     );
   }
 

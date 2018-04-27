@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { pluck } from 'rxjs/operators';
 
-import { find, first, get } from 'lodash';
-
 import { AuthService } from '@app/core';
 
 import { ServicesManager } from './core';
@@ -30,7 +28,7 @@ export class AppComponent {
         this.user = user;
       }
 
-      if (!get(this.user, 'authenticated')) {
+      if (this.user && !this.user.authenticated) {
         // TODO: Handle case where user is not authenticated
         // window.location.href = '/gfmui/logon';
       }
@@ -59,7 +57,9 @@ export class AppComponent {
 
   private getDefaultService(client: IClient): IService | undefined {
     const { services } = client;
-    const defaultService = find(services, 'default');
-    return defaultService || first(services);
+    if (services) {
+      const defaultService = services.find(s => s.default ? true : false);
+      return defaultService || services[0];
+    }
   }
 }

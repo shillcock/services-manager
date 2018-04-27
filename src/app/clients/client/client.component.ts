@@ -5,8 +5,6 @@ import { ServicesManager } from '@app/core';
 import { IClient, IService } from '@app/core/models';
 import { Observable } from 'rxjs/Observable';
 
-import { find } from 'lodash';
-
 @Component({
   selector: 'sm-client',
   templateUrl: './client.component.html',
@@ -32,8 +30,8 @@ export class ClientComponent {
 
   private paramsUpdated(clientId: string, serviceId: string) {
     this.sm.getClient(clientId).subscribe(client => {
-      if (client) {
-        const service = find(client.services, { id: serviceId });
+      if (client && client.services) {
+        const service = client.services.find(s => s.id === serviceId);
         if (service) {
           this.serviceContext$ = this.callService(client, service);
         }

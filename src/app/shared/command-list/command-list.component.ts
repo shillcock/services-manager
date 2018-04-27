@@ -3,8 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { filter } from 'rxjs/operators';
 
-// import { get } from 'lodash';
-
 import { CommandService } from '@app/core';
 import { ICommand } from '@app/core/models';
 
