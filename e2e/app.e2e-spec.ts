@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('services_-manager App', () => {
+describe('Services Manager App', () => {
   let page: AppPage;
 
   beforeEach(() => {
