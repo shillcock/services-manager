@@ -1,36 +1,54 @@
-<div class="sm-client">
-  <mat-card *ngIf="client; else clientNotFound">
-    <mat-card-content>
-      <h2>{{client.name}}</h2>
-      <nav mat-tab-nav-bar>
-        <a *ngFor="let service of client.services"
-           mat-tab-link
-           [routerLink]="['../', service.id]"
-           routerLinkActive
-           #rla="routerLinkActive"
-           [active]="rla.isActive">
-          {{service.name}}
-        </a>
-      </nav>
-      <div class="service-content">
-        <ng-container *ngIf="(serviceContext$ | async) as context; else loading">
-          <sm-service [context]="context"></sm-service>
-        </ng-container>
-        <ng-template #loading>
-          <sm-loading text="Loading"></sm-loading>
-        </ng-template>
-      </div>
-    </mat-card-content>
-  </mat-card>
+<sm-app-shell *ngIf="client; else clientNotFound" [appName]="client?.name">
+  <nav>
+    <a *ngFor="let service of client?.services" mat-button [routerLink]="['../', service.id]" routerLinkActive="mat-accent">
+      {{service.name}}
+    </a>
+  </nav>
 
-  <ng-template #clientNotFound>
+  <div class="sm-client">
     <mat-card>
       <mat-card-content>
-        <h2>Client not found</h2>
-        <button mat-raised-button color="warn" routerLink="/">
-          Go Home
-        </button>
+        <h2>{{service?.name}}</h2>
+        <!--
+        <nav mat-tab-nav-bar>
+          <a *ngFor="let service of client.services" mat-tab-link [routerLink]="['../', service.id]" routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            {{service.name}}
+          </a>
+        </nav>
+        -->
+        <div class="service-content">
+          <ng-container *ngIf="(serviceContext$ | async) as context; else loading">
+            <sm-service [context]="context"></sm-service>
+          </ng-container>
+          <ng-template #loading>
+            <sm-loading text="Loading"></sm-loading>
+          </ng-template>
+        </div>
       </mat-card-content>
     </mat-card>
-  </ng-template>
-</div>
+
+    <!--
+    <ng-template #clientNotFound>
+      <mat-card>
+        <mat-card-content>
+          <h2>Client not found</h2>
+          <button mat-raised-button color="warn" routerLink="/">
+            Go Home
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+    -->
+  </div>
+</sm-app-shell>
+<ng-template #clientNotFound>
+  <mat-card>
+    <mat-card-content>
+      <h2>Client not found</h2>
+      <button mat-raised-button color="warn" routerLink="/">
+        Go Home
+      </button>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

@@ -1,84 +1,67 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
+import { delay, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
-import { ModelFactory, Model } from './model.service';
-import { IClient, IUser } from '@app/core/models';
+import { IUser } from '@app/core/models';
 
 import { API } from '@app/shared/consts';
 
-
-export interface IAuthState {
-  user: IUser;
-  clients?: IClient[];
-  errorMessage?: string;
+interface IAuthResponse {
+  status: 'ok' | 'error';
+  message?: string;
+  data: { user: IUser };
 }
-
-/*
-const initialState = {
-  user: {
-    edi: '0000000000',
-    name: 'Anonymous',
-    roles: void 0,
-    authenticated: false
-  }
-};
-*/
 
 @Injectable()
 export class AuthService {
-  authState$: Observable<IAuthState>;
+  private authorized = new BehaviorSubject<boolean>(false);
+  private user = new BehaviorSubject<IUser | undefined>(undefined);
+  private errorMessage = new BehaviorSubject<string | undefined>(undefined);
 
-  private model: Model<IAuthState>;
-
-  constructor(
-    // Provider parse errors:
-    // Cannot instantiate cyclic dependency! ApplicationRef ("[ERROR ->]"):
-    //   in NgModule AppModule in ./AppModule@-1:-1
-    // private http: HttpClient,
-    private injector: Injector,
-    private modelFactory: ModelFactory<IAuthState>
-  ) {
-    // HACK: Used for testing until backend is ready
-    const appAuthState = window.APP_AUTH_STATE
-      ? window.APP_AUTH_STATE
-      : require('../../mockApi/auth.json').data;
-
-    this.model = this.modelFactory.create(appAuthState);
-    this.authState$ = this.model.data$;
-    delete window.APP_AUTH_STATE;
+  get authorized$() {
+    return this.authorized.asObservable();
   }
 
-  // called on app initialization to grab required application data
-  initializeApp(): Promise<boolean> {
-    const http = this.injector.get(HttpClient);
-    return http
-      .get<any>(API.AUTH)
-      .toPromise()
-      .then(response => {
-        return response['status'] === 'ok'
-          ? this.handleOk(response['data'])
-          : this.handleError(response['message']);
-      })
-      .catch(error => {
-        console.log('Auth Error: ', error);
-        return this.handleError(error.message);
-      });
+  get user$() {
+    return this.user.asObservable();
   }
 
-  private handleOk(state: IAuthState): boolean {
-    console.log('AUTH:', state);
-    this.model.set(state);
+  get errorMessage$() {
+    return this.errorMessage.asObservable();
+  }
+
+  constructor(private http: HttpClient) {
+    this.fetchAuthState();
+  }
+
+  private fetchAuthState() {
+    this.http
+      .get<IAuthResponse>(API.getAuth)
+      .pipe(
+        delay(1500),
+        map(response => {
+          return response.status === 'ok'
+            ? this.handleOk(response.data.user)
+            : this.handleError(response.message);
+        }),
+        catchError(err => {
+          this.handleError(err.message);
+          return of(false);
+        })
+      )
+      .subscribe(authorized => this.authorized.next(authorized));
+  }
+
+  private handleOk(user: IUser) {
+    this.user.next(user);
     return true;
   }
 
-  private handleError(
-    errorMessage: string = 'Error initializing application.'
-  ): boolean {
-    const state = Object.assign({}, initialState, { errorMessage });
-    console.log('AUTH:', state);
-    this.model.set(state);
+  private handleError(message = 'Error initializing application') {
+    this.errorMessage.next(message);
     return false;
   }
 }

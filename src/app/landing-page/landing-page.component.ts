@@ -10,9 +10,11 @@ import { IClient } from '@app/core/models';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent {
-  clients$: Observable<IClient[]>;
+  get clients$() {
+    return this.sm.clients$;
+  }
 
   constructor(private sm: ServicesManager) {
-    this.clients$ = this.sm.clients$;
+    console.log(this);
   }
 }

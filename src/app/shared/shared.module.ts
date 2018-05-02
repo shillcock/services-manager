@@ -11,6 +11,7 @@ import {
   FormButtonComponent
 } from './dynamic-form';
 
+import { AppShellComponent } from './app-shell/app-shell.component';
 import { CommandListComponent } from './command-list';
 import { LoadingComponent } from './loading.component';
 import { SubmitCommandDialogComponent } from './submit-command-dialog/submit-command-dialog.component';
@@ -22,6 +23,7 @@ import { SubmitCommandDialogComponent } from './submit-command-dialog/submit-com
     FormsModule,
     MaterialModule,
     DynamicFormComponent,
+    AppShellComponent,
     CommandListComponent,
     LoadingComponent,
     SubmitCommandDialogComponent
@@ -31,6 +33,7 @@ import { SubmitCommandDialogComponent } from './submit-command-dialog/submit-com
     DynamicFieldDirective,
     FormButtonComponent,
     FormInputComponent,
+    AppShellComponent,
     CommandListComponent,
     LoadingComponent,
     SubmitCommandDialogComponent

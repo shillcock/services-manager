@@ -77,9 +77,12 @@ import {
 export class MaterialModule {
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     const icons = [
+      'calendar',
       'checkmark-outline',
       'cloud-upload',
       'exclamation-solid',
+      'home',
+      'menu',
       'user-solid-circle'
     ];
 

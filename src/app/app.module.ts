@@ -1,25 +1,17 @@
-import {
-  // APP_INITIALIZER,
-  ErrorHandler,
-  NgModule,
-  Injectable
-} from '@angular/core';
+import { ErrorHandler, NgModule, Injectable } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { environment } from '@env/environment';
 
 import { AppRoutingModule } from './app-routing.module';
-import { /*AuthService,*/ CoreModule } from './core';
+import { CoreModule } from './core';
 import { SharedModule } from './shared';
 import { ClientsModule } from './clients/clients.module';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-
-/* function initApp(authService: AuthService) {
-  return () => authService.initializeApp();
-} */
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
@@ -45,22 +37,13 @@ export class AppErrorHandler implements ErrorHandler {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     AppRoutingModule,
     CoreModule,
     SharedModule,
     ClientsModule
   ],
-  providers: [
-    { provide: ErrorHandler, useClass: AppErrorHandler }
-    /*
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      deps: [AuthService],
-      multi: true
-    }
-    */
-  ],
+  providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
   declarations: [AppComponent, LandingPageComponent],
   bootstrap: [AppComponent]
 })

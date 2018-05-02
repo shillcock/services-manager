@@ -1,0 +1,30 @@
+<div class="app-shell">
+  <mat-toolbar class="app-shell-nav mat-elevation-z4" color="primary">
+    <mat-toolbar-row>
+      <a mat-mini-fab (click)="sidebarToggle()">
+        <mat-icon aria-label="Menu" svgIcon="menu"></mat-icon>
+      </a>
+      <span>{{appName}}</span>
+      <ng-content select="nav"></ng-content>
+      <!--
+      <a mat-button routerLink="/">Home</a>
+      <a *ngFor="let client of clients" mat-button [routerLink]="clientPath(client)">
+        {{client.name}}
+      </a>
+      -->
+      <!--
+      <span class="spacer"></span>
+      <a mat-icon-button [matMenuTriggerFor]="appMenu">
+        <mat-icon svgIcon="user-solid-circle"></mat-icon>
+      </a>
+      <mat-menu #appMenu="matMenu">
+        <a mat-menu-item (click)="logout()">Logout</a>
+      </mat-menu>
+      -->
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="app-shell-content">
+    <ng-content></ng-content>
+  </div>
+</div>

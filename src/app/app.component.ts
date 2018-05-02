@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
-import { pluck } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
 
 import { ServicesManager } from './core';
-import { IClient, IService, IUser } from './core/models';
-import { isUser } from '@app/core/models';
+import { SidebarService } from './core/sidebar.service';
+
+import { IClient, IService } from './core/models';
 
 @Component({
   selector: 'sm-root',
@@ -16,50 +17,49 @@ import { isUser } from '@app/core/models';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  user: IUser;
+  readonly appName = 'Services Manager';
+  readonly menuItems = [
+    { text: 'Home', path: '/' },
+    { text: 'Scheduling', path: '/scheduling' }
+  ];
 
   constructor(
     private router: Router,
     private auth: AuthService,
-    private sm: ServicesManager
+    private sm: ServicesManager,
+    private sidebar: SidebarService
   ) {
-    this.auth.authState$.pipe(pluck('user')).subscribe(user => {
-      if (isUser(user)) {
-        this.user = user;
-      }
-
-      if (this.user && !this.user.authenticated) {
-        // TODO: Handle case where user is not authenticated
-        // window.location.href = '/gfmui/logon';
-      }
-    });
+    router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.sidebar.close());
   }
 
-  get clients$(): Observable<IClient[]> {
+  get authorized$() {
+    return this.auth.authorized$;
+  }
+
+  get clients$() {
     return this.sm.clients$;
   }
 
-  clientPath(client: IClient) {
-    return `${client.path}/${client.id}`;
+  get sidebarOpen$() {
+    return this.sidebar.open$;
   }
 
-  goToClient(client: IClient) {
-    const defaultService = this.getDefaultService(client);
-    if (defaultService) {
-      this.router.navigate([client.path, client.id, defaultService.id]);
-    }
+  sidebarOpened() {
+    this.sidebar.open();
+  }
+
+  sidebarClosed() {
+    this.sidebar.close();
   }
 
   logout() {
-    // TODO: Figure out the propper way to handle logout
+    // TODO: handle logout
     // window.location.href = '/gfmui/logout';
   }
 
-  private getDefaultService(client: IClient): IService | undefined {
-    const { services } = client;
-    if (services) {
-      const defaultService = services.find(s => s.default ? true : false);
-      return defaultService || services[0];
-    }
+  clientPath(client: IClient) {
+    return this.sm.getClientPath(client);
   }
 }
