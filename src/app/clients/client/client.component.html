@@ -1,22 +1,14 @@
-<sm-app-shell *ngIf="client; else clientNotFound" [appName]="client?.name">
+<sm-app-shell *ngIf="client; else clientNotFound" [appName]="client?.label">
   <nav>
-    <a *ngFor="let service of client?.services" mat-button [routerLink]="['../', service.id]" routerLinkActive="mat-accent">
-      {{service.name}}
+    <a *ngFor="let service of client?.services" mat-button [routerLink]="['..', service.id]" routerLinkActive="mat-accent">
+      {{service.label}}
     </a>
   </nav>
 
   <div class="sm-client">
     <mat-card>
       <mat-card-content>
-        <h2>{{service?.name}}</h2>
-        <!--
-        <nav mat-tab-nav-bar>
-          <a *ngFor="let service of client.services" mat-tab-link [routerLink]="['../', service.id]" routerLinkActive #rla="routerLinkActive"
-            [active]="rla.isActive">
-            {{service.name}}
-          </a>
-        </nav>
-        -->
+        <h2>{{service?.label}}</h2>
         <div class="service-content">
           <ng-container *ngIf="(serviceContext$ | async) as context; else loading">
             <sm-service [context]="context"></sm-service>
@@ -27,21 +19,9 @@
         </div>
       </mat-card-content>
     </mat-card>
-
-    <!--
-    <ng-template #clientNotFound>
-      <mat-card>
-        <mat-card-content>
-          <h2>Client not found</h2>
-          <button mat-raised-button color="warn" routerLink="/">
-            Go Home
-          </button>
-        </mat-card-content>
-      </mat-card>
-    </ng-template>
-    -->
   </div>
 </sm-app-shell>
+
 <ng-template #clientNotFound>
   <mat-card>
     <mat-card-content>

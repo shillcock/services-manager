@@ -1,48 +1,20 @@
 {
-  "status": "ok",
   "meta": {
   },
-  "data": {
-    "commands": [
-      {
-        "id": "status",
-        "label": "Status",
-        "description": "Status of the service.",
-        "endpoint": "/gfmui/mockApi/service_1/status",
-        "method": "GET"
-      },
-      {
-        "id": "start",
-        "label": "Start Service",
-        "description": "Starts the service",
-        "endpoint": "/gfmui/mockApi/service_1/start.json",
-        "method": "POST",
-        "parameters": [
-          {
-            "id": "",
-            "label": "",
-            "description": "",
-            "default": "0",
-            "tooltip": "",
-            "required": false
-          }
-        ]
-      },
-      {
-        "id": "stop",
-        "label": "Stop Service",
-        "description": ""
-      },
-      {
-        "id": "reload",
-        "label": "Reload config",
-        "description": "Re"
-      },
-      {
-        "id": "transactions",
-        "label": "List transactions",
-        "description": "Returns a list of transactions"
-      }
-    ]
-  }
+  "commands": [
+    {
+      "id": "status",
+      "label": "Status",
+      "description": "Status of the service.",
+      "endpoint": "/gfmui/mockApi/service_1/status.json",
+      "method": "GET"
+    },
+    {
+      "id": "start",
+      "label": "Start Service",
+      "description": "Starts the service",
+      "endpoint": "/gfmui/mockApi/service_1/status.json",
+      "method": "GET"
+    }
+  ]
 }

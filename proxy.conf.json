@@ -1,0 +1,11 @@
+{
+  "/gfmui/api": {
+    "logLevel": "debug",
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/gfmui/api": "/app"
+    }
+  }
+}

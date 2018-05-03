@@ -1,8 +1,7 @@
-import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
 
 import { ServicesManager } from '@app/core';
-import { IClient } from '@app/core/models';
+import { IClient, IService } from '@app/core/models';
 
 @Component({
   selector: 'sm-landing-page',
@@ -16,5 +15,9 @@ export class LandingPageComponent {
 
   constructor(private sm: ServicesManager) {
     console.log(this);
+  }
+
+  getClientPath(client: IClient, service: IService) {
+    return this.sm.getClientPath(client, service);
   }
 }

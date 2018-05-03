@@ -1,4 +1,5 @@
 export enum API {
-  getAuth = '/gfmui/mockApi/auth.json',
-  getClients = '/gfmui/mockApi/clients.json'
+  getAuth = '/gfmui/api/auth',
+  getClients = '/gfmui/api/clients',
+  getProxy = '/gfmui/api/proxy'
 }

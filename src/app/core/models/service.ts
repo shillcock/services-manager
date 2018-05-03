@@ -1,7 +1,8 @@
 export interface IService {
   id: string;
-  name: string;
-  processors?: string[];
+  label: string;
+  endpoint?: string;
+  postProcessors?: string[];
   renderer?: string;
   default?: boolean;
 }

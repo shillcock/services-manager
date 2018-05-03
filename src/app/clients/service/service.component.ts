@@ -56,7 +56,7 @@ export class ServiceComponent implements OnChanges, OnDestroy {
     const { meta } = context;
     if (meta && meta.renderer) {
       const { renderer } = meta;
-      return getRenderer((renderer && renderer.id) ? renderer.id : renderer);
+      return getRenderer(renderer.id || renderer);
     }
   }
 }

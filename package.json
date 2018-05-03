@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --base-href /gfmui/",
-    "start-proxy": "ng serve --proxy-config proxy.config.json",
+    "start-proxy": "ng serve --base-href /gfmui/ --proxy-config proxy.conf.json",
     "build": "ng build --dev",
     "prod": "ng build --prod",
     "build-prod": "yarn install && ng build --prod",
@@ -39,6 +39,7 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
+    "@angular-devkit/core": "0.0.29",
     "@angular/cli": "1.5.0",
     "@angular/compiler-cli": "^5.1.0",
     "@angular/language-service": "^5.1.0",

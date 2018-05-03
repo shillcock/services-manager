@@ -3,19 +3,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { map, take } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { AuthService } from './auth.service';
 import { IClient, IService } from './models';
 
 import { API } from '@app/shared/consts';
-
-interface IClientsResponse {
-  status: 'ok' | 'error';
-  message?: string;
-  data: { clients: IClient[] };
-}
 
 @Injectable()
 export class ServicesManager {
@@ -30,9 +23,7 @@ export class ServicesManager {
   }
 
   getClient(clientId: string): Observable<IClient | undefined> {
-    return this.clients.pipe(
-      map(item => item.find(c => c.id === clientId))
-    );
+    return this.clients.pipe(map(item => item.find(c => c.id === clientId)));
   }
 
   getService(client: IClient, service: IService) {
@@ -42,42 +33,61 @@ export class ServicesManager {
       renderer: service.renderer
     };
 
-    return this.http
-      .get(`${client.baseUrl}/${service.id}`)
-      .pipe(map(response => Object.assign({}, response, { meta })));
+    const endpoint = service.endpoint ? service.endpoint : service.id;
+    const url = `${client.host}/${endpoint}`;
+
+    const proxy$ = this.proxyGet(url, meta);
+    return proxy$.pipe(map(response => Object.assign({}, response, { meta })));
   }
 
-  getClientPath(client: IClient) {
-    const defaultService = this.getDefaultService(client);
+  proxyGet(url: string, meta: any) {
+    return this.proxy('GET', url).pipe(
+      map(response => Object.assign({}, response, { meta }))
+    );
+  }
+
+  /*
+  proxyPost(url: string, payload: any, meta: any) {
+    return this.proxy('POST', url, payload).pipe(
+      map(response => Object.assign({}, response, { meta }))
+    );
+  }
+  */
+
+  proxy(method: 'GET' | 'POST', url: string, payload?: any) {
+    return this.http.post(API.getProxy, { method, url, payload });
+  }
+
+  getClientPath(client: IClient, service?: IService) {
+    const defaultService = service || this.getDefaultService(client);
     return defaultService
-      ? `${client.path}/${client.id}/${defaultService.id}`
-      : `${client.path}/${client.id}`;
+      ? `client/${client.id}/${defaultService.id}`
+      : `client/${client.id}`;
   }
 
   private getDefaultService(client: IClient): IService | undefined {
     const { services } = client;
     if (services) {
-      const defaultService = services.find(s => s.default ? true : false);
+      const defaultService = services.find(s => !!s.default);
       return defaultService || services[0];
     }
   }
 
   private fetchClients() {
     this.http
-      .get<IClientsResponse>(API.getClients)
+      .get<any>(API.getClients)
       .pipe(
-        map(response => {
-          return response.status === 'ok'
-            ? this.handleOk(response.data)
-            : this.handleError(response.message);
-        })
+        map(response => this.handleOk(response)),
+        catchError(err => this.handleError(err.message))
       )
-      .subscribe(authorized => {
-        console.log('xfetch-sub:', authorized);
-      });
+      .subscribe();
   }
 
-  private handleOk({ clients }: { clients: IClient[] }) {
+  private handleOk(response: any) {
+    const clients: IClient[] = Object.keys(response.clients).map(key => {
+      return response.clients[key] as IClient;
+    });
+
     this.clients.next(clients);
     return true;
   }
@@ -85,6 +95,6 @@ export class ServicesManager {
   private handleError(message = 'Error getting configured clients') {
     console.error(message);
     this.clients.next([]);
-    return false;
+    return of(false);
   }
 }

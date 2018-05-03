@@ -12,14 +12,16 @@ export class SubmitCommandDialogComponent {
   working = true;
   result: any;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private rpc: CommandService) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private rpc: CommandService
+  ) {
     const { command, payload } = data;
     if (command) {
-      this.rpc.sendCommand(command, payload)
-        .subscribe(result => {
-          this.result = result;
-          this.working = false;
-        });
+      this.rpc.sendCommand(command, payload).subscribe(result => {
+        this.result = result;
+        this.working = false;
+      });
     } else {
       this.result = {
         status: 'error',

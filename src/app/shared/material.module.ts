@@ -75,7 +75,10 @@ import {
   ]
 })
 export class MaterialModule {
-  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
     const icons = [
       'calendar',
       'checkmark-outline',

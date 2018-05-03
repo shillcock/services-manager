@@ -1,107 +1,88 @@
 {
-  "status": "ok",
-  "data": {
-    "clients": [
-      {
-        "id": "em4-tm",
-        "name": "EM4TM",
-        "description": "EM4 Topic Manager",
-        "baseUrl": "/gfmui/mockApi/service_1",
-        "path": "client",
-        "services": [
-          {
-            "id": "status.json",
-            "name": "Status",
-            "renderer": {
-              "id": "json",
-              "color": true
-            },
-            "default": true
-          },
-          {
-            "id": "commands.json",
-            "name": "Commands",
-            "renderer": {
-              "id": "json",
-              "color": true
-            }
-          }
-        ]
-      },
-       {
-        "id": "eoas",
-        "name": "EOAS",
-        "description": "Enterprise Organization Attribute Service",
-        "baseUrl": "/gfmui/mockApi/service_2",
-        "path": "client",
-        "services": [
-          {
-            "id": "status.json",
-            "name": "Status",
-            "renderer": {
-              "id": "json"
-            }
-          },
-          {
-            "id": "commands.json",
-            "name": "Commands",
-            "renderer": {
-              "id": "commands"
-            },
-            "default": true
-          }
-        ]
-      },
-      {
-        "id": "eoas-bp",
-        "name": "EOASBP",
-        "description": "EOAS Batch Processor",
-        "baseUrl": "/gfmui/mockApi/service_2",
-        "path": "client",
-        "services": [
-          {
-            "id": "status.json",
-            "name": "Status",
-            "renderer": {
-              "id": "json"
-            }
-          },
-          {
-            "id": "commands.json",
-            "name": "Commands",
-            "renderer": {
-              "id": "commands"
-            },
-            "default": true
-          }
-        ]
-      },
-      {
-        "id": "ba-bp",
-        "name": "BABP",
-        "description": "GFM Billet Assignment Batch Processor",
-        "baseUrl": "/gfmui/mockApi/service_1",
-        "path": "client",
-        "services": [
-          {
-            "id": "status.json",
-            "name": "Status",
-            "renderer": {
-              "id": "json",
-              "color": true
-            },
-            "default": true
-          },
-          {
-            "id": "commands.json",
-            "name": "Commands",
-            "renderer": {
-              "id": "json",
-              "color": true
-            }
-          }
-        ]
-      }
-    ]
+  "clients": {
+    "em4-tm" : {
+      "id": "em4-tm",
+      "label": "EM4TM",
+      "description": "EM4 Topic Manager",
+      "host": "http://localhost:8000",
+      "services": [
+        {
+          "id": "status",
+          "label": "Status",
+          "renderer": { "id": "json" },
+          "endpoint": "status",
+          "default": true
+        },
+        {
+          "id": "commands",
+          "label": "Commands",
+          "renderer": { "id": "commands" },
+          "endpoint": "commands"
+        }
+      ]
+    },
+    "eoas" : {
+      "id": "eoas",
+      "label": "EOAS",
+      "description": "Enterprise Organization Attribute Service",
+      "host": "/gfmui/mockApi/service_2",
+      "services": [
+        {
+          "id": "status",
+          "label": "Status",
+          "renderer": { "id": "json" },
+          "endpoint": "status.json"
+        },
+        {
+          "id": "commands",
+          "label": "Commands",
+          "renderer": { "id": "commands" },
+          "endpoint": "commands.json",
+          "default": true
+        }
+      ]
+    },
+    "eoas-bp": {
+      "id": "eoas-bp",
+      "label": "EOASBP",
+      "description": "EOAS Batch Processor",
+      "host": "/gfmui/mockApi/service_2",
+      "services": [
+        {
+          "id": "status",
+          "label": "Status",
+          "renderer": { "id": "json" },
+          "endpoint": "status.json"
+        },
+        {
+          "id": "commands",
+          "label": "Commands",
+          "renderer": { "id": "commands" },
+          "endpoint": "commands.json",
+          "default": true
+        }
+      ]
+    },
+    "ba-bp": {
+      "id": "ba-bp",
+      "label": "BABP",
+      "description": "GFM Billet Assignment Batch Processor",
+      "host": "/gfmui/mockApi/service_1",
+      "services": [
+        {
+          "id": "status",
+          "label": "Status",
+          "renderer": { "id": "json" },
+          "endpoint": "status.json",
+          "default": true
+        },
+        {
+          "id": "commands",
+          "label": "Commands",
+          "renderer": { "id": "commands" },
+          "endpoint": "commands.json"
+        }
+      ]
+    }
   }
 }

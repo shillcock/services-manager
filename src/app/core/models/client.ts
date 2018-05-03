@@ -1,10 +1,12 @@
+import { ICommand } from './command';
 import { IService } from './service';
 
 export interface IClient {
   id: string;
-  name: string;
+  label: string;
   description?: string;
   path: string;
-  baseUrl: string;
+  host: string;
   services?: IService[];
+  commands?: ICommand[];
 }

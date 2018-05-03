@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { catchError, map, delay } from 'rxjs/operators';
-import 'rxjs/add/observable/of';
+import { catchError, delay } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 import { ICommand } from '@app/core/models';
 
 @Injectable()
 export class CommandService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   sendCommand(command: ICommand, payload?: any): Observable<any> {
     const { endpoint } = command;
     const method = command.method || 'POST';
 
     return this.get(method, endpoint, payload).pipe(
-      delay(1000),
+      delay(2000), // FIXME: Temp only
       catchError(err => this.handleError(err))
     );
   }
@@ -30,6 +30,6 @@ export class CommandService {
   private handleError(err: any) {
     console.log('handleError:', err);
     const message = err.message || err.toString();
-    return Observable.of({ status: 'error', message });
+    return of({ status: 'error', message });
   }
 }

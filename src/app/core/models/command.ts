@@ -1,12 +1,3 @@
-export interface ICommandParameter {
-  id: string;
-  name: string;
-  description?: string;
-  defaultValue?: string;
-  tooltip?: string;
-  required?: boolean;
-}
-
 export interface ICommand {
   id: string;
   label: string;
@@ -15,12 +6,12 @@ export interface ICommand {
   method: 'GET' | 'POST';
   parameters: [
     {
-      id: string,
-      label: string,
-      description?: string,
-      defaultValue?: string | number,
-      required?: boolean
+      id: string;
+      label: string;
+      description?: string;
+      defaultValue?: string | number;
+      required?: boolean;
     }
-  ]; // ICommandParameter[];
+  ];
   data: any;
 }

@@ -6,9 +6,17 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class SidebarService {
   private isOpen = new BehaviorSubject<boolean>(false);
 
-  get open$() { return this.isOpen.asObservable(); }
+  get open$() {
+    return this.isOpen.asObservable();
+  }
 
-  toggle() { this.isOpen.next(!this.isOpen.getValue()); }
-  open() { this.isOpen.next(true); }
-  close() { this.isOpen.next(false); }
+  toggle() {
+    this.isOpen.next(!this.isOpen.getValue());
+  }
+  open() {
+    this.isOpen.next(true);
+  }
+  close() {
+    this.isOpen.next(false);
+  }
 }

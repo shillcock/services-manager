@@ -1,18 +1,15 @@
 {
-  "status": "ok",
   "meta": {
   },
-  "data": {
-    "state": {
-      "a": "x",
-      "b": "y",
-      "c": "z",
-      "d": null
-    },
-    "metrics": {
-      "foo": 100,
-      "bar": 200,
-      "isFirst": false
-    }
+  "state": {
+    "a": "x",
+    "b": "y",
+    "c": "z",
+    "d": null
+  },
+  "metrics": {
+    "foo": 100,
+    "bar": 200,
+    "isFirst": false
   }
 }

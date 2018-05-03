@@ -1,8 +1,8 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { delay, map, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { IUser } from '@app/core/models';
@@ -10,9 +10,7 @@ import { IUser } from '@app/core/models';
 import { API } from '@app/shared/consts';
 
 interface IAuthResponse {
-  status: 'ok' | 'error';
-  message?: string;
-  data: { user: IUser };
+  user: IUser;
 }
 
 @Injectable()
@@ -41,16 +39,8 @@ export class AuthService {
     this.http
       .get<IAuthResponse>(API.getAuth)
       .pipe(
-        delay(1500),
-        map(response => {
-          return response.status === 'ok'
-            ? this.handleOk(response.data.user)
-            : this.handleError(response.message);
-        }),
-        catchError(err => {
-          this.handleError(err.message);
-          return of(false);
-        })
+        map(response => this.handleOk(response.user)),
+        catchError(err => this.handleError(err.message))
       )
       .subscribe(authorized => this.authorized.next(authorized));
   }
@@ -62,6 +52,6 @@ export class AuthService {
 
   private handleError(message = 'Error initializing application') {
     this.errorMessage.next(message);
-    return false;
+    return of(false);
   }
 }
