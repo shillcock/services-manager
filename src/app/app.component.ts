@@ -38,6 +38,10 @@ export class AppComponent {
     return this.auth.authorized$;
   }
 
+  get errorMessage$() {
+    return this.auth.errorMessage$;
+  }
+
   get clients$() {
     return this.sm.clients$;
   }

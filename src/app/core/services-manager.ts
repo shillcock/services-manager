@@ -84,8 +84,8 @@ export class ServicesManager {
   }
 
   private handleOk(response: any) {
-    const clients: IClient[] = Object.keys(response.clients).map(key => {
-      return response.clients[key] as IClient;
+    const clients: IClient[] = Object.keys(response).map(key => {
+      return response[key] as IClient;
     });
 
     this.clients.next(clients);

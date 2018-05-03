@@ -46,11 +46,14 @@ export class AuthService {
   }
 
   private handleOk(user: IUser) {
+    console.log('Auth:', user);
     this.user.next(user);
+    this.errorMessage.next(undefined);
     return true;
   }
 
   private handleError(message = 'Error initializing application') {
+    console.error('AuthError:', message);
     this.errorMessage.next(message);
     return of(false);
   }

@@ -33,10 +33,20 @@
 </ng-container>
 
 <ng-template #authorizing>
-  <mat-card>
-    <mat-card-title class="center">Authorizing Application</mat-card-title>
-    <mat-card-content fxLayout fxLayoutAlign="center">
-      <mat-spinner></mat-spinner>
-    </mat-card-content>
+  <mat-card *ngIf="(errorMessage$ | async) as error; else loading">
+    <mat-card-content>
+    <h2>Unable to authorize application</h2>
+    <button mat-raised-button color="warn" routerLink="/">
+      Go Home
+    </button>
+  </mat-card-content>
   </mat-card>
+  <ng-template #loading>
+    <mat-card>
+      <mat-card-title class="center">Authorizing Application</mat-card-title>
+      <mat-card-content fxLayout fxLayoutAlign="center">
+        <ng-template #loading><mat-spinner></mat-spinner></ng-template>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
 </ng-template>
