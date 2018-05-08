@@ -13,9 +13,11 @@ export class SidebarService {
   toggle() {
     this.isOpen.next(!this.isOpen.getValue());
   }
+
   open() {
     this.isOpen.next(true);
   }
+
   close() {
     this.isOpen.next(false);
   }

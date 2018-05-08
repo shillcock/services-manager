@@ -1,34 +1,16 @@
-<sm-app-shell *ngIf="client; else clientNotFound" [appName]="client?.label">
+<sm-app-shell *ngIf="client; else loading" [appName]="client?.label">
   <nav>
-    <a *ngFor="let service of client?.services" mat-button [routerLink]="['..', service.id]" routerLinkActive="mat-accent">
-      {{service.label}}
-    </a>
+    <a mat-button [routerLink]="['commands']" routerLinkActive="mat-accent">Commands</a>
   </nav>
-
-  <div class="sm-client">
-    <mat-card>
-      <mat-card-content>
-        <h2>{{service?.label}}</h2>
-        <div class="service-content">
-          <ng-container *ngIf="(serviceContext$ | async) as context; else loading">
-            <sm-service [context]="context"></sm-service>
-          </ng-container>
-          <ng-template #loading>
-            <sm-loading text="Loading"></sm-loading>
-          </ng-template>
-        </div>
-      </mat-card-content>
-    </mat-card>
+  <div class="client-content">
+    <router-outlet></router-outlet>
   </div>
 </sm-app-shell>
 
-<ng-template #clientNotFound>
+<ng-template #loading>
   <mat-card>
     <mat-card-content>
-      <h2>Client not found</h2>
-      <button mat-raised-button color="warn" routerLink="/">
-        Go Home
-      </button>
+      <sm-loading text="Loading"></sm-loading>
     </mat-card-content>
   </mat-card>
 </ng-template>

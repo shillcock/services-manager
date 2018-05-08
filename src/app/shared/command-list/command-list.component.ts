@@ -1,9 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { ICommand } from '@app/core/models';
-
-import { SubmitCommandDialogComponent } from '../submit-command-dialog/submit-command-dialog.component';
 
 @Component({
   selector: 'sm-command-list',
@@ -12,19 +9,11 @@ import { SubmitCommandDialogComponent } from '../submit-command-dialog/submit-co
 })
 export class CommandListComponent {
   @Input() commands: ICommand[];
+  @Output() submit = new EventEmitter();
 
-  constructor(private dialog: MatDialog) {}
+  constructor() {}
 
   onSubmit(command: ICommand, payload: any) {
-    const config = {
-      disableClose: true,
-      minWidth: 400,
-      data: { command, payload }
-    };
-
-    const dialogRef = this.dialog.open(SubmitCommandDialogComponent, config);
-    dialogRef
-      .afterClosed()
-      .subscribe(res => console.log('DIALOG CLOSED:', res));
+    this.submit.emit({ command, payload });
   }
 }

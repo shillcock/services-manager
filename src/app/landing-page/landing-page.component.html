@@ -1,26 +1,17 @@
 <sm-app-shell>
   <div class="landing-page">
-    <ng-container *ngIf="(clients$ | async) as clients; else noClients">
+    <ng-container *ngIf="clients; else loading">
       <mat-card class="client" *ngFor="let client of clients">
-        <mat-card-title>
-          {{client.label}}
-        </mat-card-title>
-        <mat-card-content>
+        <mat-card-content fxLayout="row" fxLayoutGap="20px">
+          <a mat-raised-button [routerLink]="['client', client.id]" color="primary">{{client.label}}</a>
           <p>{{client.description}}</p>
         </mat-card-content>
-        <mat-card-actions>
-          <a *ngFor="let service of client.services" mat-button [routerLink]="getClientPath(client, service)">
-            {{service.label}}
-          </a>
-        </mat-card-actions>
       </mat-card>
     </ng-container>
 
-    <ng-template #noClients>
+    <ng-template #loading>
       <mat-card>
-        <mat-card-content>
-          <h2>No clients configured</h2>
-        </mat-card-content>
+        <sm-loading text="Loading"></sm-loading>
       </mat-card>
     </ng-template>
   </div>

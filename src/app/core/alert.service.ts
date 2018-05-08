@@ -6,7 +6,7 @@ export class AlertService {
   constructor(private snackBar: MatSnackBar) {}
 
   notify(message: string, action: string = 'Close', config?: any) {
-    const defaults = {
+    const defaults: MatSnackBarConfig = {
       duration: 10000,
       horizontalPosition: 'right',
       verticalPosition: 'top'

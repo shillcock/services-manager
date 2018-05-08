@@ -1,27 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
 
 import { ServicesManager } from './core';
 import { SidebarService } from './core/sidebar.service';
 
-import { IClient, IService } from './core/models';
+import { IClient } from './core/models';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'sm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   readonly appName = 'Services Manager';
   readonly menuItems = [
     { text: 'Home', path: '/' },
     { text: 'Scheduling', path: '/scheduling' }
   ];
+
+  clients: IClient[];
+  private destroyed$ = new Subject<boolean>();
+
+  get authorized$() {
+    return this.auth.authorized$;
+  }
+
+  get errorMessage$() {
+    return this.auth.errorMessage$;
+  }
+
+  get sidebarOpen$() {
+    return this.sidebar.open$;
+  }
 
   constructor(
     private router: Router,
@@ -32,22 +47,15 @@ export class AppComponent {
     router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.sidebar.close());
+
+    sm.clients$.pipe(takeUntil(this.destroyed$)).subscribe(clients => {
+      this.clients = Object.keys(clients).map(key => clients[key]);
+    });
   }
 
-  get authorized$() {
-    return this.auth.authorized$;
-  }
-
-  get errorMessage$() {
-    return this.auth.errorMessage$;
-  }
-
-  get clients$() {
-    return this.sm.clients$;
-  }
-
-  get sidebarOpen$() {
-    return this.sidebar.open$;
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   sidebarOpened() {
@@ -61,9 +69,5 @@ export class AppComponent {
   logout() {
     // TODO: handle logout
     // window.location.href = '/gfmui/logout';
-  }
-
-  clientPath(client: IClient) {
-    return this.sm.getClientPath(client);
   }
 }

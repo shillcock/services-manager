@@ -14,7 +14,6 @@ import {
 import { AppShellComponent } from './app-shell/app-shell.component';
 import { CommandListComponent } from './command-list';
 import { LoadingComponent } from './loading.component';
-import { SubmitCommandDialogComponent } from './submit-command-dialog/submit-command-dialog.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule],
@@ -25,8 +24,7 @@ import { SubmitCommandDialogComponent } from './submit-command-dialog/submit-com
     DynamicFormComponent,
     AppShellComponent,
     CommandListComponent,
-    LoadingComponent,
-    SubmitCommandDialogComponent
+    LoadingComponent
   ],
   declarations: [
     DynamicFormComponent,
@@ -35,13 +33,8 @@ import { SubmitCommandDialogComponent } from './submit-command-dialog/submit-com
     FormInputComponent,
     AppShellComponent,
     CommandListComponent,
-    LoadingComponent,
-    SubmitCommandDialogComponent
+    LoadingComponent
   ],
-  entryComponents: [
-    FormButtonComponent,
-    FormInputComponent,
-    SubmitCommandDialogComponent
-  ]
+  entryComponents: [FormButtonComponent, FormInputComponent]
 })
 export class SharedModule {}

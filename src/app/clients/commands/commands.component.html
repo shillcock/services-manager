@@ -1,0 +1,14 @@
+<div class="sm-commands">
+  <mat-card>
+    <mat-card-content>
+      <div class="commands-renderer" *ngIf="commands.length; else noCommands">
+        <sm-command-list [commands]="commands" (submit)="onSubmit($event)"></sm-command-list>
+      </div>
+      <ng-template #noCommands>
+      <h2>No commands configured.</h2>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
