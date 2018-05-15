@@ -48,9 +48,9 @@ export class AppComponent implements OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.sidebar.close());
 
-    sm.clients$.pipe(takeUntil(this.destroyed$)).subscribe(clients => {
-      this.clients = Object.keys(clients).map(key => clients[key]);
-    });
+    sm.clients$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(clients => this.clients = Object.values(clients));
   }
 
   ngOnDestroy() {
