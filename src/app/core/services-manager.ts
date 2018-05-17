@@ -9,7 +9,7 @@ import { API } from '@app/shared/consts';
 import { IClient } from './models';
 import { Subscription } from 'rxjs/Subscription';
 
-interface IClientsMap {
+export interface IClientsMap {
   [id: string]: IClient;
 }
 
@@ -38,7 +38,7 @@ export class ServicesManager {
     );
   }
 
-  private fetchClients() {
+  fetchClients() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -54,7 +54,10 @@ export class ServicesManager {
         if (command) {
           const endpoint = command.endpoint || command.id;
           if (!endpoint.startsWith('http')) {
-            command.endpoint = `${client.host}/${endpoint}`;
+            client.commands[key] = {
+              ...command,
+              endpoint: `${client.host}/${endpoint}`
+            };
           }
         }
       });

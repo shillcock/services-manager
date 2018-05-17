@@ -29,7 +29,7 @@ export class CommandService {
     );
   }
 
-  proxy(method: 'GET' | 'POST', url: string, payload: any = {}) {
+  private proxy(method: 'GET' | 'POST', url: string, payload: any = {}) {
     console.log('proxy:', method, url, payload);
     return this.http.post(API.getProxy, { method, url, payload });
   }

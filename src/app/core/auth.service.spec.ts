@@ -1,26 +1,58 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
-import { MODEL_PROVIDER, ModelFactory } from './model.service';
+import { API } from '@app/shared/consts';
 import { AuthService } from './auth.service';
-
-interface TestModel {
-  value: string;
-}
+import { IUser } from '@app/core/models';
 
 describe('AuthService', () => {
+  let service: AuthService;
+  let httpMock: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthService, MODEL_PROVIDER]
+      imports: [HttpClientTestingModule],
+      providers: [AuthService]
     });
+
+    service = TestBed.get(AuthService);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
-  it(
-    'should be created',
-    inject(
-      [AuthService, ModelFactory],
-      (service: AuthService, modelFactory: ModelFactory<TestModel>) => {
-        expect(service).toBeTruthy();
-      }
-    )
-  );
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should be created and fetch auth state', () => {
+    const mockUser = {
+      edi: '1234567890',
+      name: 'Bob',
+      roles: ['admin']
+    } as IUser;
+
+    let currentUser: IUser | undefined;
+    let userAuthorized = false;
+
+    expect(service).toBeTruthy();
+
+    service.user$.subscribe(user => {
+      currentUser = user;
+    });
+
+    service.authorized$.subscribe(value => {
+      userAuthorized = value;
+    });
+
+    const req = httpMock.expectOne(API.getAuth);
+    expect(req.request.method).toBe('GET');
+    req.flush({ user: mockUser });
+
+    expect(currentUser).toBeTruthy();
+    expect(currentUser).toEqual(mockUser);
+
+    expect(userAuthorized).toBeTruthy();
+  });
 });
