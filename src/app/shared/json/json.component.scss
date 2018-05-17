@@ -1,0 +1,24 @@
+.sm-json pre {
+  background-color: #eee;
+}
+
+.sm-json .json-string {
+  color: grey;
+}
+
+.sm-json .json-number {
+  color: blue;
+}
+
+.sm-json .json-boolean {
+  color: red;
+}
+
+.sm-json .json-null {
+  color: magenta;
+}
+
+.sm-json .json-key {
+  color: purple;
+}
+

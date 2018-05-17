@@ -9,6 +9,7 @@ import { DynamicFormModule } from './dynamic-form';
 import { AppShellComponent } from './app-shell/app-shell.component';
 import { CommandListComponent } from './command-list';
 import { LoadingComponent } from './loading.component';
+import { JsonComponent } from './json/json.component';
 
 @NgModule({
   imports: [
@@ -24,8 +25,14 @@ import { LoadingComponent } from './loading.component';
     MaterialModule,
     AppShellComponent,
     CommandListComponent,
-    LoadingComponent
+    LoadingComponent,
+    JsonComponent
   ],
-  declarations: [AppShellComponent, CommandListComponent, LoadingComponent]
+  declarations: [
+    AppShellComponent,
+    CommandListComponent,
+    LoadingComponent,
+    JsonComponent
+  ]
 })
 export class SharedModule {}
