@@ -11,8 +11,10 @@ import { AUTH_INTERCEPTOR_PROVIDER } from './auth-interceptor';
 import { MODEL_PROVIDER } from './model.service';
 import { SidebarService } from './sidebar.service';
 
+import { MaterialModule } from '@app/shared/material.module';
+
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, MaterialModule],
   providers: [
     AUTH_INTERCEPTOR_PROVIDER,
     MODEL_PROVIDER,

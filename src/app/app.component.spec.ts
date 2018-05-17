@@ -8,8 +8,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
 import { AuthService, ServicesManager, SidebarService } from '@app/core';
-import { LoaderComponent } from '@app/core/loader/loader.component';
-import { LoaderService } from '@app/core/loader/loader.service';
 import { MaterialModule } from '@app/shared/material.module';
 
 import { AppComponent } from './app.component';
@@ -83,10 +81,9 @@ describe('AppComponent', () => {
       providers: [
         { provide: AuthService, useValue: authServiceStub },
         { provide: ServicesManager, useValue: servicesManagerStub },
-        SidebarService,
-        LoaderService
+        SidebarService
       ],
-      declarations: [AppComponent, LoaderComponent]
+      declarations: [AppComponent]
     }).compileComponents();
 
     // authService = TestBed.get(AuthService);
