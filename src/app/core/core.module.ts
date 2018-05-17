@@ -6,6 +6,7 @@ import { AlertService } from './alert.service';
 import { AuthService } from './auth.service';
 import { CommandService } from './command.service';
 import { ServicesManager } from './services-manager';
+import { SchedulesService } from './schedules.service';
 
 import { AUTH_INTERCEPTOR_PROVIDER } from './auth-interceptor';
 import { MODEL_PROVIDER } from './model.service';
@@ -20,6 +21,7 @@ import { SidebarService } from './sidebar.service';
     AuthService,
     CommandService,
     ServicesManager,
+    SchedulesService,
     SidebarService
   ]
 })

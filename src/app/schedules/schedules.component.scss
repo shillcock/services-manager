@@ -1,0 +1,28 @@
+mat-card {
+  margin: 15px;
+  min-width: 300px;
+  flex: 1;
+}
+
+.schedules-page {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.readonly {
+   background-color: #eee;
+}
+
+.add-fab {
+	font-size: xx-large;
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+}
+
+@media(min-width: 1024px) {
+   .add-fab {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}

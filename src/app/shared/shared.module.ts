@@ -15,6 +15,8 @@ import { AppShellComponent } from './app-shell/app-shell.component';
 import { CommandListComponent } from './command-list';
 import { LoadingComponent } from './loading.component';
 
+import { ContenteditableModel } from './contenteditable-model.directive';
+
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule],
   exports: [
@@ -24,7 +26,8 @@ import { LoadingComponent } from './loading.component';
     DynamicFormComponent,
     AppShellComponent,
     CommandListComponent,
-    LoadingComponent
+    LoadingComponent,
+    ContenteditableModel
   ],
   declarations: [
     DynamicFormComponent,
@@ -33,7 +36,8 @@ import { LoadingComponent } from './loading.component';
     FormInputComponent,
     AppShellComponent,
     CommandListComponent,
-    LoadingComponent
+    LoadingComponent,
+    ContenteditableModel
   ],
   entryComponents: [FormButtonComponent, FormInputComponent]
 })
