@@ -22,9 +22,7 @@ export class CommandsComponent implements OnInit {
       this.route.parent.data.subscribe((data: { client: IClient }) => {
         if (data && data.client) {
           this.client = data.client;
-          this.commands = Object.keys(this.client.commands).map(
-            key => this.client.commands[key]
-          );
+          this.commands = Object.values(this.client.commands);
         }
       });
     }

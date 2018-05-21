@@ -20,11 +20,7 @@ export class LandingPageComponent implements OnDestroy {
     sm.clients$
       .pipe(
         takeUntil(this.destroyed$),
-        map(clientMap => {
-          return Object.keys(clientMap).map(key => {
-            return clientMap[key];
-          });
-        })
+        map(clientMap => Object.values(clientMap))
       )
       .subscribe(clients => (this.clients = clients));
   }

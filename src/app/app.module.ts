@@ -12,6 +12,8 @@ import { ClientsModule } from './clients/clients.module';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { SchedulesComponent } from './schedules/schedules.component';
+import { ScheduleEditDialog } from './schedules/schedule-edit-dialog.component';
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
@@ -44,7 +46,8 @@ export class AppErrorHandler implements ErrorHandler {
     ClientsModule
   ],
   providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
-  declarations: [AppComponent, LandingPageComponent],
+  declarations: [AppComponent, LandingPageComponent, SchedulesComponent, ScheduleEditDialog],
+  entryComponents: [ScheduleEditDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

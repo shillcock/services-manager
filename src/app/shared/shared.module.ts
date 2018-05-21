@@ -4,35 +4,41 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from './material.module';
 
-import { DynamicFormModule } from './dynamic-form';
+import {
+  DynamicFieldDirective,
+  FormInputComponent,
+  DynamicFormComponent,
+  FormButtonComponent
+} from './dynamic-form';
 
 import { AppShellComponent } from './app-shell/app-shell.component';
 import { CommandListComponent } from './command-list';
 import { LoadingComponent } from './loading.component';
-import { JsonComponent } from './json/json.component';
+
+import { ContenteditableModel } from './contenteditable-model.directive';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    DynamicFormModule
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule],
   exports: [
     CommonModule,
     FormsModule,
     MaterialModule,
+    DynamicFormComponent,
     AppShellComponent,
     CommandListComponent,
     LoadingComponent,
-    JsonComponent
+    ContenteditableModel
   ],
   declarations: [
+    DynamicFormComponent,
+    DynamicFieldDirective,
+    FormButtonComponent,
+    FormInputComponent,
     AppShellComponent,
     CommandListComponent,
     LoadingComponent,
-    JsonComponent
-  ]
+    ContenteditableModel
+  ],
+  entryComponents: [FormButtonComponent, FormInputComponent]
 })
 export class SharedModule {}
