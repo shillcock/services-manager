@@ -14,19 +14,16 @@ interface ISchedulesMap {
 @Injectable()
 export class SchedulesService {
   private schedulesMap$?: Observable<ISchedulesMap>;
-  
+
   get schedules$() {
-    this.schedulesMap$ = this.http
-      .get<ISchedulesMap>(API.schedules);    
-    
+    this.schedulesMap$ = this.http.get<ISchedulesMap>(API.schedules);
+
     return this.schedulesMap$;
   }
 
-  constructor(private http: HttpClient) { } 
-  
+  constructor(private http: HttpClient) {}
+
   upsertSchedules(schedules: any) {
-    return this.http
-      .post(API.schedules, schedules);
+    return this.http.post(API.schedules, schedules);
   }
-    
 }

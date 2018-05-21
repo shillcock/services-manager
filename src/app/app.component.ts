@@ -50,7 +50,7 @@ export class AppComponent implements OnDestroy {
 
     sm.clients$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe(clients => this.clients = Object.values(clients));
+      .subscribe(clients => (this.clients = Object.values(clients)));
   }
 
   ngOnDestroy() {

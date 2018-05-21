@@ -46,7 +46,12 @@ export class AppErrorHandler implements ErrorHandler {
     ClientsModule
   ],
   providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
-  declarations: [AppComponent, LandingPageComponent, SchedulesComponent, ScheduleEditDialog],
+  declarations: [
+    AppComponent,
+    LandingPageComponent,
+    SchedulesComponent,
+    ScheduleEditDialog
+  ],
   entryComponents: [ScheduleEditDialog],
   bootstrap: [AppComponent]
 })
