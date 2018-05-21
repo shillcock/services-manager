@@ -17,7 +17,6 @@ export class LandingPageComponent implements OnDestroy {
   private destroyed$ = new Subject<boolean>();
 
   constructor(private sm: ServicesManager) {
-    console.log(this);
     sm.clients$
       .pipe(
         takeUntil(this.destroyed$),

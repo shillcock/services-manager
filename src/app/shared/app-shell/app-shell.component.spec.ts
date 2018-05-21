@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 import { of } from 'rxjs/observable/of';
 
 import { MaterialModule } from '@app/shared/material.module';
 import { LoadingComponent } from '@app/shared/loading.component';
-import { AppShellComponent } from '@app/shared/app-shell/app-shell.component';
 
-import { ServicesManager, SidebarService } from '@app/core';
+import { SidebarService } from '@app/core';
 
-import { LandingPageComponent } from './landing-page.component';
-import { By } from '@angular/platform-browser';
+import { AppShellComponent } from './app-shell.component';
 
 const smState = {
   clients: {
@@ -51,34 +50,27 @@ const smState = {
   }
 };
 
-describe('LandingPageComponent', () => {
-  let component: LandingPageComponent;
-  let fixture: ComponentFixture<LandingPageComponent>;
-  let sm: ServicesManager;
+describe('AppShellComponent', () => {
+  let component: AppShellComponent;
+  let fixture: ComponentFixture<AppShellComponent>;
+  // let sm: ServicesManager;
 
-  const servicesManagerStub = {
-    clients$: of(smState.clients)
-  };
+  // const servicesManagerStub = {
+  //   clients$: of(smState.clients)
+  // };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MaterialModule],
-      providers: [
-        { provide: ServicesManager, useValue: servicesManagerStub },
-        SidebarService
-      ],
-      declarations: [LandingPageComponent, LoadingComponent, AppShellComponent]
+      imports: [MaterialModule],
+      providers: [SidebarService],
+      declarations: [AppShellComponent]
     });
 
-    fixture = TestBed.createComponent(LandingPageComponent);
+    fixture = TestBed.createComponent(AppShellComponent);
     component = fixture.componentInstance;
-
-    sm = TestBed.get(ServicesManager);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should display each client', () => {});
 });

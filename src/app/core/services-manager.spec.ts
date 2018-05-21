@@ -138,12 +138,14 @@ describe('ServicesManagerService', () => {
       service.getClient(mockClient1.id).subscribe(next => {
         expect(next).toBeTruthy();
 
-        const command = next.commands.status;
-        expect(command.id).toBe(mockCommand1.id);
+        if (next) {
+          const command = next.commands.status;
+          expect(command.id).toBe(mockCommand1.id);
 
-        const fullEndpoint = mockClient1.host + '/' + mockCommand1.endpoint;
-        expect(command.endpoint).not.toEqual(mockCommand1.endpoint);
-        expect(command.endpoint).toEqual(fullEndpoint);
+          const fullEndpoint = mockClient1.host + '/' + mockCommand1.endpoint;
+          expect(command.endpoint).not.toEqual(mockCommand1.endpoint);
+          expect(command.endpoint).toEqual(fullEndpoint);
+        }
       });
     });
 
@@ -151,12 +153,14 @@ describe('ServicesManagerService', () => {
       service.getClient(mockClient2.id).subscribe(next => {
         expect(next).toBeTruthy();
 
-        const command = next.commands.status;
-        expect(command.id).toBe(mockCommand2.id);
+        if (next) {
+          const command = next.commands.status;
+          expect(command.id).toBe(mockCommand2.id);
 
-        const fullEndpoint = mockClient2.host + '/' + mockCommand2.endpoint;
-        expect(command.endpoint).toEqual(mockCommand2.endpoint);
-        expect(command.endpoint).not.toEqual(fullEndpoint);
+          const fullEndpoint = mockClient2.host + '/' + mockCommand2.endpoint;
+          expect(command.endpoint).toEqual(mockCommand2.endpoint);
+          expect(command.endpoint).not.toEqual(fullEndpoint);
+        }
       });
     });
   });
