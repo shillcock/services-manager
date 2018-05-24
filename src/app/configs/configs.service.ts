@@ -4,17 +4,18 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 
 import { API } from '@app/shared/consts';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ConfigsService {
   constructor(private http: HttpClient) {}
 
-  getConfig(configId: string) {
+  getConfig(configId: string): Observable<any> {
     const url = configUrl(configId);
     return url ? this.http.get(url) : of(undefined);
   }
 
-  updateConfig(configId: string, config: any) {
+  updateConfig(configId: string, config: any): Observable<any> {
     const url = configUrl(configId);
     return url ? this.http.post(url, config) : of(undefined);
   }

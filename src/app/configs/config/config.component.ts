@@ -18,7 +18,7 @@ export class ConfigComponent implements CanComponentDeactivate {
   @ViewChild(ConfigEditComponent) editor: ConfigEditComponent;
 
   readonly configItems = ConfigItems;
-  configId: string;
+  configId: string | null;
   config: any;
   edit: boolean;
   working: boolean;
@@ -60,6 +60,11 @@ export class ConfigComponent implements CanComponentDeactivate {
   }
 
   onUpdate(config: any) {
+    if (!this.configId) {
+      this.alerts.notify('Failed to update config: unknown configId');
+      return;
+    }
+
     this.working = true;
     this.configs.updateConfig(this.configId, config).subscribe(
       (result: any) => {

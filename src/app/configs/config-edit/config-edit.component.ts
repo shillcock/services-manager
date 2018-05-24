@@ -24,27 +24,15 @@ export class ConfigEditComponent implements OnChanges {
   @Output() cancel = new EventEmitter<void>();
 
   dirty = false;
-
-  form = new FormGroup({
-    json: new FormControl('', jsonValidator)
-  });
-
   matcher = new ErrorMatcher();
+  jsonEditor = new FormControl('', jsonValidator);
 
-  get jsonControl() {
-    return this.form.get('json');
+  get editorHasError() {
+    return this.jsonEditor.hasError('json');
   }
 
-  get jsonHasError() {
-    if (this.jsonControl) {
-      return this.jsonControl.hasError('json');
-    }
-  }
-
-  get jsonGetError() {
-    if (this.jsonControl) {
-      return this.jsonControl.getError('json');
-    }
+  get editorGetError() {
+    return this.jsonEditor.getError('json');
   }
 
   isDirty(): boolean {
@@ -52,7 +40,8 @@ export class ConfigEditComponent implements OnChanges {
     try {
       if (this.dirty) {
         const lhs = JSON.stringify(this.config);
-        const rhs = JSON.stringify(JSON.parse(this.jsonControl.value));
+        const newConfig = JSON.parse(this.jsonEditor.value);
+        const rhs = JSON.stringify(newConfig);
         dirty = lhs !== rhs;
       }
     } catch (err) {
@@ -64,7 +53,7 @@ export class ConfigEditComponent implements OnChanges {
 
   ngOnChanges() {
     const json = JSON.stringify(this.config, null, 2);
-    this.form.setValue({ json });
+    this.jsonEditor.setValue(json);
   }
 
   onKeyPress(event: any) {
@@ -82,9 +71,8 @@ export class ConfigEditComponent implements OnChanges {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      const { json } = this.form.value;
-      const updatedConfig = JSON.parse(json);
+    if (this.jsonEditor.valid) {
+      const updatedConfig = JSON.parse(this.jsonEditor.value);
       this.update.emit(updatedConfig);
     }
   }

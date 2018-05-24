@@ -26,10 +26,10 @@ export class ConfigResolver implements Resolve<any> {
     state: RouterStateSnapshot
   ): Observable<any> {
     const configId = route.paramMap.get('configId');
-    // if (!configId) {
-    //   this.alertAndRedirectHome();
-    //   return of(undefined);
-    // }
+    if (!configId) {
+      this.alertAndRedirectHome(configId);
+      return of(null);
+    }
 
     return this.configs
       .getConfig(configId)
@@ -39,7 +39,7 @@ export class ConfigResolver implements Resolve<any> {
       );
   }
 
-  private alertAndRedirectHome(configId = '') {
+  private alertAndRedirectHome(configId: string | null) {
     this.router.navigate(['/']);
     this.alertService.notify(`${configId} config not found.`);
   }
