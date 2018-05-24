@@ -37,7 +37,7 @@ export class AuthService {
 
   private fetchAuthState() {
     this.http
-      .get<IAuthResponse>(API.getAuth)
+      .get<IAuthResponse>(API.auth)
       .pipe(
         map(response => this.handleOk(response.user)),
         catchError(err => this.handleError(err.message))

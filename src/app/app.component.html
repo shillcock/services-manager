@@ -8,17 +8,26 @@
       </mat-toolbar>
       <mat-nav-list>
         <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="selected" mat-list-item>
-          <span>{{item.text}}</span>
+          <span>{{item.label}}</span>
           <!-- <mat-icon mat-list-icon *ngIf="item.icon" [svgIcon]="item.icon"></mat-icon> -->
         </a>
+        <mat-divider></mat-divider>
         <ng-container *ngIf="clients?.length">
-          <mat-divider></mat-divider>
+          <h3 mat-subheader>Clients</h3>
           <a *ngFor="let client of clients" [routerLink]="['client', client.id]" routerLinkActive="selected" mat-list-item>
             <mat-icon mat-list-icon *ngIf="client.icon" [svgIcon]="client.icon"></mat-icon>
             <span>{{client.label}}</span>
           </a>
         </ng-container>
         <mat-divider></mat-divider>
+        <ng-container *ngIf="configItems?.length">
+          <h3 mat-subheader>Configs</h3>
+          <a *ngFor="let item of configItems" [routerLink]="['config', item.path]" routerLinkActive="selected" mat-list-item>
+            <span>{{item.label}}</span>
+          </a>
+          <mat-divider></mat-divider>
+        </ng-container>
+
         <a mat-list-item routerLink="/logout" (click)="logout()">
           <span>Logout</span>
           <!-- <mat-icon mat-list-icon svgIcon="user-solid-circle"></mat-icon> -->

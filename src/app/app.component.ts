@@ -10,6 +10,7 @@ import { SidebarService } from './core/sidebar.service';
 
 import { IClient } from './core/models';
 import { Subject } from 'rxjs/Subject';
+import { ConfigItems } from './shared/consts';
 
 @Component({
   selector: 'sm-root',
@@ -19,9 +20,11 @@ import { Subject } from 'rxjs/Subject';
 export class AppComponent implements OnDestroy {
   readonly appName = 'Services Manager';
   readonly menuItems = [
-    { text: 'Home', path: '/' },
-    { text: 'Scheduling', path: '/scheduling' }
+    { label: 'Home', path: '/' },
+    { label: 'Scheduling', path: '/scheduling' }
   ];
+
+  readonly configItems = ConfigItems;
 
   clients: IClient[];
   private destroyed$ = new Subject<boolean>();
@@ -68,6 +71,6 @@ export class AppComponent implements OnDestroy {
 
   logout() {
     // TODO: handle logout
-    // window.location.href = '/gfmui/logout';
+    window.location.href = '/gfmui/logout';
   }
 }

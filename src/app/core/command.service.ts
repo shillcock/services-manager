@@ -31,7 +31,7 @@ export class CommandService {
 
   private proxy(method: 'GET' | 'POST', url: string, payload: any = {}) {
     console.log('proxy:', method, url, payload);
-    return this.http.post(API.getProxy, { method, url, payload });
+    return this.http.post(API.proxy, { method, url, payload });
   }
 
   private handleError(err: any) {

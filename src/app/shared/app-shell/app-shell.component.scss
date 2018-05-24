@@ -2,6 +2,10 @@
   min-height: 100vh;
 }
 
+mat-icon {
+  transform: scale(0.8);
+}
+
 mat-toolbar span {
   margin-left: 10px;
   margin-right: 10px;

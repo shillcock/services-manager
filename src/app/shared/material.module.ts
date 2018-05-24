@@ -81,12 +81,15 @@ export class MaterialModule {
   ) {
     const icons = [
       'calendar',
+      'checkmark',
       'checkmark-outline',
+      'close',
       'cloud-upload',
       'exclamation-solid',
       'home',
       'menu',
-      'user-solid-circle'
+      'user-solid-circle',
+      'edit-pencil'
     ];
 
     icons.forEach(iconName => {

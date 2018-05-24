@@ -54,7 +54,7 @@ describe('CommandService', () => {
         expect(results.meta).toEqual(mockStatus.meta);
       });
 
-    const req = httpMock.expectOne(API.getProxy);
+    const req = httpMock.expectOne(API.proxy);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual({
       method: mockCommand.method,

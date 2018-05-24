@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'scheduling',
     component: SchedulesComponent
   },
+  {
+    path: 'config',
+    loadChildren: './configs/configs.module#ConfigsModule'
+  },
   { path: '**', redirectTo: '/' }
 ];
 

@@ -21,7 +21,7 @@ export class ServicesManager {
   get clients$() {
     if (!this.clientMap$) {
       this.clientMap$ = this.http
-        .get<IClientsMap>(API.getClients)
+        .get<IClientsMap>(API.clients)
         .pipe(publishReplay(1), refCount());
     }
 
@@ -45,6 +45,12 @@ export class ServicesManager {
 
     this.clientMap$ = undefined;
     this.subscription = this.clients$.subscribe();
+  }
+
+  updateClients(clientsMap: IClientsMap) {
+    this.http.post(API.clients, clientsMap).subscribe(result => {
+      console.log('UPDATE CLIENTS:', result);
+    });
   }
 
   private postProcess(client: IClient | undefined) {

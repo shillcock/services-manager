@@ -62,7 +62,7 @@ describe('ServicesManagerService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    httpMock.expectOne(API.getClients);
+    httpMock.expectOne(API.clients);
   });
 
   describe('.clients$', () => {
@@ -73,13 +73,13 @@ describe('ServicesManagerService', () => {
         expect(next.client2).toEqual(mockClients.client2);
       });
 
-      const req = httpMock.expectOne(API.getClients);
+      const req = httpMock.expectOne(API.clients);
       expect(req.request.method).toBe('GET');
       req.flush(mockClients);
     });
 
     it('should cache and return last results', () => {
-      const req = httpMock.expectOne(API.getClients);
+      const req = httpMock.expectOne(API.clients);
       expect(req.request.method).toBe('GET');
       req.flush(mockClients);
 
@@ -91,13 +91,13 @@ describe('ServicesManagerService', () => {
         expect(Object.keys(next).length).toBe(2);
       });
 
-      httpMock.expectNone(API.getClients);
+      httpMock.expectNone(API.clients);
     });
   });
 
   describe('#fetchClients', () => {
     it('should refresh clients from server', () => {
-      const req = httpMock.expectOne(API.getClients);
+      const req = httpMock.expectOne(API.clients);
       expect(req.request.method).toBe('GET');
       req.flush(mockClients);
 
@@ -106,7 +106,7 @@ describe('ServicesManagerService', () => {
       });
 
       service.fetchClients();
-      httpMock.expectOne(API.getClients).flush({ client1: mockClient1 });
+      httpMock.expectOne(API.clients).flush({ client1: mockClient1 });
 
       service.clients$.subscribe(next => {
         expect(Object.keys(next).length).toBe(1);
@@ -116,7 +116,7 @@ describe('ServicesManagerService', () => {
 
   describe('#getClient', () => {
     beforeEach(() => {
-      const req = httpMock.expectOne(API.getClients);
+      const req = httpMock.expectOne(API.clients);
       expect(req.request.method).toBe('GET');
       req.flush(mockClients);
     });

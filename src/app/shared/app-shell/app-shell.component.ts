@@ -1,9 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { map, filter } from 'rxjs/operators';
-
-import { IClient } from '@app/core/models';
 import { SidebarService } from '@app/core/sidebar.service';
 
 @Component({
@@ -14,9 +10,7 @@ import { SidebarService } from '@app/core/sidebar.service';
 export class AppShellComponent {
   @Input() appName = 'Services Manager';
 
-  constructor(private sidebar: SidebarService) {
-    console.log(this);
-  }
+  constructor(private sidebar: SidebarService) {}
 
   sidebarToggle() {
     this.sidebar.toggle();

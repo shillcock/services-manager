@@ -1,0 +1,35 @@
+<mat-card>
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <!--
+    <mat-card-title>
+    <button type="submit" mat-raised-button color="primary">
+      Save <mat-icon svgIcon="checkmark"></mat-icon>
+    </button>
+    <button type="button" mat-raised-button color="accent" (click)="onCancel()">
+      Cancel <mat-icon svgIcon="close"></mat-icon>
+    </button>
+    </mat-card-title>
+    -->
+    <mat-card-content>
+      <mat-form-field class="full-width">
+        <textarea
+          matInput
+          matTextareaAutosize
+          matAutosizeMinRows="4"
+          [errorStateMatcher]="matcher"
+          (keydown)="onKeyPress($event)"
+          formControlName="json">
+        </textarea>
+        <mat-error *ngIf="jsonHasError">{{jsonGetError}}</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions fxLayout>
+      <button type="submit" mat-raised-button color="primary" fxLayout="row" [disabled]="form.invalid || working">
+        {{ working ? 'Saving...' : 'Save'}} <mat-icon svgIcon="checkmark"></mat-icon>
+      </button>
+      <button type="button" mat-button (click)="onCancel()" [disabled]="working">
+        Cancel <mat-icon svgIcon="close"></mat-icon>
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

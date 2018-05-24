@@ -4,7 +4,7 @@
       <a mat-mini-fab (click)="sidebarToggle()">
         <mat-icon aria-label="Menu" svgIcon="menu"></mat-icon>
       </a>
-      <span>{{appName}}</span>
+      <span class="app-name">{{appName || 'Services Manager'}}</span>
       <ng-content select="nav"></ng-content>
       <!--
       <a mat-button routerLink="/">Home</a>

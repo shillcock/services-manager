@@ -1,8 +1,8 @@
 <sm-app-shell>
-  <div class="landing-page">
+  <div class="sm-landing-page" fxLayout="row wrap">
     <ng-container *ngIf="clients; else loading">
-      <mat-card class="client" *ngFor="let client of clients">
-        <mat-card-content fxLayout="row" fxLayoutGap="20px">
+      <mat-card class="client" fxFlex *ngFor="let client of clients">
+        <mat-card-content fxLayout fxLayoutGap="20px">
           <a mat-raised-button [routerLink]="['client', client.id]" color="primary">{{client.label}}</a>
           <p>{{client.description}}</p>
         </mat-card-content>

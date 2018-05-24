@@ -1,8 +1,10 @@
 export enum API {
-  getAuth = '/gfmui/api/auth',
-  getClients = '/gfmui/api/clients',
-  getProxy = '/gfmui/api/proxy',
-  schedules = '/gfmui/api/schedules'
+  auth = '/gfmui/api/auth',
+  clients = '/gfmui/api/clients',
+  proxy = '/gfmui/api/proxy',
+  roles = '/gfmui/api/roles',
+  schedules = '/gfmui/api/schedules',
+  settings = '/gfmui/api/settings'
 }
 
 export enum MODIFY_ACTIONS {
@@ -10,3 +12,10 @@ export enum MODIFY_ACTIONS {
   edit = 'EDIT',
   delete = 'DELETE'
 }
+
+export const ConfigItems = [
+  { label: 'Clients', path: 'clients' },
+  { label: 'Roles', path: 'roles' },
+  { label: 'Schedules', path: 'schedules' },
+  { label: 'Settings', path: 'settings' }
+];
