@@ -7,7 +7,6 @@ import { SharedModule } from '@app/shared';
 import { ConfigsRoutingModule } from './configs-routing.module';
 import { ConfigsService } from './configs.service';
 
-import { ConfigResolver } from './config.resolver';
 import { ConfigComponent } from './config/config.component';
 import { ConfigViewComponent } from './config-view/config-view.component';
 import { ConfigEditComponent } from './config-edit/config-edit.component';
@@ -20,7 +19,7 @@ import { ConfigEditComponent } from './config-edit/config-edit.component';
     SharedModule,
     ConfigsRoutingModule
   ],
-  providers: [ConfigResolver, ConfigsService],
+  providers: [ConfigsService],
   declarations: [ConfigViewComponent, ConfigEditComponent, ConfigComponent]
 })
 export class ConfigsModule {}

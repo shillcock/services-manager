@@ -20,9 +20,9 @@
           </a>
         </ng-container>
         <mat-divider></mat-divider>
-        <ng-container *ngIf="configItems?.length">
+        <ng-container *ngIf="configs?.length">
           <h3 mat-subheader>Configs</h3>
-          <a *ngFor="let item of configItems" [routerLink]="['config', item.path]" routerLinkActive="selected" mat-list-item>
+          <a *ngFor="let item of configs" [routerLink]="['config', item.id]" routerLinkActive="selected" mat-list-item>
             <span>{{item.label}}</span>
           </a>
           <mat-divider></mat-divider>

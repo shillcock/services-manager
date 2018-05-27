@@ -12,10 +12,3 @@ export enum MODIFY_ACTIONS {
   edit = 'EDIT',
   delete = 'DELETE'
 }
-
-export const ConfigItems = [
-  { label: 'Clients', path: 'clients' },
-  { label: 'Roles', path: 'roles' },
-  { label: 'Schedules', path: 'schedules' },
-  { label: 'Settings', path: 'settings' }
-];

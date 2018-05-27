@@ -15,7 +15,7 @@
     </mat-card-content>
     <mat-card-actions fxLayout>
       <button type="submit" mat-raised-button color="primary" fxLayout="row" [disabled]="jsonEditor.invalid || working">
-        {{ working ? 'Saving...' : 'Save'}} <mat-icon svgIcon="checkmark"></mat-icon>
+        {{ saving ? 'Saving...' : 'Save'}} <mat-icon svgIcon="checkmark"></mat-icon>
       </button>
       <button type="button" mat-button (click)="onCancel()" [disabled]="working">
         Cancel <mat-icon svgIcon="close"></mat-icon>

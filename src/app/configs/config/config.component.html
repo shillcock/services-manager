@@ -1,8 +1,8 @@
 <sm-app-shell appName="Configs">
   <nav>
-    <a *ngFor="let config of configItems"
+    <a *ngFor="let config of configs"
        mat-button
-       [routerLink]="['..', config.path]"
+       [routerLink]="['..', config.id]"
        routerLinkActive="mat-accent">
       {{config.label}}
     </a>
@@ -20,6 +20,7 @@
 
     <ng-template #viewer>
       <sm-config-view [config]="config" (edit)="onEdit()"></sm-config-view>
+      <mat-progress-bar *ngIf="working" mode="indeterminate"></mat-progress-bar>
     </ng-template>
   </div>
 </sm-app-shell>

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { map, publishReplay, refCount } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 import { API } from '@app/shared/consts';
 
 import { IClient } from './models';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 
 export interface IClientsMap {
@@ -15,59 +15,54 @@ export interface IClientsMap {
 
 @Injectable()
 export class ServicesManager {
-  private clientMap$?: Observable<IClientsMap>;
-  private subscription: Subscription;
+  private sub: Subscription;
+  private client = new BehaviorSubject<any>(undefined);
+  private clientId = new BehaviorSubject<string | undefined>(undefined);
+  private clients = new BehaviorSubject<any>({});
+  private settings = new BehaviorSubject<any>({});
 
-  get clients$() {
-    if (!this.clientMap$) {
-      this.clientMap$ = this.http
-        .get<IClientsMap>(API.clients)
-        .pipe(publishReplay(1), refCount());
-    }
-
-    return this.clientMap$;
-  }
+  client$ = this.client.asObservable();
+  clientId$ = this.clientId.asObservable();
+  clients$ = this.clients.asObservable();
+  settings$ = this.settings.asObservable();
 
   constructor(private http: HttpClient) {
     this.fetchClients();
-  }
-
-  getClient(clientId: string): Observable<IClient | undefined> {
-    return this.clients$.pipe(
-      map(clients => this.postProcess(clients[clientId]))
-    );
+    this.fetchSettings();
   }
 
   fetchClients() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-
-    this.clientMap$ = undefined;
-    this.subscription = this.clients$.subscribe();
+    this.http.get(API.clients).subscribe(clients => this.clients.next(clients));
   }
 
-  updateClients(clientsMap: IClientsMap) {
-    this.http.post(API.clients, clientsMap).subscribe(result => {
-      console.log('UPDATE CLIENTS:', result);
+  fetchClient(clientId: string) {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+
+    this.sub = this.clients$.pipe(pluck(clientId)).subscribe(client => {
+      this.postProcess(client);
+      this.clientId.next(clientId);
+      this.client.next(client);
     });
   }
 
+  fetchSettings() {
+    this.http
+      .get(API.settings)
+      .subscribe(settings => this.settings.next(settings));
+  }
+
   private postProcess(client: IClient | undefined) {
-    if (client) {
-      Object.keys(client.commands).forEach(key => {
-        const command = client.commands[key];
-        if (command) {
-          const endpoint = command.endpoint || command.id;
-          if (!endpoint.startsWith('http')) {
-            client.commands[key] = {
-              ...command,
-              endpoint: `${client.host}/${endpoint}`
-            };
-          }
-        }
-      });
-    }
-    return client;
+    _.forEach(_.get(client, 'commands'), (command, key) => {
+      const endpoint = _.get(command, 'endpoint', _.get(command, 'id'));
+      if (!_.startsWith(endpoint, 'http')) {
+        _.set(
+          client,
+          ['commands', key, 'endpoint'],
+          `${client.host}/${endpoint}`
+        );
+      }
+    });
   }
 }

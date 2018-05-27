@@ -18,10 +18,7 @@ export class LandingPageComponent implements OnDestroy {
 
   constructor(private sm: ServicesManager) {
     sm.clients$
-      .pipe(
-        takeUntil(this.destroyed$),
-        map(clientMap => Object.values(clientMap))
-      )
+      .pipe(takeUntil(this.destroyed$), map(clientMap => _.toArray(clientMap)))
       .subscribe(clients => (this.clients = clients));
   }
 

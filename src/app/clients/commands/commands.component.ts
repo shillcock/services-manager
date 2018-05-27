@@ -1,31 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
-import { IClient, ICommand } from '@app/core/models';
+import { Subject } from 'rxjs/Subject';
+import { takeUntil } from 'rxjs/operators';
 
-import { SubmitCommandDialogComponent } from '@app/clients/submit-command-dialog/submit-command-dialog.component';
+import { ServicesManager } from '@app/core';
+import { IClient, ICommand } from '@app/core/models';
+import { SubmitCommandDialogComponent } from '../submit-command-dialog/submit-command-dialog.component';
 
 @Component({
   selector: 'sm-commands',
   templateUrl: './commands.component.html',
   styleUrls: ['./commands.component.scss']
 })
-export class CommandsComponent implements OnInit {
+export class CommandsComponent implements OnInit, OnDestroy {
+  private destroyed$ = new Subject<boolean>();
+
   client: IClient;
   commands: ICommand[];
 
-  constructor(private route: ActivatedRoute, private dialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private sm: ServicesManager
+  ) {}
 
   ngOnInit() {
-    if (this.route && this.route.parent) {
-      this.route.parent.data.subscribe((data: { client: IClient }) => {
-        if (data && data.client) {
-          this.client = data.client;
-          this.commands = Object.values(this.client.commands);
-        }
-      });
-    }
+    this.sm.client$.pipe(takeUntil(this.destroyed$)).subscribe(client => {
+      this.client = client;
+      this.commands = _.toArray(_.get(client, 'commands'));
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   onSubmit(event: any) {
@@ -43,8 +53,8 @@ export class CommandsComponent implements OnInit {
     };
 
     const dialogRef = this.dialog.open(SubmitCommandDialogComponent, config);
-    dialogRef
-      .afterClosed()
-      .subscribe(res => console.log('DIALOG CLOSED:', res));
+    dialogRef.afterClosed().subscribe(res => {
+      // TODO: maybe shove the results into a commands log for later review
+    });
   }
 }

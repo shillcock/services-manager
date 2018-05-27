@@ -3,10 +3,11 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  Output
+  Output,
+  SimpleChanges
 } from '@angular/core';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 import { ErrorMatcher } from './error-matcher';
 import { jsonValidator } from './json-validator';
@@ -24,6 +25,7 @@ export class ConfigEditComponent implements OnChanges {
   @Output() cancel = new EventEmitter<void>();
 
   dirty = false;
+  saving = false;
   matcher = new ErrorMatcher();
   jsonEditor = new FormControl('', jsonValidator);
 
@@ -51,12 +53,23 @@ export class ConfigEditComponent implements OnChanges {
     return dirty;
   }
 
-  ngOnChanges() {
-    const json = JSON.stringify(this.config, null, 2);
-    this.jsonEditor.setValue(json);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.working) {
+      changes.working.currentValue
+        ? this.jsonEditor.disable()
+        : this.jsonEditor.enable();
+    }
+
+    if (changes.config) {
+      const json = JSON.stringify(this.config, null, 2);
+      this.jsonEditor.setValue(json);
+      this.dirty = false;
+    }
+
+    this.saving = false;
   }
 
-  onKeyPress(event: any) {
+  onKeyPress(event: KeyboardEvent) {
     this.dirty = true;
 
     if (event.key === 'Tab') {
@@ -71,6 +84,7 @@ export class ConfigEditComponent implements OnChanges {
   }
 
   onSubmit() {
+    this.saving = true;
     if (this.jsonEditor.valid) {
       const updatedConfig = JSON.parse(this.jsonEditor.value);
       this.update.emit(updatedConfig);

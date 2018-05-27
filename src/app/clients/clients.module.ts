@@ -3,11 +3,9 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared';
 import { ClientsRoutingModule } from './clients-routing.module';
 
-import { ClientComponent } from './client';
-
+import { ClientComponent } from './client/client.component';
 import { CommandsComponent } from './commands/commands.component';
 import { SubmitCommandDialogComponent } from './submit-command-dialog/submit-command-dialog.component';
-import { ClientResolver } from './client.resolver';
 
 @NgModule({
   imports: [SharedModule, ClientsRoutingModule],
@@ -16,7 +14,6 @@ import { ClientResolver } from './client.resolver';
     CommandsComponent,
     SubmitCommandDialogComponent
   ],
-  providers: [ClientResolver],
   entryComponents: [SubmitCommandDialogComponent]
 })
 export class ClientsModule {}

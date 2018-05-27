@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, map, pluck, takeUntil } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
 
@@ -10,7 +10,6 @@ import { SidebarService } from './core/sidebar.service';
 
 import { IClient } from './core/models';
 import { Subject } from 'rxjs/Subject';
-import { ConfigItems } from './shared/consts';
 
 @Component({
   selector: 'sm-root',
@@ -19,15 +18,10 @@ import { ConfigItems } from './shared/consts';
 })
 export class AppComponent implements OnDestroy {
   readonly appName = 'Services Manager';
-  readonly menuItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Scheduling', path: '/scheduling' }
-  ];
-
-  readonly configItems = ConfigItems;
-
-  clients: IClient[];
+  readonly menuItems = [{ label: 'Home', path: '/' }];
   private destroyed$ = new Subject<boolean>();
+  clients: IClient[];
+  configs: any;
 
   get authorized$() {
     return this.auth.authorized$;
@@ -53,7 +47,11 @@ export class AppComponent implements OnDestroy {
 
     sm.clients$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe(clients => (this.clients = Object.values(clients)));
+      .subscribe(clients => (this.clients = _.toArray(clients)));
+
+    sm.settings$
+      .pipe(takeUntil(this.destroyed$), pluck('configs'))
+      .subscribe(configs => (this.configs = _.toArray(configs)));
   }
 
   ngOnDestroy() {
@@ -70,7 +68,6 @@ export class AppComponent implements OnDestroy {
   }
 
   logout() {
-    // TODO: handle logout
-    window.location.href = '/gfmui/logout';
+    window.location.href = '/gfmui/logoff';
   }
 }
