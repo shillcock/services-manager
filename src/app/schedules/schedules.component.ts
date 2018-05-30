@@ -87,7 +87,7 @@ export class SchedulesComponent implements OnInit {
   private populateMemberFields(schedulesMap: any) {
     if (schedulesMap) {
       this.schedulesMap = schedulesMap;
-      this.schedules = Object.values(schedulesMap);
+      this.schedules = _.values(schedulesMap);
     }
   }
 

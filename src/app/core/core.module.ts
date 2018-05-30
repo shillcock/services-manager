@@ -18,12 +18,12 @@ import { MaterialModule } from '../shared/material.module';
 @NgModule({
   imports: [CommonModule, HttpClientModule, MaterialModule],
   providers: [
-    AUTH_INTERCEPTOR_PROVIDER,
-    MODEL_PROVIDER,
     AlertService,
+    AUTH_INTERCEPTOR_PROVIDER,
     AuthService,
     CanDeactivateGuard,
     CommandService,
+    MODEL_PROVIDER,
     ServicesManager,
     SchedulesService,
     SidebarService

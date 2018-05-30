@@ -14,8 +14,6 @@ export class ClientComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: { client: IClient }) => {
-      this.client = data.client;
-    });
+    this.route.data.subscribe((data: any) => this.client = _.get(data, 'client'));
   }
 }
