@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@app/shared';
 
 import { ConfigsRoutingModule } from './configs-routing.module';
-import { ConfigsService } from './configs.service';
+import { ConfigsService } from '../core/services/configs.service';
 
 import { ConfigComponent } from './config/config.component';
 import { ConfigViewComponent } from './config-view/config-view.component';

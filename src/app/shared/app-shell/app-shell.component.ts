@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { SidebarService } from '@app/core/sidebar.service';
+import { SidebarService } from '@app/core';
 
 @Component({
   selector: 'sm-app-shell',
@@ -10,9 +10,5 @@ import { SidebarService } from '@app/core/sidebar.service';
 export class AppShellComponent {
   @Input() appName = 'Services Manager';
 
-  constructor(private sidebar: SidebarService) {}
-
-  sidebarToggle() {
-    this.sidebar.toggle();
-  }
+  constructor(public sidebar: SidebarService) {}
 }

@@ -9,3 +9,7 @@ export interface IClient {
     [id: string]: ICommand;
   };
 }
+
+export interface IClientsMap {
+  [id: string]: IClient;
+}

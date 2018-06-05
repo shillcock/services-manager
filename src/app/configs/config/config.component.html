@@ -1,5 +1,5 @@
 <sm-app-shell appName="Configs">
-  <nav>
+  <nav *ngIf="(configs$ | async) as configs">
     <a *ngFor="let config of configs"
        mat-button
        [routerLink]="['..', config.id]"
@@ -9,7 +9,7 @@
   </nav>
   <div class="config-content">
     <ng-container *ngIf="edit; else viewer">
-      <sm-config-edit #editor
+      <sm-config-edit
         [config]="config"
         [working]="working"
         (update)="onUpdate($event)"

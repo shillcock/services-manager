@@ -1,6 +1,6 @@
 <div class="sm-commands">
   <mat-card>
-    <mat-card-content>
+    <mat-card-content *ngIf="(commands$ | async) as commands">
       <div class="commands-renderer" *ngIf="commands.length; else noCommands">
         <sm-command-list [commands]="commands" (submit)="onSubmit($event)"></sm-command-list>
       </div>

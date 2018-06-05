@@ -4,9 +4,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { API } from '@app/shared/consts';
-import { CommandService } from '@app/core/command.service';
-import { ICommand } from '@app/core/models';
+import { API } from '../../shared/consts';
+import { CommandService } from 'command.service';
+import { ICommand } from '../models/index';
 
 describe('CommandService', () => {
   let service: CommandService;

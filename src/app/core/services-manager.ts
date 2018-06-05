@@ -1,62 +1,101 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { pluck } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { API } from '@app/shared/consts';
 
-import { IClient } from './models';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { IClient, IClientsMap } from './models';
+import { Store } from '@app/core/store';
 import { Subscription } from 'rxjs/Subscription';
-
-export interface IClientsMap {
-  [id: string]: IClient;
-}
 
 @Injectable()
 export class ServicesManager {
-  private sub: Subscription;
-  private client = new BehaviorSubject<any>(undefined);
-  private clientId = new BehaviorSubject<string | undefined>(undefined);
-  private clients = new BehaviorSubject<any>({});
-  private settings = new BehaviorSubject<any>({});
+  clients$: Observable<IClient[]>;
+  selectedClient$: Observable<IClient>;
 
-  client$ = this.client.asObservable();
-  clientId$ = this.clientId.asObservable();
-  clients$ = this.clients.asObservable();
-  settings$ = this.settings.asObservable();
+  settings$: Observable<any>;
+  configs$: Observable<any[]>;
+  selectedConfig$: Observable<any>;
 
-  constructor(private http: HttpClient) {
-    this.fetchClients();
-    this.fetchSettings();
+  private fetchSub: Subscription;
+
+  constructor(private http: HttpClient, private store: Store) {
+    const clientsMap$ = this.store.select('clients');
+    this.clients$ = clientsMap$.pipe(map(clients => _.toArray(clients)));
+
+    const selectedClientId$ = this.store.select<string>('selectedClientId');
+    this.selectedClient$ = combineLatest(clientsMap$, selectedClientId$).pipe(
+      map(([clients, clientId]) => _.get(clients, clientId))
+    );
+
+    this.settings$ = this.store.select<any>('settings');
+
+    this.configs$ = this.settings$.pipe(
+      map(settings => _.get(settings, 'configs')),
+      map(configs => _.toArray(configs))
+    );
+
+    const selectedConfigId$ = this.store.select<string>('selectedConfigId');
+    const config$ = combineLatest(this.settings$, selectedConfigId$).pipe(
+      map(([settings, configId]) => _.get(settings, ['configs', configId]))
+    );
+
+    this.selectedConfig$ = config$.pipe(
+      map(config => _.get(config, 'get')),
+      filter(url => !!url),
+      switchMap(url => this.http.get(url))
+    );
   }
 
   fetchClients() {
-    this.http.get(API.clients).subscribe(clients => this.clients.next(clients));
+    this.http
+      .get<IClientsMap>(API.clients)
+      .pipe(map(clients => this.postProcessClients(clients)))
+      .subscribe(clients => this.store.set('clients', clients));
   }
 
-  fetchClient(clientId: string) {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-
-    this.sub = this.clients$.pipe(pluck(clientId)).subscribe(client => {
-      this.postProcess(client);
-      this.clientId.next(clientId);
-      this.client.next(client);
-    });
+  selectClient(clientId: string | undefined | null) {
+    this.store.set('selectedClientId', clientId);
   }
 
   fetchSettings() {
-    this.http
-      .get(API.settings)
-      .subscribe(settings => this.settings.next(settings));
+    this.http.get(API.settings).subscribe(settings => {
+      this.store.set('settings', settings);
+    });
   }
 
-  private postProcess(client: IClient | undefined) {
-    _.forEach(_.get(client, 'commands'), (command, key) => {
+  selectConfig(configId: string | undefined | null) {
+    this.store.set('selectedConfigId', configId);
+  }
+
+  private fetchConfig(configId: string) {
+    console.log('FETCH CONFIG:', configId);
+    if (this.fetchSub) {
+      this.fetchSub.unsubscribe();
+    }
+
+    this.fetchSub = this.settings$
+      .pipe(
+        map(settings => _.get(settings, ['configs', configId, 'get'])),
+        switchMap(url => this.http.get(url))
+      )
+      .subscribe(config => {
+        console.log('fetched:', config);
+      });
+  }
+
+  private postProcessClients(clients: IClientsMap) {
+    _.forEach(clients, this.processClient);
+    return clients;
+  }
+
+  private processClient(client: IClient) {
+    _.forEach(_.get(client, 'commands'), (command: any, key: string) => {
       const endpoint = _.get(command, 'endpoint', _.get(command, 'id'));
-      if (!_.startsWith(endpoint, 'http')) {
+      if (client && !_.startsWith(endpoint, 'http')) {
         _.set(
           client,
           ['commands', key, 'endpoint'],
@@ -64,5 +103,7 @@ export class ServicesManager {
         );
       }
     });
+
+    return client;
   }
 }

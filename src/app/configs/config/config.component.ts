@@ -1,22 +1,20 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
-import {
-  catchError,
-  debounceTime,
-  map,
-  pluck,
-  takeUntil
-} from 'rxjs/operators';
-import { empty } from 'rxjs/observable/empty';
+import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { Subject } from 'rxjs/Subject';
 
-import { AlertService, ServicesManager } from '@app/core';
-import { ConfigsService } from '@app/configs/configs.service';
+import {
+  AlertService,
+  ClientsService,
+  ConfigsService,
+  SettingsService
+} from '@app/core';
+
 import { CanComponentDeactivate } from '@app/core/can-deactivate-guard.service';
 
-import { ConfigEditComponent } from '@app/configs/config-edit/config-edit.component';
+import { ConfigEditComponent } from '../config-edit/config-edit.component';
 
 @Component({
   selector: 'sm-config',
@@ -25,14 +23,13 @@ import { ConfigEditComponent } from '@app/configs/config-edit/config-edit.compon
 })
 export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
   @ViewChild(ConfigEditComponent) editor: ConfigEditComponent;
-
   private destroyed$ = new Subject<boolean>();
-
-  configId?: string;
-  config: any;
+  configs$ = this.configsService.configs$;
   edit: boolean;
+  configId: string;
+  config: any;
   working: boolean;
-  configs: any;
+  updated: boolean;
 
   get dirty() {
     return this.edit && this.editor ? this.editor.isDirty() : false;
@@ -42,19 +39,26 @@ export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
     private route: ActivatedRoute,
     private router: Router,
     private alerts: AlertService,
-    private cs: ConfigsService,
-    private sm: ServicesManager
+    private settingsService: SettingsService,
+    private configsService: ConfigsService,
+    private clientsService: ClientsService
   ) {
-    this.sm.settings$
-      .pipe(takeUntil(this.destroyed$), pluck('configs'))
-      .subscribe(configs => (this.configs = _.toArray(configs)));
+    this.configsService.activeConfig$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(config => {
+        this.configId = _.get(config, 'id');
+        this.config = _.get(config, 'config');
+      });
+
+    this.configsService.working$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(working => (this.working = working));
 
     this.setupRouteChangeHandler();
   }
 
   ngOnDestroy() {
     this.destroyed$.next();
-    this.destroyed$.complete();
   }
 
   canDeactivate() {
@@ -68,28 +72,23 @@ export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
   }
 
   onUpdate(config: any) {
-    if (!this.configId) {
-      this.alerts.notify('Failed to update config: unknown config');
-      return;
-    }
-
-    this.working = true;
-    this.cs.updateConfig(this.configId, config).subscribe(
-      (result: any) => {
-        this.working = false;
+    this.updated = true;
+    this.configsService.updateConfig(this.configId, config).subscribe(
+      res => {
         this.alerts.notify(`Updated ${this.configId}`);
-        this.postUpdate();
+        this.postUpdate(this.configId);
         this.navToView();
       },
       (err: any) => {
-        this.working = false;
         this.alerts.notify(`Failed to update config: ${err.message}`);
       }
     );
   }
 
   onCancel() {
-    this.navToView();
+    if (this.canDeactivate()) {
+      this.navToView();
+    }
   }
 
   private navToView() {
@@ -105,7 +104,7 @@ export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
 
   private setupRouteChangeHandler() {
     const configId$ = this.route.paramMap.pipe(
-      map((p: ParamMap) => p.get('configId'))
+      map(paramMap => paramMap.get('configId'))
     );
 
     const edit$ = this.route.queryParamMap.pipe(
@@ -116,41 +115,33 @@ export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
     combineLatest(configId$, edit$)
       .pipe(debounceTime(100))
       .subscribe(([configId, edit]) => {
-        if (!configId) {
-          return;
+        if (this.shouldFetch(configId, edit)) {
+          this.configsService.fetchConfig(configId);
         }
-
         this.edit = edit;
-        this.working = true;
-
-        if (this.configId !== configId || this.edit === false) {
-          this.config = undefined;
-        }
-
-        this.configId = configId;
-
-        this.cs
-          .getConfig(configId)
-          .pipe(
-            catchError(err => {
-              const msg = `Failed to get "${configId}" config. ${err}`;
-              this.alerts.notify(msg);
-              this.router.navigate(['/']);
-              return empty();
-            })
-          )
-          .subscribe((config: any) => {
-            this.working = false;
-            this.config = config;
-          });
+        this.updated = false;
       });
   }
 
-  private postUpdate() {
-    if (this.configId === 'settings') {
-      this.sm.fetchSettings();
-    } else if (this.configId === 'clients') {
-      this.sm.fetchClients();
+  private shouldFetch(configId: string | null, edit: boolean) {
+    if (!this.config) {
+      return true;
+    }
+
+    if (configId !== this.configId) {
+      return true;
+    }
+
+    if (this.updated && this.edit && !edit) {
+      return true;
+    }
+  }
+
+  private postUpdate(configId: string) {
+    if (configId === 'settings') {
+      this.settingsService.fetchSettings();
+    } else if (configId === 'clients') {
+      this.clientsService.fetchClients();
     }
   }
 }

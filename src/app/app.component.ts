@@ -1,70 +1,74 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { filter, map, pluck, takeUntil } from 'rxjs/operators';
-
-import { AuthService } from '@app/core';
-
-import { ServicesManager } from './core';
-import { SidebarService } from './core/sidebar.service';
-
-import { IClient } from './core/models';
+import { combineLatest } from 'rxjs/observable/combineLatest';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
+
+import {
+  AuthService,
+  ConfigsService,
+  SidebarService,
+  ClientsService,
+  SettingsService
+} from '@app/core';
+
+import { IClient } from '@app/core/models';
 
 @Component({
   selector: 'sm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   readonly appName = 'Services Manager';
   readonly menuItems = [{ label: 'Home', path: '/' }];
   private destroyed$ = new Subject<boolean>();
+  debugData$: any;
+  showDebugPanel = false;
   clients: IClient[];
-  configs: any;
-
-  get authorized$() {
-    return this.auth.authorized$;
-  }
-
-  get errorMessage$() {
-    return this.auth.errorMessage$;
-  }
-
-  get sidebarOpen$() {
-    return this.sidebar.open$;
-  }
+  configs: any[];
 
   constructor(
     private router: Router,
-    private auth: AuthService,
-    private sm: ServicesManager,
-    private sidebar: SidebarService
+    private configsService: ConfigsService,
+    private clientsService: ClientsService,
+    private settingsService: SettingsService,
+    public auth: AuthService,
+    public sidebar: SidebarService
   ) {
     router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => this.sidebar.close());
 
-    sm.clients$
+    combineLatest(this.clientsService.clients$, this.settingsService.configs$)
       .pipe(takeUntil(this.destroyed$))
-      .subscribe(clients => (this.clients = _.toArray(clients)));
+      .subscribe(([clients, configs]) => {
+        this.clients = clients;
+        this.configs = configs;
+      });
 
-    sm.settings$
-      .pipe(takeUntil(this.destroyed$), pluck('configs'))
-      .subscribe(configs => (this.configs = _.toArray(configs)));
+    this.debugData$ = combineLatest(
+      this.clientsService.data$,
+      this.configsService.data$,
+      this.settingsService.data$,
+      this.sidebar.data$,
+      this.auth.data$
+    );
+  }
+
+  ngOnInit() {
+    this.settingsService.fetchSettings();
+    this.clientsService.fetchClients();
   }
 
   ngOnDestroy() {
     this.destroyed$.next();
-    this.destroyed$.complete();
   }
 
-  sidebarOpened() {
-    this.sidebar.open();
-  }
-
-  sidebarClosed() {
-    this.sidebar.close();
+  @HostListener('window:keydown.control.shift.d')
+  onKeyDown() {
+    this.showDebugPanel = !this.showDebugPanel;
   }
 
   logout() {

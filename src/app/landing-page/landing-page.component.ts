@@ -1,29 +1,17 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
-import { ServicesManager } from '@app/core';
 import { IClient } from '@app/core/models';
+import { ClientsService } from '@app/core';
 
 @Component({
   selector: 'sm-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent implements OnDestroy {
-  clients: IClient[];
+export class LandingPageComponent {
+  clients$: Observable<IClient[]> = this.clientsService.clients$;
 
-  private destroyed$ = new Subject<boolean>();
-
-  constructor(private sm: ServicesManager) {
-    sm.clients$
-      .pipe(takeUntil(this.destroyed$), map(clientMap => _.toArray(clientMap)))
-      .subscribe(clients => (this.clients = clients));
-  }
-
-  ngOnDestroy() {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
+  constructor(private clientsService: ClientsService) {}
 }

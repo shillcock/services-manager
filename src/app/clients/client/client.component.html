@@ -1,11 +1,13 @@
-<sm-app-shell *ngIf="client; else loading" [appName]="client?.label">
-  <nav>
-    <a mat-button [routerLink]="['commands']" routerLinkActive="mat-accent">Commands</a>
-  </nav>
-  <div class="client-content">
-    <router-outlet></router-outlet>
-  </div>
-</sm-app-shell>
+<ng-container *ngIf="(client$ | async) as client; else loading">
+  <sm-app-shell [appName]="client.label">
+    <nav>
+      <a mat-button [routerLink]="['commands']" routerLinkActive="mat-accent">Commands</a>
+    </nav>
+    <div class="client-content">
+      <router-outlet></router-outlet>
+    </div>
+  </sm-app-shell>
+</ng-container>
 
 <ng-template #loading>
   <mat-card>

@@ -2,6 +2,10 @@ mat-sidenav {
   width: 250px;
 }
 
+mat-sidenav.debug-panel {
+  width: 100%;
+}
+
 .spacer {
   flex: 1 1 auto;
 }

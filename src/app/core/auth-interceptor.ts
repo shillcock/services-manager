@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import 'rxjs/add/observable/throw';
 
-import { AlertService } from './alert.service';
+import { AlertService } from './services/alert.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

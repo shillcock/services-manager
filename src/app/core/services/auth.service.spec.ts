@@ -4,9 +4,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { API } from '@app/shared/consts';
+import { API } from '../../shared/consts';
 import { AuthService } from './auth.service';
-import { IUser } from '@app/core/models';
+import { IUser } from '../models/index';
 
 describe('AuthService', () => {
   let service: AuthService;

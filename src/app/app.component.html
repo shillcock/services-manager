@@ -1,6 +1,6 @@
-<ng-container *ngIf="(authorized$ | async); else authorizing">
-  <mat-sidenav-container *ngIf="clients">
-    <mat-sidenav mode="push" [opened]="sidebarOpen$ | async" (openend)="sidebarOpened()" (closed)="sidebarClosed()">
+<ng-container *ngIf="(auth.authorized$ | async); else authorizing">
+  <mat-sidenav-container>
+    <mat-sidenav mode="push" [opened]="sidebar.open$ | async" (openend)="sidebar.open()" (closed)="sidebar.close()">
       <mat-toolbar class="mat-elevation-z4" color="primary">
         <mat-toolbar-row>
           <span>{{appName}}</span>
@@ -14,13 +14,14 @@
         <mat-divider></mat-divider>
         <ng-container *ngIf="clients?.length">
           <h3 mat-subheader>Clients</h3>
-          <a *ngFor="let client of clients" [routerLink]="['client', client.id]" routerLinkActive="selected" mat-list-item>
+          <a *ngFor="let client of clients" [routerLink]="['client', client.id]" routerLinkActive="selected"
+             mat-list-item>
             <mat-icon mat-list-icon *ngIf="client.icon" [svgIcon]="client.icon"></mat-icon>
             <span>{{client.label}}</span>
           </a>
         </ng-container>
         <mat-divider></mat-divider>
-        <ng-container *ngIf="configs?.length">
+        <ng-container *ngIf="configs">
           <h3 mat-subheader>Configs</h3>
           <a *ngFor="let item of configs" [routerLink]="['config', item.id]" routerLinkActive="selected" mat-list-item>
             <span>{{item.label}}</span>
@@ -34,6 +35,15 @@
         </a>
       </mat-nav-list>
     </mat-sidenav>
+
+    <mat-sidenav class="debug-panel" mode="over" [opened]="showDebugPanel" position="end" (closed)="showDebugPanel">
+      <ng-container *ngIf="showDebugPanel">
+        <mat-card *ngFor="let data of (debugData$ | async)">
+          <sm-json [data]="data"></sm-json>
+        </mat-card>
+      </ng-container>
+    </mat-sidenav>
+
     <mat-sidenav-content>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
@@ -41,19 +51,21 @@
 </ng-container>
 
 <ng-template #authorizing>
-  <mat-card *ngIf="(errorMessage$ | async) as error; else loading">
+  <mat-card *ngIf="(auth.errorMessage$ | async) as error; else loading">
     <mat-card-content>
-    <h2>Unable to authorize application</h2>
-    <button mat-raised-button color="warn" routerLink="/">
-      Go Home
-    </button>
-  </mat-card-content>
+      <h2>Unable to authorize application</h2>
+      <button mat-raised-button color="warn" routerLink="/">
+        Go Home
+      </button>
+    </mat-card-content>
   </mat-card>
   <ng-template #loading>
     <mat-card>
       <mat-card-title class="center">Authorizing Application</mat-card-title>
       <mat-card-content fxLayout fxLayoutAlign="center">
-        <ng-template #loading><mat-spinner></mat-spinner></ng-template>
+        <ng-template #loading>
+          <mat-spinner></mat-spinner>
+        </ng-template>
       </mat-card-content>
     </mat-card>
   </ng-template>

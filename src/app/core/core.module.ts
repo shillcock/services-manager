@@ -2,16 +2,16 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AlertService } from './alert.service';
-import { AuthService } from './auth.service';
-import { CommandService } from './command.service';
-import { ServicesManager } from './services-manager';
-import { SchedulesService } from './schedules.service';
-import { CanDeactivateGuard } from './can-deactivate-guard.service';
+import { AlertService } from './services/alert.service';
+import { AuthService } from './services/auth.service';
+import { ClientsService } from './services/clients.service';
+import { CommandService } from './services/command.service';
+import { ConfigsService } from './services/configs.service';
+import { SettingsService } from './services/settings.service';
+import { SidebarService } from './services/sidebar.service';
 
 import { AUTH_INTERCEPTOR_PROVIDER } from './auth-interceptor';
-import { MODEL_PROVIDER } from './model.service';
-import { SidebarService } from './sidebar.service';
+import { CanDeactivateGuard } from './can-deactivate-guard.service';
 
 import { MaterialModule } from '../shared/material.module';
 
@@ -19,13 +19,13 @@ import { MaterialModule } from '../shared/material.module';
   imports: [CommonModule, HttpClientModule, MaterialModule],
   providers: [
     AUTH_INTERCEPTOR_PROVIDER,
-    MODEL_PROVIDER,
     AlertService,
     AuthService,
     CanDeactivateGuard,
+    ClientsService,
+    ConfigsService,
     CommandService,
-    ServicesManager,
-    SchedulesService,
+    SettingsService,
     SidebarService
   ]
 })

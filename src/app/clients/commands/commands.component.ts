@@ -1,12 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
-import { ServicesManager } from '@app/core';
-import { IClient, ICommand } from '@app/core/models';
+import { ClientsService } from '@app/core';
+import { ICommand } from '@app/core/models';
+
 import { SubmitCommandDialogComponent } from '../submit-command-dialog/submit-command-dialog.component';
 
 @Component({
@@ -14,47 +16,46 @@ import { SubmitCommandDialogComponent } from '../submit-command-dialog/submit-co
   templateUrl: './commands.component.html',
   styleUrls: ['./commands.component.scss']
 })
-export class CommandsComponent implements OnInit, OnDestroy {
+export class CommandsComponent implements OnDestroy {
   private destroyed$ = new Subject<boolean>();
 
-  client: IClient;
-  commands: ICommand[];
+  client$ = this.cs.selectedClient$;
+  commands$: Observable<ICommand[]>;
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private sm: ServicesManager
-  ) {}
-
-  ngOnInit() {
-    this.sm.client$.pipe(takeUntil(this.destroyed$)).subscribe(client => {
-      this.client = client;
-      this.commands = _.toArray(_.get(client, 'commands'));
-    });
+    private cs: ClientsService
+  ) {
+    this.commands$ = this.client$.pipe(
+      map(client => _.get(client, 'commands')),
+      map(commands => _.toArray(commands))
+    );
   }
 
   ngOnDestroy() {
     this.destroyed$.next(true);
-    this.destroyed$.complete();
   }
 
   onSubmit(event: any) {
     const { command, payload } = event;
 
-    const config = {
-      disableClose: true,
-      minWidth: 400,
-      data: {
-        client: this.client,
-        command,
-        payload,
-        meta: { clientId: this.client.id }
-      }
-    };
+    this.client$.pipe(take(1)).subscribe(client => {
+      const config = {
+        disableClose: true,
+        minWidth: 400,
+        data: {
+          client,
+          command,
+          payload,
+          meta: { clientId: _.get(client, 'id') }
+        }
+      };
 
-    const dialogRef = this.dialog.open(SubmitCommandDialogComponent, config);
-    dialogRef.afterClosed().subscribe(res => {
-      // TODO: maybe shove the results into a commands log for later review
+      const dialogRef = this.dialog.open(SubmitCommandDialogComponent, config);
+      dialogRef.afterClosed().subscribe(res => {
+        // TODO: maybe shove the results into a commands log for later review
+      });
     });
   }
 }
