@@ -9,14 +9,16 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { _throw } from 'rxjs/observable/throw';
 import { catchError } from 'rxjs/operators';
-import 'rxjs/add/observable/throw';
 
 import { AlertService } from './services/alert.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private alertService: AlertService) {}
+  constructor(private alertService: AlertService) {
+    console.log(this);
+  }
 
   intercept(
     req: HttpRequest<any>,
@@ -28,13 +30,12 @@ export class AuthInterceptor implements HttpInterceptor {
           this.alertService.notify(err.message);
 
           if (err.status === 401) {
-            // redirect the user to the login page
-            // 401 unauthorized user
-            console.log('TODO: Redirect user to login page');
+            alert('Invalid session. Login to continue.'); 
+            window.location.href = '/gfmui/logon';
           }
         }
 
-        return Observable.throw(err);
+        return _throw(err);
       })
     );
   }

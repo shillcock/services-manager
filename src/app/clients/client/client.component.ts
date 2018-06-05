@@ -20,8 +20,6 @@ export class ClientComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap
-      .pipe(map(paramMap => paramMap.get('clientId')))
-      .subscribe(clientId => this.cs.selectClient(clientId || undefined));
+    this.route.data.subscribe((data: any) => this.client = _.get(data, 'client'));
   }
 }
