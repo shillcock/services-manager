@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.alertService.notify(err.message);
 
           if (err.status === 401) {
-            alert('Invalid session. Login to continue.'); 
+            alert('Invalid session. Login to continue.');
             window.location.href = '/gfmui/logon';
           }
         }

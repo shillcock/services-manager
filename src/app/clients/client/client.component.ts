@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
 import { IClient } from '@app/core/models';
-import { ClientsService } from '@app/core/services/clients.service';
+import { ClientsService } from '@app/core';
 
 @Component({
   selector: 'sm-client',
@@ -15,11 +15,18 @@ import { ClientsService } from '@app/core/services/clients.service';
 export class ClientComponent implements OnInit {
   client$: Observable<IClient>;
 
-  constructor(private route: ActivatedRoute, private cs: ClientsService) {
-    this.client$ = this.cs.selectedClient$;
+  constructor(
+    private route: ActivatedRoute,
+    private clientsService: ClientsService
+  ) {
+    this.client$ = this.clientsService.selectedClient$;
   }
 
   ngOnInit() {
-    this.route.data.subscribe((data: any) => this.client = _.get(data, 'client'));
+    this.route.paramMap
+      .pipe(map(paramMap => paramMap.get('clientId')))
+      .subscribe(clientId =>
+        this.clientsService.selectClient(clientId || undefined)
+      );
   }
 }
