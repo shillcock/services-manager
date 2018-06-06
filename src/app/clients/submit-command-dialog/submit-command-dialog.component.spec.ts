@@ -1,13 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubmitCommandDialogComponent } from './submit-command-dialog.component';
+import { SharedModule } from '@app/shared';
 
-describe('StatusDialogComponent', () => {
+xdescribe('StatusDialogComponent', () => {
   let component: SubmitCommandDialogComponent;
   let fixture: ComponentFixture<SubmitCommandDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [SharedModule],
       declarations: [SubmitCommandDialogComponent]
     }).compileComponents();
   }));

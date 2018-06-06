@@ -4,9 +4,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { API } from '../../shared/consts';
-import { AuthService } from './auth.service';
-import { IUser } from '../models/index';
+import { API } from '@app/shared/consts';
+import { AuthService } from '@app/core';
+import { IUser } from '@app/core/models';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -46,7 +46,7 @@ describe('AuthService', () => {
       userAuthorized = value;
     });
 
-    const req = httpMock.expectOne(API.getAuth);
+    const req = httpMock.expectOne(API.auth);
     expect(req.request.method).toBe('GET');
     req.flush({ user: mockUser });
 

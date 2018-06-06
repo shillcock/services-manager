@@ -1,6 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import {
+  AlertService,
+  ClientsService,
+  ConfigsService,
+  SettingsService,
+  SidebarService
+} from '@app/core';
+
+import { SharedModule } from '@app/shared';
 
 import { ConfigComponent } from './config.component';
+import { ConfigEditComponent } from '../config-edit/config-edit.component';
+import { ConfigViewComponent } from '../config-view/config-view.component';
 
 describe('ConfigComponent', () => {
   let component: ConfigComponent;
@@ -8,7 +22,20 @@ describe('ConfigComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfigComponent]
+      imports: [
+        RouterTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule
+      ],
+      providers: [
+        AlertService,
+        SettingsService,
+        ConfigsService,
+        ClientsService,
+        SidebarService
+      ],
+      declarations: [ConfigComponent, ConfigEditComponent, ConfigViewComponent]
     }).compileComponents();
   }));
 

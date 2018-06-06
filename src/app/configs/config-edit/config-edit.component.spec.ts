@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { SharedModule } from '@app/shared';
 import { ConfigEditComponent } from './config-edit.component';
 
 describe('ConfigEditComponent', () => {
@@ -8,6 +11,12 @@ describe('ConfigEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        NoopAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule
+      ],
       declarations: [ConfigEditComponent]
     }).compileComponents();
   }));
