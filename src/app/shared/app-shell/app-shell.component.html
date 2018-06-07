@@ -5,22 +5,17 @@
         <mat-icon aria-label="Menu" svgIcon="menu"></mat-icon>
       </a>
       <span class="app-name">{{appName || 'Services Manager'}}</span>
+
       <ng-content select="nav"></ng-content>
-      <!--
-      <a mat-button routerLink="/">Home</a>
-      <a *ngFor="let client of clients" mat-button [routerLink]="clientPath(client)">
-        {{client.label}}
-      </a>
-      -->
-      <!--
+
       <span class="spacer"></span>
-      <a mat-icon-button [matMenuTriggerFor]="appMenu">
-        <mat-icon svgIcon="user-solid-circle"></mat-icon>
-      </a>
-      <mat-menu #appMenu="matMenu">
-        <a mat-menu-item (click)="logout()">Logout</a>
-      </mat-menu>
-      -->
+
+      <mat-chip-list *ngIf="(auth.user$ | async) as user">
+        <mat-chip color="primary" selected="true">
+          <mat-icon svgIcon="user-solid-circle"></mat-icon>
+          <span>{{user.name}}</span>
+        </mat-chip>
+      </mat-chip-list>
     </mat-toolbar-row>
   </mat-toolbar>
 
