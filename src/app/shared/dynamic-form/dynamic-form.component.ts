@@ -54,7 +54,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   constructor(private fb: FormBuilder) {
-    console.log(this);
     this.form = this.fb.group({});
   }
 
@@ -63,12 +62,9 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('ngOnChanges');
     if (this.form) {
       const controls = Object.keys(this.form.controls);
-      console.log('controls:', controls);
       const configControls = this.controls.map(item => item.id);
-      console.log('configControls:', configControls);
 
       controls
         .filter(control => !configControls.includes(control))
@@ -79,7 +75,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
         .forEach(id => {
           const config = this.config.find(control => control.id === id);
           if (config) {
-            console.log('add:', id);
             this.form.addControl(id, this.createControl(config));
           }
         });

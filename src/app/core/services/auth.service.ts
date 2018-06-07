@@ -59,6 +59,16 @@ export class AuthService {
     this.fetchAuthState();
   }
 
+  canAccess(roles: string[]) {
+    if (_.isEmpty(roles)) {
+      return true;
+    }
+
+    const inRoles = _.curry(_.includes)(roles);
+    const userRoles = _.get(this._user.value, 'roles', []);
+    return _.some(userRoles, inRoles);
+  }
+
   private fetchAuthState() {
     this.http
       .get<IAuthResponse>(API.auth)
@@ -70,7 +80,7 @@ export class AuthService {
   }
 
   private handleOk(user: IUser) {
-    console.log('Auth:', user);
+    console.debug('Auth:', user);
     this.user = user;
     this.errorMessage = undefined;
     return true;

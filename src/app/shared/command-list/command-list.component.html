@@ -13,7 +13,7 @@
       <ng-template matExpansionPanelContent>
         <sm-dynamic-form [config]="command.parameters" (submit)="onSubmit(command, $event)">
           <mat-action-row>
-            <button type="submit" color="accent" mat-raised-button>Submit Command</button>
+            <button type="submit" color="accent" mat-raised-button [smCanAccess]="command.roles">Submit Command</button>
           </mat-action-row>
         </sm-dynamic-form>
       </ng-template>

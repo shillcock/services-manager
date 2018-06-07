@@ -13,5 +13,5 @@ export interface ICommand {
       required?: boolean;
     }
   ];
-  data: any;
+  roles?: string[];
 }

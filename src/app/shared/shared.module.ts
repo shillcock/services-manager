@@ -10,6 +10,7 @@ import { AppShellComponent } from './app-shell/app-shell.component';
 import { CommandListComponent } from './command-list';
 import { LoadingComponent } from './loading.component';
 
+import { CanAccessDirective } from './can-access.directive';
 import { JsonComponent } from './json/json.component';
 import { ClientPreviewListComponent } from './client-preview-list/client-preview-list.component';
 import { ClientPreviewComponent } from './client-preview/client-preview.component';
@@ -35,7 +36,8 @@ import { ClientPreviewComponent } from './client-preview/client-preview.componen
     LoadingComponent,
     JsonComponent,
     ClientPreviewListComponent,
-    ClientPreviewComponent
+    ClientPreviewComponent,
+    CanAccessDirective
   ],
   declarations: [
     AppShellComponent,
@@ -43,7 +45,8 @@ import { ClientPreviewComponent } from './client-preview/client-preview.componen
     LoadingComponent,
     JsonComponent,
     ClientPreviewListComponent,
-    ClientPreviewComponent
+    ClientPreviewComponent,
+    CanAccessDirective
   ]
 })
 export class SharedModule {}

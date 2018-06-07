@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { combineLatest } from 'rxjs/observable/combineLatest';
 import { of } from 'rxjs/observable/of';
+import { _throw } from 'rxjs/observable/throw';
 
 import {
   catchError,
@@ -18,9 +19,10 @@ import {
 
 import { Subscription } from 'rxjs/Subscription';
 
+import { ACCESS_ADMIN_ONLY } from '@app/shared/consts';
+
 import { AlertService } from './alert.service';
 import { SettingsService } from './settings.service';
-import { _throw } from 'rxjs/observable/throw';
 
 @Injectable()
 export class ConfigsService {
@@ -76,7 +78,13 @@ export class ConfigsService {
             return this.handleFetchError(configId, err.message);
           })
         )
-        .subscribe(config => this._activeConfig.next({ id: configId, config }));
+        .subscribe(config =>
+          this._activeConfig.next({
+            id: configId,
+            roles: ACCESS_ADMIN_ONLY,
+            config
+          })
+        );
     }
   }
 

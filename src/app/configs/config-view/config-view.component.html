@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    <button mat-raised-button color="primary" (click)="onEdit()">
+    <button mat-raised-button color="primary" [disabled]="!canEdit" (click)="onEdit()">
       Edit <mat-icon svgIcon="edit-pencil"></mat-icon>
     </button>
   </mat-card-title>

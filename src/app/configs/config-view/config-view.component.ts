@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { ConfigComponent } from '@app/configs/config/config.component';
-
 @Component({
   selector: 'sm-config-view',
   templateUrl: './config-view.component.html',
@@ -9,6 +7,7 @@ import { ConfigComponent } from '@app/configs/config/config.component';
 })
 export class ConfigViewComponent {
   @Input() config: any;
+  @Input() canEdit = true;
 
   @Output() edit = new EventEmitter<boolean>();
 

@@ -12,6 +12,7 @@
       <sm-config-edit
         [config]="config"
         [working]="working"
+        [canSave]="hasAccess"
         (update)="onUpdate($event)"
         (cancel)="onCancel()">
       </sm-config-edit>
@@ -19,7 +20,7 @@
     </ng-container>
 
     <ng-template #viewer>
-      <sm-config-view [config]="config" (edit)="onEdit()"></sm-config-view>
+      <sm-config-view [config]="config" [canEdit]="hasAccess" (edit)="onEdit()"></sm-config-view>
       <mat-progress-bar *ngIf="working" mode="indeterminate"></mat-progress-bar>
     </ng-template>
   </div>

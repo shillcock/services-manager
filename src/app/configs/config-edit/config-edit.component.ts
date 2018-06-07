@@ -20,6 +20,7 @@ import { jsonValidator } from './json-validator';
 export class ConfigEditComponent implements OnChanges {
   @Input() config: any;
   @Input() working: boolean;
+  @Input() canSave = true;
 
   @Output() update = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
@@ -35,6 +36,10 @@ export class ConfigEditComponent implements OnChanges {
 
   get editorGetError() {
     return this.jsonEditor.getError('json');
+  }
+
+  get disableSave() {
+    return !this.canSave || this.jsonEditor.invalid || this.working;
   }
 
   isDirty(): boolean {

@@ -7,11 +7,13 @@ import { Subject } from 'rxjs/Subject';
 
 import {
   AlertService,
+  AuthService,
   ClientsService,
   ConfigsService,
   SettingsService
 } from '@app/core';
 
+import { ACCESS_ADMIN_ONLY } from '@app/shared/consts';
 import { CanComponentDeactivate } from '@app/core/can-deactivate-guard.service';
 
 import { ConfigEditComponent } from '../config-edit/config-edit.component';
@@ -30,6 +32,7 @@ export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
   config: any;
   working: boolean;
   updated: boolean;
+  hasAccess = true;
 
   get dirty() {
     return this.edit && this.editor ? this.editor.isDirty() : false;
@@ -39,6 +42,7 @@ export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
     private route: ActivatedRoute,
     private router: Router,
     private alerts: AlertService,
+    private auth: AuthService,
     private settingsService: SettingsService,
     private configsService: ConfigsService,
     private clientsService: ClientsService
@@ -48,6 +52,8 @@ export class ConfigComponent implements OnDestroy, CanComponentDeactivate {
       .subscribe(config => {
         this.configId = _.get(config, 'id');
         this.config = _.get(config, 'config');
+        const roles = _.get(config, 'roles', ACCESS_ADMIN_ONLY);
+        this.hasAccess = this.auth.canAccess(roles);
       });
 
     this.configsService.working$

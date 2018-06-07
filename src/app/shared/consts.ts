@@ -12,3 +12,10 @@ export enum MODIFY_ACTIONS {
   edit = 'EDIT',
   delete = 'DELETE'
 }
+
+export enum ROLES {
+  admin = 'admin'
+}
+
+export const ACCESS_ADMIN_ONLY = [ROLES.admin];
+export const ACCESS_EVERYONE = [];

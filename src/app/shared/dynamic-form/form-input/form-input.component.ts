@@ -12,10 +12,6 @@ export class FormInputComponent implements Field {
   config: FieldConfig;
   group: FormGroup;
 
-  constructor() {
-    console.log(this);
-  }
-
   get value() {
     return this.config.value || '';
   }

@@ -16,9 +16,7 @@ import { AlertService } from './services/alert.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private alertService: AlertService) {
-    console.log(this);
-  }
+  constructor(private alertService: AlertService) {}
 
   intercept(
     req: HttpRequest<any>,
