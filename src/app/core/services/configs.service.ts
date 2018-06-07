@@ -29,7 +29,6 @@ export class ConfigsService {
   private _activeConfig = new BehaviorSubject<any>(undefined);
   private _working = new BehaviorSubject<boolean>(false);
 
-  activeConfigId: string | null;
   readonly configs$ = this.settingsService.configs$;
 
   readonly activeConfig$ = this._activeConfig
@@ -45,7 +44,6 @@ export class ConfigsService {
       (activeConfig, working) => {
         return {
           service: 'ConfigsService',
-          activeConfigId: this.activeConfigId,
           activeConfig,
           working
         };
@@ -65,7 +63,6 @@ export class ConfigsService {
       this.fetchSub.unsubscribe();
     }
 
-    this.activeConfigId = configId;
     this._activeConfig.next({ id: configId, config: undefined });
 
     if (configId) {
