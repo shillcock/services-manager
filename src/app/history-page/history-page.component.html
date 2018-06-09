@@ -2,7 +2,7 @@
   <nav>
     <a mat-button [routerLink]="['.']" routerLinkActive="mat-accent">History</a>
   </nav>
-  <div class="sm-history-page history-list">
+  <div class="sm-history-page">
     <sm-history-item [data]="log" *ngFor="let log of logs"></sm-history-item>
     <mat-card *ngIf="logs.length === 0">
       <mat-card-title>No history</mat-card-title>
