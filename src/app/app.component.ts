@@ -22,7 +22,8 @@ import { IClient } from '@app/core/models';
 })
 export class AppComponent implements OnInit, OnDestroy {
   readonly appName = 'Services Manager';
-  readonly menuItems = [{ label: 'Home', path: '/' }];
+  readonly topMenuItems = [{ label: 'Home', path: '/' }];
+  readonly bottomMenuItems = [{ label: 'History', path: 'history' }];
   private destroyed$ = new Subject<boolean>();
   debugData$: any;
   showDebugPanel = false;

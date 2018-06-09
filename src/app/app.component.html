@@ -7,7 +7,7 @@
         </mat-toolbar-row>
       </mat-toolbar>
       <mat-nav-list>
-        <a *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="selected" mat-list-item>
+        <a *ngFor="let item of topMenuItems" [routerLink]="item.path" routerLinkActive="selected" mat-list-item>
           <span>{{item.label}}</span>
           <!-- <mat-icon mat-list-icon *ngIf="item.icon" [svgIcon]="item.icon"></mat-icon> -->
         </a>
@@ -29,6 +29,11 @@
           <mat-divider></mat-divider>
         </ng-container>
 
+        <a *ngFor="let item of bottomMenuItems" [routerLink]="item.path" routerLinkActive="selected" mat-list-item>
+          <span>{{item.label}}</span>
+          <!-- <mat-icon mat-list-icon *ngIf="item.icon" [svgIcon]="item.icon"></mat-icon> -->
+        </a>
+        <mat-divider></mat-divider>
         <a mat-list-item routerLink="/logout" (click)="logout()">
           <span>Logout</span>
           <!-- <mat-icon mat-list-icon svgIcon="user-solid-circle"></mat-icon> -->
@@ -54,9 +59,6 @@
   <mat-card *ngIf="(auth.errorMessage$ | async) as error; else loading">
     <mat-card-content>
       <h2>Unable to authorize application</h2>
-      <button mat-raised-button color="warn" routerLink="/">
-        Go Home
-      </button>
     </mat-card-content>
   </mat-card>
   <ng-template #loading>

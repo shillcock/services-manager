@@ -3,33 +3,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { environment } from '@env/environment';
-
 import { AppRoutingModule } from './app-routing.module';
-import { CoreModule } from './core';
+import { CoreModule, LoggerService } from './core';
 import { SharedModule } from './shared';
-import { ClientsModule } from './clients/clients.module';
 
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { HistoryPageComponent } from './history-page/history-page.component';
+import { HistoryItemComponent } from './history-page/history-item.component';
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler {
+  constructor(private logger: LoggerService) {}
+
   handleError(err: any): void {
-    const error = err.originalError || err;
-    const message = error.message || error.toString();
-
-    // TODO: Send errors to backend for logging
-    // logger.captureException(error);
-
-    if (!environment.production) {
-      console.group('AppError');
-      console.error(window.location.pathname);
-      console.error(message);
-      console.error(error.stack);
-      console.error(window.navigator.userAgent);
-      console.groupEnd();
-    }
+    this.logger.captureException(err);
   }
 }
 
@@ -40,11 +28,15 @@ export class AppErrorHandler implements ErrorHandler {
     FlexLayoutModule,
     AppRoutingModule,
     CoreModule,
-    SharedModule,
-    ClientsModule
+    SharedModule
   ],
   providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
-  declarations: [AppComponent, LandingPageComponent],
+  declarations: [
+    AppComponent,
+    LandingPageComponent,
+    HistoryPageComponent,
+    HistoryItemComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

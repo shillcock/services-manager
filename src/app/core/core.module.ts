@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 import { ClientsService } from './services/clients.service';
 import { CommandService } from './services/command.service';
 import { ConfigsService } from './services/configs.service';
+import { LoggerService } from './services/logger.service';
 import { SettingsService } from './services/settings.service';
 import { SidebarService } from './services/sidebar.service';
 
@@ -25,6 +26,7 @@ import { MaterialModule } from '../shared/material.module';
     ClientsService,
     ConfigsService,
     CommandService,
+    LoggerService,
     SettingsService,
     SidebarService
   ]

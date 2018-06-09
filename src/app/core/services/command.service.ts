@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { ICommand } from '../models/index';
-import { API } from '../../shared/consts';
+import { ICommand } from '@app/core/models/index';
+import { API } from '@app/shared/consts';
 
 @Injectable()
 export class CommandService {
@@ -21,21 +21,23 @@ export class CommandService {
     const method = command.method || 'POST';
 
     return this.proxy(method, endpoint, payload).pipe(
-      map(response => ({
-        ...response,
-        meta: { ...meta, commandId: command.id }
-      })),
+      map(response => {
+        const newMeta = _.assign({}, _.get(response, 'meta'), meta, {
+          commandId: command.id
+        });
+        const newResponse = _.isObject(response) ? response : { response };
+        return _.assign({}, newResponse, { meta: newMeta });
+      }),
       catchError(err => this.handleError(err))
     );
   }
 
   private proxy(method: 'GET' | 'POST', url: string, payload: any = {}) {
-    console.log('proxy:', method, url, payload);
     return this.http.post(API.proxy, { method, url, payload });
   }
 
   private handleError(err: any) {
-    console.log('handleError:', err);
+    console.error('Failed sending command:', err);
     const message = err.message || err.toString();
     return of({ status: 'error', message });
   }

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { map, take } from 'rxjs/operators';
 
-import { ClientsService } from '@app/core';
+import { ClientsService, LoggerService } from '@app/core';
 import { ICommand } from '@app/core/models';
 
 import { SubmitCommandDialogComponent } from '../submit-command-dialog/submit-command-dialog.component';
@@ -19,13 +19,14 @@ import { SubmitCommandDialogComponent } from '../submit-command-dialog/submit-co
 export class CommandsComponent implements OnDestroy {
   private destroyed$ = new Subject<boolean>();
 
-  client$ = this.cs.selectedClient$;
-  commands$: Observable<ICommand[]>;
+  readonly client$ = this.clientsService.selectedClient$;
+  readonly commands$: Observable<ICommand[]>;
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private cs: ClientsService
+    private clientsService: ClientsService,
+    private logger: LoggerService
   ) {
     this.commands$ = this.client$.pipe(
       map(client => _.get(client, 'commands')),
@@ -54,7 +55,8 @@ export class CommandsComponent implements OnDestroy {
 
       const dialogRef = this.dialog.open(SubmitCommandDialogComponent, config);
       dialogRef.afterClosed().subscribe(res => {
-        // TODO: maybe shove the results into a commands log for later review
+        const action = `command:${config.data.meta.clientId}:${command.id}`;
+        this.logger.logAction(action, res);
       });
     });
   }
