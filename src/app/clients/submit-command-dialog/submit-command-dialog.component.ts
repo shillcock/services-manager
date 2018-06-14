@@ -17,8 +17,8 @@ export class SubmitCommandDialogComponent implements OnDestroy {
   readonly sub: Subscription;
 
   get statusOk() {
-    const { status } = this.result || { status: 'error' };
-    return status === 'ok';
+    const status = _.get(this.result, 'status');
+    return status !== 'error';
   }
 
   get statusIcon() {

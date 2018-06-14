@@ -10,6 +10,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "e2e:proxy": "ng e2e --base-href /gfmui/ --proxy-config proxy.conf.json",
+    "e2e:no-serve": "ng e2e --no-serve",
     "clean": "rm -rf ./dist/",
     "prettier": "prettier {src,e2e}/**/*.{ts,json,md,scss} --write",
     "analyze": "npm run clean && npm run build:prod -- --stats-json && webpack-bundle-analyzer ./dist/stats.json"

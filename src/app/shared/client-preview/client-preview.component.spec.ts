@@ -1,13 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { MaterialModule } from '@app/shared/material.module';
 
 import { ClientPreviewComponent } from './client-preview.component';
 
-describe('ClientPreviewComponent', () => {
+xdescribe('ClientPreviewComponent', () => {
   let component: ClientPreviewComponent;
   let fixture: ComponentFixture<ClientPreviewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule, MaterialModule],
       declarations: [ClientPreviewComponent]
     }).compileComponents();
   }));

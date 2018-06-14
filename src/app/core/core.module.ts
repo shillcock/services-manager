@@ -31,7 +31,7 @@ export class AppErrorHandler implements ErrorHandler {
   }
 }
 
-function appErrorHandlerFactory(logger: LoggerService): ErrorHandler {
+export function appErrorHandlerFactory(logger: LoggerService): ErrorHandler {
   return new AppErrorHandler(logger);
 }
 

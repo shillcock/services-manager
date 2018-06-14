@@ -4,10 +4,9 @@ import { By } from '@angular/platform-browser';
 
 import { of } from 'rxjs/observable/of';
 
-import { MaterialModule } from '@app/shared/material.module';
-import { LoadingComponent } from '@app/shared/loading.component';
-
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/admin-service-stub';
 import { SidebarService } from '@app/core';
+import { MaterialModule } from '@app/shared/material.module';
 
 import { AppShellComponent } from './app-shell.component';
 
@@ -53,16 +52,11 @@ const smState = {
 describe('AppShellComponent', () => {
   let component: AppShellComponent;
   let fixture: ComponentFixture<AppShellComponent>;
-  // let sm: ServicesManager;
-
-  // const servicesManagerStub = {
-  //   clients$: of(smState.clients)
-  // };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [MaterialModule],
-      providers: [SidebarService],
+      providers: [AUTH_SERVICE_ADMIN_STUB_PROVIDER, SidebarService],
       declarations: [AppShellComponent]
     });
 

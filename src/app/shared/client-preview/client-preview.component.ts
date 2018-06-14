@@ -9,6 +9,10 @@ import { IClient } from '@app/core/models';
 export class ClientPreviewComponent {
   @Input() client: IClient;
 
+  constructor() {
+    console.log(this);
+  }
+
   get id() {
     return this.client.id;
   }

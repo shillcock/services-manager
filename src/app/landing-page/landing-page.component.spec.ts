@@ -2,13 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { MaterialModule } from '@app/shared/material.module';
-import { LoadingComponent } from '@app/shared/loading.component';
-import { AppShellComponent } from '@app/shared/app-shell/app-shell.component';
 
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/admin-service-stub';
 import { ClientsService, SidebarService } from '@app/core';
+import { SharedModule } from '@app/shared';
 
 import { LandingPageComponent } from './landing-page.component';
-import { SharedModule } from '@app/shared';
 
 const smState = {
   clients: {
@@ -56,17 +55,20 @@ describe('LandingPageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, MaterialModule, SharedModule],
-      providers: [ClientsService, SidebarService],
+      providers: [
+        AUTH_SERVICE_ADMIN_STUB_PROVIDER,
+        ClientsService,
+        SidebarService
+      ],
       declarations: [LandingPageComponent]
     });
 
     fixture = TestBed.createComponent(LandingPageComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should display each client', () => {});
 });

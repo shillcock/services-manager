@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { map, take } from 'rxjs/operators';
+import { map, take, takeUntil } from 'rxjs/operators';
 
 import { ClientsService, LoggerService } from '@app/core';
 import { ICommand } from '@app/core/models';
@@ -29,6 +29,7 @@ export class CommandsComponent implements OnDestroy {
     private logger: LoggerService
   ) {
     this.commands$ = this.client$.pipe(
+      takeUntil(this.destroyed$),
       map(client => _.get(client, 'commands')),
       map(commands => _.toArray(commands))
     );

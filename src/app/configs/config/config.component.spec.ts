@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   AlertService,
+  AuthService,
   ClientsService,
   ConfigsService,
   SettingsService,
@@ -30,6 +31,7 @@ describe('ConfigComponent', () => {
       ],
       providers: [
         AlertService,
+        AuthService,
         SettingsService,
         ConfigsService,
         ClientsService,

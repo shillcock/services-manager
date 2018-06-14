@@ -17,7 +17,7 @@ describe('SidebarService', () => {
   });
 
   it('should start out closed', () => {
-    service.open$.subscribe(next => {
+    service.open$.subscribe((next: boolean) => {
       expect(next).toBe(false);
     });
   });
