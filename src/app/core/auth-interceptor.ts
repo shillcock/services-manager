@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
   HttpErrorResponse,
@@ -16,7 +16,7 @@ import { AlertService } from './services/alert.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private alertService: AlertService) {}
+  constructor(private injector: Injector) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -25,7 +25,8 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(err => {
         if (err instanceof HttpErrorResponse) {
-          this.alertService.notify(err.message);
+          const alertService = this.injector.get(AlertService);
+          alertService.notify(err.message);
 
           if (err.status === 401) {
             alert('Invalid session. Login to continue.');

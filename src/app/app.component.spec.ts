@@ -11,6 +11,7 @@ import {
   SettingsService,
   SidebarService
 } from '@app/core';
+
 import { SharedModule } from '@app/shared';
 
 import { AppComponent } from './app.component';

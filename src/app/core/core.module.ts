@@ -1,6 +1,4 @@
 import {
-  ErrorHandler,
-  Injectable,
   NgModule,
   Optional,
   SkipSelf
@@ -18,33 +16,15 @@ import { SettingsService } from './services/settings.service';
 import { SidebarService } from './services/sidebar.service';
 
 import { AUTH_INTERCEPTOR_PROVIDER } from './auth-interceptor';
+import { GLOBAL_ERROR_HANDLER_PROVIDER } from './error-handler';
 import { CanDeactivateGuard } from './can-deactivate-guard.service';
 
 import { MaterialModule } from '../shared/material.module';
 
-@Injectable()
-export class AppErrorHandler implements ErrorHandler {
-  constructor(private logger: LoggerService) {}
-
-  handleError(err: any): void {
-    this.logger.captureException(err);
-  }
-}
-
-export function appErrorHandlerFactory(logger: LoggerService): ErrorHandler {
-  return new AppErrorHandler(logger);
-}
-
 @NgModule({
   imports: [CommonModule, HttpClientModule, MaterialModule],
   providers: [
-    [
-      {
-        provide: ErrorHandler,
-        useFactory: appErrorHandlerFactory,
-        deps: [LoggerService]
-      }
-    ],
+    GLOBAL_ERROR_HANDLER_PROVIDER,
     AUTH_INTERCEPTOR_PROVIDER,
     AlertService,
     AuthService,

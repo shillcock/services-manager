@@ -20,6 +20,6 @@ describe('Services Manager index view', () => {
     expect(client).toBeTruthy();
     await client.click();
     const clientUrl = await browser.getCurrentUrl();
-    expect(clientUrl).toContain('/client/eoasbp/commands');
+    expect(clientUrl).toContain('/client/gfmeoasbp/commands');
   });
 });

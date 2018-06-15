@@ -6,7 +6,7 @@ import * as fs from 'fs';
 
 describe('Client commands page', () => {
   let page: CommandsPage;
-  const clientId = 'eoas';
+  const clientId = 'gfmeoas';
 
   beforeEach(() => {
     page = new CommandsPage(clientId);
@@ -26,7 +26,7 @@ describe('Client commands page', () => {
     const url = await browser.getCurrentUrl();
     expect(url).toContain(`/client/${clientId}/commands`);
     const commandCount = await page.getCommandElements().count();
-    expect(commandCount).toBe(1);
+    expect(commandCount).toBe(3);
   });
 
   it(`should submit ${clientId} "Status" command`, async () => {

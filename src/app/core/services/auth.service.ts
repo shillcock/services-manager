@@ -80,7 +80,7 @@ export class AuthService {
   }
 
   private handleOk(user: IUser) {
-    console.debug('Auth:', user);
+    // console.debug('Auth:', user);
     this.user = user;
     this.errorMessage = undefined;
     return true;
