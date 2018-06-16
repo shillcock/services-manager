@@ -8,7 +8,10 @@ import { map } from 'rxjs/operators';
 
 import { API } from '@app/shared/consts';
 
+import { CommandService } from './command.service';
 import { IClient, IClientsMap } from '../models';
+import { of } from 'rxjs/observable/of';
+import { ICommand } from '@app/core/models';
 
 @Injectable()
 export class ClientsService {
@@ -32,7 +35,7 @@ export class ClientsService {
     );
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private rpc: CommandService) {
     const clientsMap$ = this._clients.asObservable();
     this.clients$ = clientsMap$.pipe(map(clients => _.toArray(clients)));
 
@@ -55,6 +58,26 @@ export class ClientsService {
 
   selectClient(clientId: string | undefined) {
     this._selectedClientId.next(clientId);
+  }
+
+  getClientHealth(client: IClient) {
+    const commands = _.get(client, 'commands');
+    const statusCommand = _.find(commands, 'status');
+    if (statusCommand) {
+      const command$ = this.rpc.sendCommand(statusCommand);
+      return command$.pipe(map(status => _.get(status, 'health', 'unknown')));
+    } else {
+      return of(null);
+    }
+  }
+
+  private sendCommand(command: ICommand): Observable<string> {
+    return this.rpc.sendCommand(command).pipe(
+      map(status => {
+        console.log('STATUS:', status);
+        return _.get(status, 'health', 'unknown');
+      })
+    );
   }
 
   private postProcessClients(clients: IClientsMap) {

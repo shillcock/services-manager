@@ -12,7 +12,6 @@ import { LoadingComponent } from './loading.component';
 
 import { CanAccessDirective } from './can-access.directive';
 import { JsonComponent } from './json/json.component';
-import { ClientPreviewListComponent } from './client-preview-list/client-preview-list.component';
 import { ClientPreviewComponent } from './client-preview/client-preview.component';
 
 @NgModule({
@@ -35,7 +34,6 @@ import { ClientPreviewComponent } from './client-preview/client-preview.componen
     CommandListComponent,
     LoadingComponent,
     JsonComponent,
-    ClientPreviewListComponent,
     ClientPreviewComponent,
     CanAccessDirective
   ],
@@ -44,7 +42,6 @@ import { ClientPreviewComponent } from './client-preview/client-preview.componen
     CommandListComponent,
     LoadingComponent,
     JsonComponent,
-    ClientPreviewListComponent,
     ClientPreviewComponent,
     CanAccessDirective
   ]

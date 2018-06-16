@@ -1,10 +1,17 @@
 <a [routerLink]="['client', id]">
-  <mat-card class="client">
-    <mat-card-title>
-      {{label}}
-    </mat-card-title>
+  <mat-card class="client" [ngClass]="healthClass">
+    <mat-card-title>{{label}}</mat-card-title>
     <mat-card-content>
       <p>{{description}}</p>
+      <button
+        *ngIf="hasHealth"
+        mat-icon-button
+        matTooltipPosition="before"
+        [matTooltip]="healthTooltip"
+        class="healthIcon"
+        (click)="onHealthClick($event)">
+        <mat-icon class="healthIcon" [svgIcon]="healthIcon" [color]="healthColor"></mat-icon>
+      </button>
     </mat-card-content>
   </mat-card>
 </a>

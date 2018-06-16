@@ -9,11 +9,11 @@ export class GlobalErrorHandler implements ErrorHandler {
   handleError(error: any): void {
     const logger = this.injector.get(LoggerService);
     logger.captureException(error);
-    throw error; 
+    throw error;
   }
 }
-    
+
 export const GLOBAL_ERROR_HANDLER_PROVIDER = {
   provide: ErrorHandler,
   useClass: GlobalErrorHandler
-}
+};

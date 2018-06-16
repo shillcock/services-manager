@@ -1,14 +1,51 @@
+@import 'src/theme.scss';
+
 mat-card {
   width: 300px;
   min-height: 100px;
   margin: 15px;
 }
 
+.healthNotOk {
+  border-left: 6px solid mat-color($sm-theme-warn);
+}
+
+.healthOk {
+  border-left: 6px solid mat-color($sm-theme-primary);
+}
+
+.healthIcon {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+}
+
 mat-card:hover {
   box-shadow: 3px 3px 16px -2px rgba(0, 0, 0, 0.5);
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: row;
+}
+
+mat-card-title {
+  flex: 1 1 auto;
+}
+
+mat-card-subtitle {
+  flex: 1 1 auto;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-icon {
+  transform: scale(1.5);
 }

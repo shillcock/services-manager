@@ -1,6 +1,10 @@
 <sm-app-shell>
-  <div class="sm-landing-page">
-    <sm-client-preview-list fxLayout="row wrap" fxLayoutAlign="center" [clients]="clients$ | async">
-    </sm-client-preview-list>
+  <div class="sm-landing-page" fxLayout="row wrap" fxLayoutAlign="center">
+    <sm-client-preview
+      *ngFor="let client of clients"
+      [client]="client"
+      [health]="client.health$ | async"
+      (healthClick)="goToReports($event)">
+    </sm-client-preview>
   </div>
 </sm-app-shell>
