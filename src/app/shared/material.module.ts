@@ -89,7 +89,8 @@ export class MaterialModule {
       'home',
       'menu',
       'user-solid-circle',
-      'edit-pencil'
+      'edit-pencil',
+      'refresh'
     ];
 
     icons.forEach(iconName => {

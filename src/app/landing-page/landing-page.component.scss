@@ -2,3 +2,13 @@ mat-card {
   margin: 15px;
   min-width: 400px;
 }
+
+.refresh {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+mat-icon {
+  transform: scale(1.2);
+}
