@@ -86,9 +86,11 @@ export class ClientsService {
     return clients;
   }
 
-  private processClient(client: IClient) {
+  private processClient(client: IClient) {  
+    const proxyClient = _.get(client, 'proxy', true);
     _.forEach(_.get(client, 'commands'), (command: any, key: string) => {
-      const endpoint = _.get(command, 'endpoint', _.get(command, 'id'));
+      const endpoint = _.get(command, 'endpoint', _.get(command, 'id'));   
+      const proxy = _.get(command, 'proxy', proxyClient);  
       if (client && !_.startsWith(endpoint, 'http')) {
         _.set(
           client,
@@ -96,8 +98,14 @@ export class ClientsService {
           `${client.host}/${endpoint}`
         );
       }
+      _.set(
+          client,
+          ['commands', key, 'proxy'],
+          proxy
+        );      
     });
 
+    console.debug(client);
     return client;
   }
 
