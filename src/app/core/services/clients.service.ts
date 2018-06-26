@@ -15,7 +15,7 @@ import { ICommand } from '@app/core/models';
 
 const getId = _.partialRight(_.get, 'id');
 const getEndpoint = _.partialRight(_.get, 'endpoint');
-const getProxy = _.partialRight(_.get, 'proxy', true);
+const getProxy = _.partialRight(_.get, 'proxy', _);
 const getCommands = _.partialRight(_.get, 'commands');
 const reportingOnly = _.partialRight(_.filter, 'reporting');
 const getReports = _.flow(getCommands, reportingOnly);
@@ -111,7 +111,8 @@ export class ClientsService {
     }
 
     function updateProxy(command: ICommand) {
-      _.set(command, 'proxy', getProxy(command));
+      const proxyDefault = getProxy(client, true);
+      _.set(command, 'proxy', getProxy(command, proxyDefault));
     }
   }
 
