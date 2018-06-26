@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
@@ -17,10 +17,10 @@ export class CommandService {
     payload: any = {},
     meta: any = {}
   ): Observable<any> {
-    const { endpoint } = command;
+    const { endpoint, proxy } = command;
     const method = command.method || 'POST';
-
-    return this.proxy(method, endpoint, payload).pipe(
+        
+    return this.execute(method, endpoint, payload, proxy).pipe(
       map(response => {
         const newMeta = _.assign({}, _.get(response, 'meta'), meta, {
           commandId: command.id
@@ -29,6 +29,17 @@ export class CommandService {
         return _.assign({}, newResponse, { meta: newMeta });
       }),
       catchError(err => this.handleError(err))
+    );
+  }
+  
+  private execute(method: string, url: string, payload: any = {}, proxy: boolean) {
+    console.debug(method, url, payload, proxy);
+    return this.http.request(
+      new HttpRequest(
+        proxy ? 'POST': method, 
+        proxy ? API.proxy : url, 
+        proxy ? { method, url, payload } : payload
+      )
     );
   }
 

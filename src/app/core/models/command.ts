@@ -4,6 +4,7 @@ export interface ICommand {
   description?: string;
   endpoint: string;
   method: 'GET' | 'POST';
+  proxy: boolean;
   parameters: [
     {
       id: string;

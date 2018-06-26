@@ -5,6 +5,7 @@ export interface IClient {
   label: string;
   description?: string;
   host: string;
+  proxy?: boolean;
   commands: {
     [id: string]: ICommand;
   };
