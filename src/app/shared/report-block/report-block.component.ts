@@ -15,7 +15,7 @@ import { MatSort, MatTableDataSource, Sort } from '@angular/material';
 })
 export class ReportBlockComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort;
-  @Input() material = false;
+  @Input() material = true;
   @Input() meta: any;
   @Input() data: any;
 
