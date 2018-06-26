@@ -13,6 +13,13 @@ import { IClient, IClientsMap } from '../models';
 import { of } from 'rxjs/observable/of';
 import { ICommand } from '@app/core/models';
 
+const getId = _.partialRight(_.get, 'id');
+const getEndpoint = _.partialRight(_.get, 'endpoint');
+const getProxy = _.partialRight(_.get, 'proxy', true);
+const getCommands = _.partialRight(_.get, 'commands');
+const reportingOnly = _.partialRight(_.filter, 'reporting');
+const getReports = _.flow(getCommands, reportingOnly);
+
 @Injectable()
 export class ClientsService {
   private _clients = new BehaviorSubject<IClientsMap>({});
@@ -50,7 +57,7 @@ export class ClientsService {
     );
 
     this.reportingCommands$ = this.clients$.pipe(
-      map(this.getAllReportingCommands.bind(this))
+      map(clients => this.getAllReportingCommands(clients))
     );
   }
 
@@ -82,42 +89,33 @@ export class ClientsService {
   }
 
   private postProcessClients(clients: IClientsMap) {
-    _.forEach(clients, this.processClient);
+    _.forEach(clients, (client: IClient) => this.processClient(client));
     return clients;
   }
 
   private processClient(client: IClient) {
     const commands = _.get(client, 'commands');
-    _.forEach(commands, (command: ICommand, key: string) => {
-      updateEndpoint(command, key);
-      updateProxy(command, key);
+    _.forEach(commands, (command: ICommand) => {
+      updateEndpoint(command);
+      updateProxy(command);
     });
 
-    function updateEndpoint(command: ICommand, id: string) {
-      const endpoint = _.get(command, 'endpoint', id);
+    return client;
+
+    function updateEndpoint(command: ICommand) {
+      const endpoint = getEndpoint(command) || getId(command);
       if (client && !_.startsWith(endpoint, 'http')) {
         const url = `${client.host}/${endpoint}`;
-        _.set(client, ['commands', id, 'endpoint'], url);
+        _.set(command, 'endpoint', url);
       }
     }
 
-    function updateProxy(command: ICommand, id: string) {
-      const proxyDefault = _.get(client, 'proxy', true);
-      const proxy = _.get(command, 'proxy', proxyDefault);
-      _.set(client, ['commands', id, 'proxy'], proxy);
+    function updateProxy(command: ICommand) {
+      _.set(command, 'proxy', getProxy(command));
     }
-
-    return client;
   }
 
   private getAllReportingCommands(clients: IClient[]): ICommand[] {
-    return _.flatten(_.map(clients, this.getClientReportingCommands));
-  }
-
-  private getClientReportingCommands(client: IClient) {
-    const commands = _.partialRight(_.get, 'commands');
-    const reporting = _.partialRight(_.filter, 'reporting');
-    const getReports = _.flow(commands, reporting);
-    return getReports(client);
+    return _.flatMap(clients, (client: IClient) => getReports(client));
   }
 }
