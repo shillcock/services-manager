@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'history', component: HistoryPageComponent },
   { path: 'client', loadChildren: './clients/clients.module#ClientsModule' },
   { path: 'config', loadChildren: './configs/configs.module#ConfigsModule' },
+  { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
   { path: '**', redirectTo: '/' }
 ];
 

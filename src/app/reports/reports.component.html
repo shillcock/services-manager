@@ -1,0 +1,27 @@
+<sm-app-shell>
+  <nav>
+    <a mat-button [routerLink]="['.']" routerLinkActive="mat-accent">Reports</a>
+  </nav>
+  <div class="reports-list">
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let command of commands">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="report-title">
+            {{command.label}}
+          </mat-panel-title>
+          <mat-panel-description class="report-description" *ngIf="command.description">
+            {{command.description}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <ng-container *ngIf="command.report$ | async as report; else loading">
+            <sm-client-report [report]="report"></sm-client-report>
+          </ng-container>
+          <ng-template #loading>
+            <sm-loading></sm-loading>
+          </ng-template>
+        </ng-template>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</sm-app-shell>

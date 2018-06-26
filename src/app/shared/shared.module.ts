@@ -13,6 +13,8 @@ import { LoadingComponent } from './loading.component';
 import { CanAccessDirective } from './can-access.directive';
 import { JsonComponent } from './json/json.component';
 import { ClientPreviewComponent } from './client-preview/client-preview.component';
+import { ClientReportComponent } from './client-report/client-report.component';
+import { ReportBlockComponent } from './report-block/report-block.component';
 
 @NgModule({
   imports: [
@@ -34,16 +36,20 @@ import { ClientPreviewComponent } from './client-preview/client-preview.componen
     CommandListComponent,
     LoadingComponent,
     JsonComponent,
+    CanAccessDirective,
     ClientPreviewComponent,
-    CanAccessDirective
+    ClientReportComponent,
+    ReportBlockComponent
   ],
   declarations: [
     AppShellComponent,
     CommandListComponent,
     LoadingComponent,
     JsonComponent,
+    CanAccessDirective,
     ClientPreviewComponent,
-    CanAccessDirective
+    ClientReportComponent,
+    ReportBlockComponent
   ]
 })
 export class SharedModule {}

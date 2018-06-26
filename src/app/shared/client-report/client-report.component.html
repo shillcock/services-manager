@@ -1,0 +1,10 @@
+<div class="client-report">
+  <mat-card>
+    <div class="block" *ngFor="let block of blocks">
+      <sm-report-block [meta]="block.meta" [data]="block.data">
+        <h2>{{block.title}}</h2>
+      </sm-report-block>
+    </div>
+  </mat-card>
+</div>
+

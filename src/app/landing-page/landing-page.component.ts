@@ -16,16 +16,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject<boolean>();
   clients: any[];
 
-  constructor(private router: Router, private clientsService: ClientsService) {
-    // clientsService.clients$
-    //   .pipe(takeUntil(this.destroyed$))
-    //   .subscribe(clients => {
-    //     this.clients = clients.map(client => ({
-    //       ...client,
-    //       health$: this.getHealth(client)
-    //     }));
-    //   });
-  }
+  constructor(private router: Router, private clientsService: ClientsService) {}
 
   ngOnInit() {
     this.refresh();
@@ -49,7 +40,8 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
 
   goToReports(clientId: string) {
-    // this.router.navigate(['reports', clientId]);
+    //this.router.navigate(['reports', clientId]);
+    this.router.navigate(['reports']);
   }
 
   private getHealth(client: IClient) {

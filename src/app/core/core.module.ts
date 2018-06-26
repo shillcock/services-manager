@@ -15,7 +15,7 @@ import { AUTH_INTERCEPTOR_PROVIDER } from './auth-interceptor';
 import { GLOBAL_ERROR_HANDLER_PROVIDER } from './error-handler';
 import { CanDeactivateGuard } from './can-deactivate-guard.service';
 
-import { MaterialModule } from '../shared/material.module';
+import { MaterialModule } from '@app/shared/material.module';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, MaterialModule],

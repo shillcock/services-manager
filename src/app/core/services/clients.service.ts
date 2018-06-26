@@ -22,6 +22,7 @@ export class ClientsService {
 
   readonly clients$: Observable<IClient[]>;
   readonly selectedClient$: Observable<IClient>;
+  readonly reportingCommands$: Observable<ICommand[]>;
 
   get data$() {
     const clients$ = this._clients.asObservable();
@@ -47,6 +48,10 @@ export class ClientsService {
         return _.get(clients, clientId);
       }
     );
+
+    this.reportingCommands$ = this.clients$.pipe(
+      map(this.getAllReportingCommands.bind(this))
+    );
   }
 
   fetchClients() {
@@ -64,20 +69,16 @@ export class ClientsService {
     const commands = _.get(client, 'commands');
     const statusCommand = _.find(commands, 'status');
     if (statusCommand) {
-      const command$ = this.rpc.sendCommand(statusCommand);
-      return command$.pipe(map(status => _.get(status, 'health', 'unknown')));
+      return this.sendCommand(statusCommand);
     } else {
       return of(null);
     }
   }
 
   private sendCommand(command: ICommand): Observable<string> {
-    return this.rpc.sendCommand(command).pipe(
-      map(status => {
-        console.log('STATUS:', status);
-        return _.get(status, 'health', 'unknown');
-      })
-    );
+    return this.rpc
+      .sendCommand(command)
+      .pipe(map(status => _.get(status, 'health', 'unknown')));
   }
 
   private postProcessClients(clients: IClientsMap) {
@@ -98,5 +99,16 @@ export class ClientsService {
     });
 
     return client;
+  }
+
+  private getAllReportingCommands(clients: IClient[]): ICommand[] {
+    return _.flatten(_.map(clients, this.getClientReportingCommands));
+  }
+
+  private getClientReportingCommands(client: IClient) {
+    const commands = _.partialRight(_.get, 'commands');
+    const reporting = _.partialRight(_.filter, 'reporting');
+    const getReports = _.flow(commands, reporting);
+    return getReports(client);
   }
 }

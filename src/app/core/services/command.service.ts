@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { ICommand } from '@app/core/models/index';
 import { API } from '@app/shared/consts';
+import { ICommand } from '../models';
 
 @Injectable()
 export class CommandService {
