@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
@@ -19,8 +19,12 @@ export class CommandService {
   ): Observable<any> {
     const { endpoint, proxy } = command;
     const method = command.method || 'POST';
-        
-    return this.execute(method, endpoint, payload, proxy).pipe(
+
+    const cmd$ = proxy
+      ? this.proxy(method, endpoint, payload)
+      : this.request(method, endpoint, payload);
+
+    return cmd$.pipe(
       map(response => {
         const newMeta = _.assign({}, _.get(response, 'meta'), meta, {
           commandId: command.id
@@ -31,20 +35,13 @@ export class CommandService {
       catchError(err => this.handleError(err))
     );
   }
-  
-  private execute(method: string, url: string, payload: any = {}, proxy: boolean) {
-    console.debug(method, url, payload, proxy);
-    return this.http.request(
-      new HttpRequest(
-        proxy ? 'POST': method, 
-        proxy ? API.proxy : url, 
-        proxy ? { method, url, payload } : payload
-      )
-    );
-  }
 
   private proxy(method: string, url: string, payload: any = {}) {
     return this.http.post(API.proxy, { method, url, payload });
+  }
+
+  private request(method: string, url: string, payload: any = {}) {
+    return this.http.request(method, url, payload);
   }
 
   private handleError(err: any) {

@@ -6,7 +6,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, Sort } from '@angular/material';
 
 @Component({
   selector: 'sm-report-block',
@@ -15,14 +15,18 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 })
 export class ReportBlockComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort;
+  @Input() material = false;
   @Input() meta: any;
   @Input() data: any;
 
   dataSource = new MatTableDataSource();
   columns: any[];
   columnsToDisplay: string[];
+  sortedData: any[];
 
-  constructor() {}
+  constructor() {
+    console.log(this);
+  }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -31,13 +35,39 @@ export class ReportBlockComponent implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.meta && changes.meta.currentValue) {
       this.meta = changes.meta.currentValue;
-      this.columns = _.toArray(this.meta);
-      this.columnsToDisplay = _.keys(this.meta);
+      const cols = _.get(this.meta, 'columns');
+      this.columns = toArrayWithIds(cols);
+      this.columnsToDisplay = _.keys(cols);
     }
 
     if (changes.data && changes.data.currentValue) {
       this.data = changes.data.currentValue;
       this.dataSource.data = this.data;
+      this.sortedData = [...this.data];
     }
   }
+
+  sortData(sort: Sort) {
+    const data = [...this.data];
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = _.sortBy(data, [sort.active]);
+    if (sort.direction === 'desc') {
+      this.sortedData = _.reverse(this.sortedData);
+    }
+  }
+}
+
+function toArrayWithIds(cols: any) {
+  return _.reduce(
+    cols,
+    (accum: any, col: any, key: string) => {
+      accum.push({ ...col, id: key });
+      return accum;
+    },
+    []
+  );
 }

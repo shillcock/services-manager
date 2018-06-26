@@ -86,26 +86,27 @@ export class ClientsService {
     return clients;
   }
 
-  private processClient(client: IClient) {  
-    const proxyClient = _.get(client, 'proxy', true);
-    _.forEach(_.get(client, 'commands'), (command: any, key: string) => {
-      const endpoint = _.get(command, 'endpoint', _.get(command, 'id'));   
-      const proxy = _.get(command, 'proxy', proxyClient);  
-      if (client && !_.startsWith(endpoint, 'http')) {
-        _.set(
-          client,
-          ['commands', key, 'endpoint'],
-          `${client.host}/${endpoint}`
-        );
-      }
-      _.set(
-          client,
-          ['commands', key, 'proxy'],
-          proxy
-        );      
+  private processClient(client: IClient) {
+    const commands = _.get(client, 'commands');
+    _.forEach(commands, (command: ICommand, key: string) => {
+      updateEndpoint(command, key);
+      updateProxy(command, key);
     });
 
-    console.debug(client);
+    function updateEndpoint(command: ICommand, id: string) {
+      const endpoint = _.get(command, 'endpoint', id);
+      if (client && !_.startsWith(endpoint, 'http')) {
+        const url = `${client.host}/${endpoint}`;
+        _.set(client, ['commands', id, 'endpoint'], url);
+      }
+    }
+
+    function updateProxy(command: ICommand, id: string) {
+      const proxyDefault = _.get(client, 'proxy', true);
+      const proxy = _.get(command, 'proxy', proxyDefault);
+      _.set(client, ['commands', id, 'proxy'], proxy);
+    }
+
     return client;
   }
 
