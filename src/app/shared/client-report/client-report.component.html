@@ -1,10 +1,15 @@
 <div class="client-report">
   <mat-card>
-    <div class="block" *ngFor="let block of blocks">
-      <sm-report-block [meta]="block.meta" [data]="block.data" [material]="!block.plain">
-        <h2>{{block.title}}</h2>
-      </sm-report-block>
-    </div>
+    <ng-container *ngIf="hasBlocks; else errorLoadingReport">
+      <div class="block" *ngFor="let block of blocks">
+        <sm-report-block [meta]="block.meta" [data]="block.data" [material]="material">
+          <h2>{{block.title}}</h2>
+        </sm-report-block>
+      </div>
+    </ng-container>
+    <ng-template #errorLoadingReport>
+      <h2>Error loading report.</h2>
+    </ng-template>
   </mat-card>
 </div>
 

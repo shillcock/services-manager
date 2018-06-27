@@ -24,9 +24,7 @@ export class ReportBlockComponent implements AfterViewInit, OnChanges {
   columnsToDisplay: string[];
   sortedData: any[];
 
-  constructor() {
-    console.log(this);
-  }
+  constructor() {}
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

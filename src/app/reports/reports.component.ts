@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
 
 import { ClientsService, CommandService } from '@app/core';
 import { ICommand } from '@app/core/models';
@@ -16,8 +15,7 @@ export class ReportsComponent implements OnInit {
     private clientsService: ClientsService,
     private rpc: CommandService
   ) {
-    clientsService.reportingCommands$.subscribe(commands => {
-      console.log('commands:', commands);
+    clientsService.reportingCommands$.subscribe((commands: ICommand[]) => {
       this.commands = commands.map(command => ({
         ...command,
         report$: this.getReport(command)
@@ -28,6 +26,6 @@ export class ReportsComponent implements OnInit {
   ngOnInit() {}
 
   private getReport(command: ICommand) {
-    return this.rpc.sendCommand(command);
+    return this.rpc.sendCommand(command, {}, { material: true });
   }
 }

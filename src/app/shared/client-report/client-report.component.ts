@@ -28,4 +28,12 @@ export class ClientReportComponent {
   get blocks() {
     return _.get(this.report, 'blocks');
   }
+
+  get hasBlocks() {
+    return !_.isEmpty(this.blocks);
+  }
+
+  get material() {
+    return _.get(this.report, ['meta', 'material'], true);
+  }
 }
