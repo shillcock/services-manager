@@ -7,7 +7,6 @@ import { Subject } from 'rxjs/Subject';
 
 import {
   AuthService,
-  ConfigsService,
   SidebarService,
   ClientsService,
   SettingsService
@@ -28,14 +27,11 @@ export class AppComponent implements OnInit, OnDestroy {
   ];
   readonly bottomMenuItems = [{ label: 'History', path: 'history' }];
   private destroyed$ = new Subject<boolean>();
-  debugData$: any;
-  showDebugPanel = false;
   clients: IClient[];
   configs: any[];
 
   constructor(
     private router: Router,
-    private configsService: ConfigsService,
     private clientsService: ClientsService,
     private settingsService: SettingsService,
     public auth: AuthService,
@@ -51,14 +47,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.clients = clients;
         this.configs = configs;
       });
-
-    this.debugData$ = combineLatest(
-      this.clientsService.data$,
-      this.configsService.data$,
-      this.settingsService.data$,
-      this.sidebar.data$,
-      this.auth.data$
-    );
   }
 
   ngOnInit() {
@@ -68,11 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroyed$.next();
-  }
-
-  @HostListener('window:keydown.control.shift.d')
-  onKeyDown() {
-    this.showDebugPanel = !this.showDebugPanel;
   }
 
   logout() {

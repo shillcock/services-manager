@@ -40,15 +40,6 @@
         </a>
       </mat-nav-list>
     </mat-sidenav>
-
-    <mat-sidenav class="debug-panel" mode="over" [opened]="showDebugPanel" position="end" (closed)="showDebugPanel">
-      <ng-container *ngIf="showDebugPanel">
-        <mat-card *ngFor="let data of (debugData$ | async)">
-          <sm-json [data]="data"></sm-json>
-        </mat-card>
-      </ng-container>
-    </mat-sidenav>
-
     <mat-sidenav-content>
       <router-outlet></router-outlet>
     </mat-sidenav-content>

@@ -31,18 +31,6 @@ export class ClientsService {
   readonly selectedClient$: Observable<IClient>;
   readonly reportingCommands$: Observable<ICommand[]>;
 
-  get data$() {
-    const clients$ = this._clients.asObservable();
-    const selectedClientId$ = this._selectedClientId.asObservable();
-    return combineLatest(
-      clients$,
-      selectedClientId$,
-      (clients, selectedClientId) => {
-        return { service: 'ClientsService', clients, selectedClientId };
-      }
-    );
-  }
-
   constructor(private http: HttpClient, private rpc: CommandService) {
     const clientsMap$ = this._clients.asObservable();
     this.clients$ = clientsMap$.pipe(map(clients => _.toArray(clients)));

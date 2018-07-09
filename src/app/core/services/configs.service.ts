@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { combineLatest } from 'rxjs/observable/combineLatest';
 import { of } from 'rxjs/observable/of';
 import { _throw } from 'rxjs/observable/throw';
 
@@ -38,20 +37,6 @@ export class ConfigsService {
     .pipe(distinctUntilChanged());
 
   readonly working$ = this._working.asObservable().pipe(distinctUntilChanged());
-
-  get data$() {
-    return combineLatest(
-      this.activeConfig$,
-      this.working$,
-      (activeConfig, working) => {
-        return {
-          service: 'ConfigsService',
-          activeConfig,
-          working
-        };
-      }
-    );
-  }
 
   constructor(
     private http: HttpClient,
