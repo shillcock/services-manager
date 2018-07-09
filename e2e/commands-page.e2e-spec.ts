@@ -26,7 +26,7 @@ describe('Client commands page', () => {
     const url = await browser.getCurrentUrl();
     expect(url).toContain(`/client/${clientId}/commands`);
     const commandCount = await page.getCommandElements().count();
-    expect(commandCount).toBe(3);
+    expect(commandCount).toBe(4);
   });
 
   it(`should submit ${clientId} "Status" command`, async () => {

@@ -8,10 +8,10 @@ describe('Services Manager index view', () => {
     page = new LandingPage();
   });
 
-  it('should display a list of 4 clients', async () => {
+  it('should display a list of 5 clients', async () => {
     await page.navigateTo();
     const clientCount = await page.getClientPreviewCardElements().count();
-    expect(clientCount).toBe(4);
+    expect(clientCount).toBe(5);
   });
 
   it('should navigate to "EOAS BP" client page when card is clicked', async () => {
