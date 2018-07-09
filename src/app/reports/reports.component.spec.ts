@@ -1,4 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { MaterialModule, SharedModule } from '@app/shared';
+
+import { ClientsService, CommandService, SidebarService } from '@app/core';
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/auth-service-stub';
 
 import { ReportsComponent } from './reports.component';
 
@@ -8,7 +14,14 @@ describe('ReportsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ReportsComponent]
+      imports: [RouterTestingModule, MaterialModule, SharedModule],
+      declarations: [ReportsComponent],
+      providers: [
+        AUTH_SERVICE_ADMIN_STUB_PROVIDER,
+        ClientsService,
+        CommandService,
+        SidebarService
+      ]
     }).compileComponents();
   }));
 

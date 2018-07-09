@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { of } from 'rxjs/observable/of';
 
-import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/admin-service-stub';
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/auth-service-stub';
 import { SidebarService } from '@app/core';
 import { MaterialModule } from '@app/shared/material.module';
 

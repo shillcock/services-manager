@@ -5,7 +5,7 @@ import {
   TestModuleMetadata
 } from '@angular/core/testing';
 
-import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/admin-service-stub';
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/auth-service-stub';
 
 import { CanAccessDirective } from './can-access.directive';
 

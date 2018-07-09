@@ -5,15 +5,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   AlertService,
-  AuthService,
   ClientsService,
   ConfigsService,
+  CommandService,
   SettingsService,
   SidebarService
 } from '@app/core';
 
-import { SharedModule } from '@app/shared';
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/auth-service-stub';
 
+import { SharedModule } from '@app/shared';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -26,9 +27,10 @@ describe('AppComponent', () => {
       imports: [NoopAnimationsModule, RouterTestingModule, SharedModule],
       providers: [
         AlertService,
-        AuthService,
+        AUTH_SERVICE_ADMIN_STUB_PROVIDER,
         ClientsService,
         ConfigsService,
+        CommandService,
         SettingsService,
         SidebarService
       ],

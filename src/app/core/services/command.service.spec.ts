@@ -30,14 +30,15 @@ describe('CommandService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should send command', () => {
+  it('should send command through proxy', () => {
     const clientId = 'dummyClient';
     const commandId = 'dummyCommand';
 
     const mockCommand = {
       id: commandId,
       endpoint: 'http://localhost:8000/services/status',
-      method: 'GET'
+      method: 'GET',
+      proxy: true
     } as ICommand;
 
     const mockPayload = { foo: 'bar' };
@@ -61,6 +62,34 @@ describe('CommandService', () => {
       url: mockCommand.endpoint,
       payload: mockPayload
     });
+
+    req.flush(mockStatus);
+  });
+
+  it('should send command directly', () => {
+    const clientId = 'dummyClient';
+    const commandId = 'dummyCommand';
+
+    const mockCommand = {
+      id: commandId,
+      endpoint: 'http://localhost:8000/services/status',
+      method: 'GET',
+      proxy: false
+    } as ICommand;
+
+    const mockMeta = { clientId };
+    const mockStatus = {
+      meta: { clientId, commandId },
+      status: 'ok'
+    };
+
+    service.sendCommand(mockCommand, {}, mockMeta).subscribe(results => {
+      expect(results.status).toBe('ok');
+      expect(results.meta).toEqual(mockStatus.meta);
+    });
+
+    const req = httpMock.expectOne(mockCommand.endpoint);
+    expect(req.request.method).toBe(mockCommand.method);
 
     req.flush(mockStatus);
   });

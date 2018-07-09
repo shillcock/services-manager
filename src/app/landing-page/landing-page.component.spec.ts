@@ -1,11 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { MaterialModule } from '@app/shared/material.module';
+import { MaterialModule, SharedModule } from '@app/shared';
 
-import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/admin-service-stub';
-import { ClientsService, SidebarService } from '@app/core';
-import { SharedModule } from '@app/shared';
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/auth-service-stub';
+import { ClientsService, CommandService, SidebarService } from '@app/core';
 
 import { LandingPageComponent } from './landing-page.component';
 
@@ -58,6 +57,7 @@ describe('LandingPageComponent', () => {
       providers: [
         AUTH_SERVICE_ADMIN_STUB_PROVIDER,
         ClientsService,
+        CommandService,
         SidebarService
       ],
       declarations: [LandingPageComponent]

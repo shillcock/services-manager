@@ -5,7 +5,7 @@ import { CommandsComponent } from './commands.component';
 import { SharedModule } from '@app/shared';
 import { Routes } from '@angular/router';
 import { ClientComponent } from '@app/clients/client/client.component';
-import { ClientsService, LoggerService } from '@app/core';
+import { ClientsService, CommandService, LoggerService } from '@app/core';
 
 const routes: Routes = [
   {
@@ -26,7 +26,7 @@ describe('CommandsComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes(routes), SharedModule],
       declarations: [ClientComponent, CommandsComponent],
-      providers: [ClientsService, LoggerService]
+      providers: [ClientsService, CommandService, LoggerService]
     }).compileComponents();
   }));
 

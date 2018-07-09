@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReportBlockComponent } from './report-block.component';
+import { MaterialModule } from '@app/shared';
 
 describe('ReportBlockComponent', () => {
   let component: ReportBlockComponent;
@@ -8,6 +9,7 @@ describe('ReportBlockComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [MaterialModule],
       declarations: [ReportBlockComponent]
     }).compileComponents();
   }));

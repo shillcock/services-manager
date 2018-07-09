@@ -4,12 +4,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   AlertService,
-  AuthService,
   ClientsService,
+  CommandService,
   ConfigsService,
   SettingsService,
   SidebarService
 } from '@app/core';
+
+import { AUTH_SERVICE_ADMIN_STUB_PROVIDER } from '@app/core/stubs/auth-service-stub';
 
 import { SharedModule } from '@app/shared';
 
@@ -31,8 +33,9 @@ describe('ConfigComponent', () => {
       ],
       providers: [
         AlertService,
-        AuthService,
+        AUTH_SERVICE_ADMIN_STUB_PROVIDER,
         SettingsService,
+        CommandService,
         ConfigsService,
         ClientsService,
         SidebarService

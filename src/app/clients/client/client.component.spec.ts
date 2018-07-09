@@ -7,7 +7,7 @@ import 'lodash';
 import { ClientComponent } from './client.component';
 import { SharedModule } from '@app/shared';
 import { CommandsComponent } from '@app/clients/commands/commands.component';
-import { ClientsService, SidebarService } from '@app/core';
+import { ClientsService, CommandService, SidebarService } from '@app/core';
 
 const routes: Routes = [
   {
@@ -28,7 +28,7 @@ describe('ClientComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes(routes), SharedModule],
       declarations: [ClientComponent, CommandsComponent],
-      providers: [ClientsService, SidebarService]
+      providers: [ClientsService, CommandService, SidebarService]
     }).compileComponents();
   }));
 
