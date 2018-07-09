@@ -7,7 +7,7 @@ export class CommandsPage {
     return browser.get(`${browser.baseUrl}/#/client/${this.clientId}/commands`);
   }
 
-  getCommandElements() {
+  get commandElements() {
     return element.all(by.tagName('sm-command-list mat-expansion-panel'));
   }
 
@@ -20,12 +20,12 @@ export class CommandsPage {
     );
   }
 
-  getSubmitCommandButton() {
-    // await borwser.wait(EC.presenceOf(button), 2000);
+  get submitCommandButton() {
+    // await browser.wait(EC.presenceOf(button), 2000);
     return element(by.buttonText('Submit Command'));
   }
 
-  getDialog() {
+  get dialog() {
     return element(by.tagName('mat-dialog-container'));
   }
 

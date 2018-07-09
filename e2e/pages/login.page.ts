@@ -5,11 +5,11 @@ export class LoginPage {
     return browser.get(`${browser.baseUrl}/consent?continueToUrl=/gfmui/`);
   }
 
-  getConsentToMonitorButton() {
+  get consentToMonitorButton() {
     return element(by.buttonText('OK'));
   }
 
-  getLoginWithCacButton() {
+  get loginWithCacButton() {
     return element(by.buttonText('Continue'));
   }
 }

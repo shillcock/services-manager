@@ -1,5 +1,5 @@
-import { LandingPage } from './pages/landing.page';
 import { browser } from 'protractor';
+import { LandingPage } from './pages/landing.page';
 
 describe('Services Manager index view', () => {
   let page: LandingPage;
@@ -8,10 +8,10 @@ describe('Services Manager index view', () => {
     page = new LandingPage();
   });
 
-  it('should display a list of 5 clients', async () => {
+  it('should display at least one client card', async () => {
     await page.navigateTo();
-    const clientCount = await page.getClientPreviewCardElements().count();
-    expect(clientCount).toBe(5);
+    const clientCount = await page.clientPreviewCardElements.count();
+    expect(clientCount).toBeGreaterThan(0);
   });
 
   it('should navigate to "EOAS BP" client page when card is clicked', async () => {

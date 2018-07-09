@@ -1,6 +1,6 @@
 import { LoginPage } from './pages/login.page';
 import { browser } from 'protractor';
-import { waitToBeVisible } from './helpers';
+// import { waitToBeVisible } from './helpers';
 
 describe('ASIS login', () => {
   let page: LoginPage;
@@ -18,22 +18,22 @@ describe('ASIS login', () => {
   });
 
   it('should get passed ASIS', async () => {
-    let loginPage = new LoginPage();
-    // Navigate to Consent to Monitor Page
+    const loginPage = new LoginPage();
+
     await loginPage.navigateToConsent();
     let url = await browser.getCurrentUrl();
     expect(url).toContain('consent?continueToUrl=/gfmui/');
-    // CLick OK button to go to logon page
-    const consentToMonitorButton = loginPage.getConsentToMonitorButton();
-    await waitToBeVisible(consentToMonitorButton);
-    await consentToMonitorButton.click();
+
+    // await waitToBeVisible(loginPage.consentToMonitorButton);
+    await loginPage.consentToMonitorButton.click();
+
     url = await browser.getCurrentUrl();
     expect(url).toContain('logon?continueToUrl=/gfmui/');
-    // Click to login with CAC
-    const loginWithCacButton = loginPage.getLoginWithCacButton();
-    await waitToBeVisible(loginWithCacButton);
-    await loginWithCacButton.click();
+
+    // await waitToBeVisible(loginPage.loginWithCacButton);
+    await loginPage.loginWithCacButton.click();
+
     url = await browser.getCurrentUrl();
-    expect(url).toContain('gfmui/#/');
+    expect(url).toContain('/gfmui/#/');
   });
 });

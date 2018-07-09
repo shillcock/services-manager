@@ -5,7 +5,7 @@ export class LandingPage {
     return browser.get(`${browser.baseUrl}/#/`);
   }
 
-  getClientPreviewCardElements() {
+  get clientPreviewCardElements() {
     return element.all(by.tagName('sm-client-preview'));
   }
 
