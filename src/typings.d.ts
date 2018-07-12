@@ -4,5 +4,7 @@ interface NodeModule {
   id: string;
 }
 
+declare module 'lodash';
+
 /* Lodash */
 declare var _: any;
