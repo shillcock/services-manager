@@ -56,7 +56,7 @@ const mockClients = {
   client_2: mockClient2
 };
 
-fdescribe('ClientsService', () => {
+describe('ClientsService', () => {
   let service: ClientsService;
   let httpMock: HttpTestingController;
 
