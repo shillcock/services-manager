@@ -60,7 +60,7 @@ export class ClientsService {
     this._selectedClientId.next(clientId);
   }
 
-  getClientHealth(client: IClient) {
+  getClientHealth(client: IClient): Observable<string | null> {
     const commands = _.get(client, 'commands');
     const statusCommand = _.find(commands, 'status');
     if (statusCommand) {
