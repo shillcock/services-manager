@@ -17,8 +17,12 @@ export class CommandService {
     payload: any = {},
     meta: any = {}
   ): Observable<any> {
-    const { endpoint, proxy } = command;
+    const { endpoint, proxy, extra } = command;
     const method = command.method || 'POST';
+
+    if (!_.isEmpty(extra)) {
+      payload = { ...extra, ...payload };
+    }
 
     const cmd$ = proxy
       ? this.proxy(method, endpoint, payload)
