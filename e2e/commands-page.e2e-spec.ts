@@ -11,7 +11,7 @@ describe('Client commands page', () => {
     page = new CommandsPage(clientId);
   });
 
-  it(`should display a list commands for "${clientId}"`, async () => {
+  it(`should display a list of commands for "${clientId}"`, async () => {
     await page.navigateTo();
     const url = await browser.getCurrentUrl();
     expect(url).toContain(`/client/${clientId}/commands`);
