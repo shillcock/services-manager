@@ -4,14 +4,14 @@
       <a mat-mini-fab (click)="sidebar.toggle()">
         <mat-icon aria-label="Menu" svgIcon="menu"></mat-icon>
       </a>
-      <span class="app-name">{{appName || 'Services Manager'}}</span>
+      <span class="app-name">{{appName}}</span>
 
       <ng-content select="nav"></ng-content>
 
       <span class="spacer"></span>
 
-      <mat-chip-list *ngIf="(auth.user$ | async) as user">
-        <mat-chip color="primary" selected="true">
+      <mat-chip-list *ngIf="(auth.user$ | async) as user" selectable="false">
+        <mat-chip color="primary" selected disabled>
           <mat-icon svgIcon="user-solid-circle"></mat-icon>
           <span>{{user.name}}</span>
         </mat-chip>

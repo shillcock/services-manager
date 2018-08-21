@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { AuthService, SidebarService } from '@app/core';
+import { APP_NAME } from '@app/shared/consts';
 
 @Component({
   selector: 'sm-app-shell',
@@ -8,7 +9,7 @@ import { AuthService, SidebarService } from '@app/core';
   styleUrls: ['./app-shell.component.scss']
 })
 export class AppShellComponent {
-  @Input() appName = 'Services Manager';
+  @Input() appName = APP_NAME;
 
   constructor(public sidebar: SidebarService, public auth: AuthService) {}
 }

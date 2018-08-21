@@ -1,3 +1,5 @@
+export const APP_NAME = 'GFM-DI: Services Manager';
+
 export enum API {
   auth = '/gfmui/api/auth',
   clients = '/gfmui/api/clients',

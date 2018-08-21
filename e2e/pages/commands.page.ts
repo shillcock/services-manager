@@ -1,4 +1,4 @@
-import { browser, by, element, ExpectedConditions as EC } from 'protractor';
+import { browser, by, element } from 'protractor';
 
 export class CommandsPage {
   constructor(public clientId: string) {}
@@ -21,7 +21,6 @@ export class CommandsPage {
   }
 
   get submitCommandButton() {
-    // await browser.wait(EC.presenceOf(button), 2000);
     return element(by.buttonText('Submit Command'));
   }
 
