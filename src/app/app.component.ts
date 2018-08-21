@@ -5,6 +5,8 @@ import { combineLatest } from 'rxjs/observable/combineLatest';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs/Subject';
 
+import { APP_NAME } from '@app/shared/consts';
+
 import {
   AuthService,
   SidebarService,
@@ -20,7 +22,7 @@ import { IClient } from '@app/core/models';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  readonly appName = 'Services Manager';
+  readonly appName = APP_NAME;
   readonly topMenuItems = [
     { label: 'Home', path: '/' },
     { label: 'Reports', path: 'reports' }
