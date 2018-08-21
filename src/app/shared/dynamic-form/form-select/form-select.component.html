@@ -1,0 +1,8 @@
+<div class="dynamic-field form-input" [formGroup]="group">
+  <mat-form-field class="full-width">
+    <mat-select [placeholder]="config.label" [formControlName]="config.id" [multiple]="config.multiple">
+      <mat-option *ngFor="let item of config.items" [value]="item.value">{{item.text}}</mat-option>
+    </mat-select>
+    <mat-hint align="start" *ngIf="config.description">{{config.description}}</mat-hint>
+  </mat-form-field>
+</div>

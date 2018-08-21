@@ -8,6 +8,7 @@ import { DynamicFormComponent } from './dynamic-form.component';
 import { DynamicFieldDirective } from './dynamic-field/dynamic-field.directive';
 import { FormButtonComponent } from './form-button/form-button.component';
 import { FormInputComponent } from './form-input/form-input.component';
+import { FormSelectComponent } from './form-select/form-select.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, MaterialModule],
@@ -15,9 +16,14 @@ import { FormInputComponent } from './form-input/form-input.component';
     DynamicFormComponent,
     DynamicFieldDirective,
     FormButtonComponent,
-    FormInputComponent
+    FormInputComponent,
+    FormSelectComponent
   ],
   exports: [DynamicFormComponent],
-  entryComponents: [FormButtonComponent, FormInputComponent]
+  entryComponents: [
+    FormButtonComponent,
+    FormInputComponent,
+    FormSelectComponent
+  ]
 })
 export class DynamicFormModule {}

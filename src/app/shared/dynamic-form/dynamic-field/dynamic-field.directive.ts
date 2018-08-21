@@ -13,10 +13,12 @@ import { FormGroup } from '@angular/forms';
 import { Field, FieldConfig } from '../dynamic-form.component';
 import { FormButtonComponent } from '../form-button/form-button.component';
 import { FormInputComponent } from '../form-input/form-input.component';
+import { FormSelectComponent } from '../form-select/form-select.component';
 
 const components: { [type: string]: Type<Field> } = {
   button: FormButtonComponent,
-  input: FormInputComponent
+  input: FormInputComponent,
+  select: FormSelectComponent
 };
 
 @Directive({
