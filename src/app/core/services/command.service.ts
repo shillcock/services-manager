@@ -40,12 +40,22 @@ export class CommandService {
     );
   }
 
-  private proxy(method: string, url: string, payload: any = {}) {
+  private proxy(method: string, endpoint: string, payload: any) {
+    const url = this.url(endpoint, payload);
     return this.http.post(API.proxy, { method, url, payload });
   }
 
-  private request(method: string, url: string, payload: any = {}) {
+  private request(method: string, endpoint: string, payload: any) {
+    const url = this.url(endpoint, payload);
     return this.http.request(method, url, payload);
+  }
+
+  private url(endpoint: string, payload: any) {
+    // regex to find all placeholders values that look like :foo
+    const placeholder = /:\b[A-z]+/g;
+    return _.isEmpty(payload)
+      ? endpoint
+      : endpoint.replace(placeholder, val => payload[val.slice(1)] || val);
   }
 
   private handleError(err: any) {
